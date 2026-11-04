@@ -1,8 +1,8 @@
-# 🌐 BSM 451 – Ağ Programlama Vize Çalışma Rehberi
+# 🌐 BSM 451 – Ağ Programlama Ders Konu Anlatımı ve Vize Rehberi
 
 > **Sakarya Üniversitesi – Bilgisayar Mühendisliği Bölümü**  
 > **Ders Sorumlusu:** Dr. Öğr. Üyesi Musa BALTA  
-> **Kapsam:** Hafta 1–5 Ders Sunumları (`.pdf`) ve Katman 2–3 `libpcap` C Uygulama Kodları (`.c`)
+> **Kapsam:** Hafta 1–5 Ders Sunumları (Slayt Görselleri ve Sayfa/Slayt Referanslarıyla) & Katman 2–3 `libpcap` C Uygulama Kodları (`.c`)
 
 ---
 
@@ -12,13 +12,14 @@
 3. [3. Ders: Hafta 2 (Bölüm 2) – Katman 2 Protokolleri (Ethernet & ARP) ve `1-arpgonder.c`](#3-ders-hafta-2-bölüm-2--katman-2-protokolleri-ethernet--arp-ve-1-arpgonderc)
 4. [4. Ders (Bölüm 1): Hafta 3 – Katman 3: IPv4, Fragmantasyon, Opsiyonlar, Checksum ve IPv6](#4-ders-bölüm-1-hafta-3--katman-3-ipv4-fragmantasyon-opsiyonlar-checksum-ve-ipv6)
 5. [5. Ders (Bölüm 2): Hafta 3 – Katman 3: ICMP Protokolü ve 3 C Kodu (`2-icmpgonder.c`, `ping_server.c`, `ping_client.c`)](#5-ders-bölüm-2-hafta-3--katman-3-icmp-protokolü-ve-3-c-kodu)
-6. [6. Ders: Hafta 4 – Katman 4 Protokolleri (TCP ve UDP) *(Sıradaki Konu)*](#6-ders-hafta-4--katman-4-protokolleri-tcp-ve-udp)
-7. [7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness) *(Sıradaki Konu)*](#7-ders-hafta-5--soket-programlama-c-java-ve-endianness)
+6. [6. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü](#6-ders-bölüm-1-hafta-4--katman-4-tcp-segment-yapısı-3-way-handshake-durum-şeması-akış-ve-hata-kontrolü)
+7. [6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP *(Sıradaki Konu)*](#6-ders-bölüm-2-hafta-4--katman-4-tcp-tıkanıklık-kontrolü-4-zamanlayıcı-rttrto-hesabı-ve-udp)
+8. [7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness) *(Sıradaki Konu)*](#7-ders-hafta-5--soket-programlama-c-java-ve-endianness)
 
 ---
 
 # 1. Ders: Hafta 1 – OSI Referans Modeli ve Katmansal Yapı
-**Kaynak Dosya:** [`Hafta-1-OSI Referans Modeli ve Katmasal Yap .pdf`](./Hafta-1-OSI%20Referans%20Modeli%20ve%20Katmasal%20Yap%20.pdf) *(Toplam 4 PDF Sayfası / 8 Slayt)*
+**Kaynak Sunum:** `Hafta-1-OSI Referans Modeli ve Katmasal Yap .pdf` *(Toplam 4 PDF Sayfası / 8 Slayt)*
 
 ## 1.1. Bilgisayar Ağlarının Sınıflandırma Ağacı (PDF Sayfa 2, Slayt 3)
 ![Bilgisayar Ağlarının Sınıflandırma Ağacı](assets/slides/h1_s3_siniflandirma.png)
@@ -76,7 +77,7 @@
 ---
 
 # 2. Ders: Hafta 2 (Bölüm 1) – PCAP ve Libpcap Kütüphanesi
-**Kaynak Dosya:** [`Hafta-2 Pcap.pdf`](./Hafta-2%20Pcap.pdf) *(Toplam 9 PDF Sayfası / 17 Slayt)*
+**Kaynak Sunum:** `Hafta-2 Pcap.pdf` *(Toplam 9 PDF Sayfası / 17 Slayt)*
 
 ## 2.1. PCAP Kavramı ve Paket Yakalama Yöntemleri (PDF Sayfa 2, Slayt 3–4)
 * **Slayt 3 (`PCAP == Packet Capture`):** Ağ aktivitelerinin **Katman 2'den Katman 7'ye kadar** tüm kaydıdır. En yaygın açık kaynak C kütüphanesi **`libpcap`**'tir (*nix ve Windows uyumlu; Windows karşılığı **WinPcap**).
@@ -138,7 +139,7 @@
 ---
 
 # 3. Ders: Hafta 2 (Bölüm 2) – Katman 2 Protokolleri (Ethernet & ARP) ve `1-arpgonder.c`
-**Kaynak Dosyalar:** [`Hafta-2 Katman 2 Protokolleri.pdf`](./Hafta-2%20Katman%202%20Protokolleri.pdf) *(8 PDF Sayfası / 15 Slayt)* & [`1-arpgonder.c`](./0-Katman2-3%20Kodlar/1-arpgonder.c) *(Satır 1–108)*
+**Kaynak Sunum ve Kod:** `Hafta-2 Katman 2 Protokolleri.pdf` *(8 PDF Sayfası / 15 Slayt)* & [`1-arpgonder.c`](./0-Katman2-3%20Kodlar/1-arpgonder.c) *(Satır 1–108)*
 
 ## 3.1. Ethernet Protokolü (IEEE 802.3) ve CSMA/CD Backoff Algoritması (PDF Sayfa 2–3, Slayt 3–5)
 * **Slayt 3 (Ethernet):** En yaygın LAN veri bağı protokolü **IEEE 802.3 Ethernet**'tir (1960'lardaki radyo tabanlı **Alohanet**'in uzantısıdır). Tercih sebepleri: Kurulum kolaylığı, güvenilirlik, ölçeklenebilirlik, çoklu kullanım uyumu.
@@ -222,7 +223,7 @@
 ---
 
 # 4. Ders (Bölüm 1): Hafta 3 – Katman 3: IPv4, Fragmantasyon, Opsiyonlar, Checksum ve IPv6
-**Kaynak Dosya:** [`Hafta-3 Katman 3 Protokolleri.pdf`](./Hafta-3%20Katman%203%20Protokolleri.pdf) *(PDF Sayfa 1–10, Slayt 1–20)*
+**Kaynak Sunum:** `Hafta-3 Katman 3 Protokolleri.pdf` *(PDF Sayfa 1–10, Slayt 1–20)*
 
 ## 4.1. IPv4 Temel Özellikleri ve Başlık Yapısı (PDF Sayfa 2–3, Slayt 3–5)
 * **Slayt 4 (IPv4 Özellikleri):** Ağ katmanı paketlerine **datagram** denir. **Bağlantısız**, **en iyi teslim (best-effort)** ve **ortam bağımsız** bir protokoldür.
@@ -278,7 +279,7 @@
 ---
 
 # 5. Ders (Bölüm 2): Hafta 3 – Katman 3: ICMP Protokolü ve 3 C Kodu
-**Kaynak Dosyalar:** [`Hafta-3 Katman 3 Protokolleri.pdf`](./Hafta-3%20Katman%203%20Protokolleri.pdf) *(PDF Sayfa 11–16, Slayt 21–32)* & [`2-icmpgonder.c`](./0-Katman2-3%20Kodlar/2-icmpgonder.c), [`ping_server.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c), [`ping_client.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c)
+**Kaynak Sunum ve Kodlar:** `Hafta-3 Katman 3 Protokolleri.pdf` *(PDF Sayfa 11–16, Slayt 21–32)* & [`2-icmpgonder.c`](./0-Katman2-3%20Kodlar/2-icmpgonder.c), [`ping_server.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c), [`ping_client.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c)
 
 ## 5.1. ICMP Kapsüllemesi, 8 Byte Başlık ve Mesaj Kategorileri (PDF Sayfa 11–12, Slayt 21–23)
 ![ICMP Kapsülleme](assets/slides/h3_s21_icmp_kapsulleme.png)
@@ -354,7 +355,121 @@ pcap_sendpacket(handle, my_packet, 50);
 
 ---
 
-# 6. Ders: Hafta 4 – Katman 4 Protokolleri (TCP ve UDP)
+# 6. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü
+**Kaynak Sunum:** `Hafta-4 Katman 4 Protokolleri.pdf` *(PDF Sayfa 1–12, Slayt 1–24)*
+
+## 6.1. TCP Temel Özellikleri, Portlar, Segment Yapısı ve Akış Gönderimi (PDF Sayfa 2–4, Slayt 3–7)
+![TCP Port Numaraları](assets/slides/h4_s4_tcp_portlar.png)
+![TCP Segment Yapısı](assets/slides/h4_s5_tcp_segment.png)
+![TCP Akış Gönderimi ve Tamponlar](assets/slides/h4_s6_akis_gonderimi.png)
+![TCP Kapsülleme İşlemi](assets/slides/h4_s7_tcp_kapsulleme.png)
+
+* **Slayt 3 (TCP Genel Bilgiler):**
+  * **TCP (Transmission Control Protocol):** **Bağlantı yönelimlidir (Connection-oriented)** ve **güvenilirdir (Reliable)**.
+  * Kaynak ve hedef arasında **sanal bir yol** oluşturur; bir mesaja ait tüm segmentler bu sanal yol üzerinden gönderilir.
+  * **Hata kontrolü**, **akış kontrolü** ve **tıkanıklık kontrolü** mekanizmalarını barındırır.
+  * Her bağlantıda aktarılan veri baytları **rastgele oluşturulmuş bir numara (ISN)** ile başlayarak TCP tarafından numaralandırılır:
+    * **Sıra Numarası (`Sequence Number`):** O segmentte bulunan **ilk veri baytına** atanan sayıyı tanımlar.
+    * **Onay Numarası (`Acknowledgment Number`):** Bir tarafın karşıdan **almayı beklediği bir sonraki bayt** sayısını tanımlar ve **kümülatif (birikimli)** bir değerdir.
+* **Slayt 4 (İyi Bilinen TCP Port Numaraları Tablosu):**
+  * `7`: Echo | `9`: Discard | `11`: Users | `13`: Daytime | `17`: Quote | `19`: Chargen
+  * **`20 and 21`: FTP (Data and Control)** | **`23`: TELNET** | **`25`: SMTP** | **`53`: DNS** | **`67`: BOOTP** | `79`: Finger | **`80`: HTTP**
+* **Slayt 5 (TCP Segment Başlığı = `20–60 Byte`):**
+  * Sabit başlık **20 Byte**, opsiyonlarla (**0–40 Byte**) en fazla **60 Byte** olur.
+  * **`HLEN` (4 bit):** Başlık uzunluğunu 4 baytlık kelimeler cinsinden tutar ($\text{HLEN} \in [5, 15] \Rightarrow 20\text{–}60\text{ Byte}$).
+  * **6 Kontrol Bayrağı (6 bit):** `URG` (Acil işaretçi geçerli), `ACK` (Onay numarası geçerli), `PSH` (Tamponda bekletmeden aktar), `RST` (Bağlantıyı sıfırla), `SYN` (Sıra numaralarını senkronize et / bağlantı kur), `FIN` (Bağlantıyı sonlandır).
+* **Slayt 6–7 (Akış Gönderimi ve Kapsülleme):** Gönderici ve alıcıda dairesel tamponlar (`Buffer`) bulunur. Uygulama verisi + `TCP header` = `TCP payload` $\rightarrow$ `IP header` eklendiğinde `IP payload` $\rightarrow$ `Frame header` eklendiğinde `Data-link layer payload` olur.
+
+---
+
+## 6.2. 3 Yollu El Sıkışma (3-Way Handshake): Kurulum, Veri Transferi ve Sonlandırma (PDF Sayfa 4–5, Slayt 8–10)
+![TCP 3 Yollu El Sıkışma Bağlantı Kurulumu](assets/slides/h4_s8_3way_handshake.png)
+![TCP Veri Transferi](assets/slides/h4_s9_veri_transferi.png)
+![TCP Bağlantı Sonlandırma](assets/slides/h4_s10_baglanti_sonlandirma.png)
+
+> [!IMPORTANT]
+> **Sınavda `Seq` ve `Ack` Numarası Takibi Kuralları (Slayt 8, 9, 10):**
+> * **1) Bağlantı Kurulumu (Slayt 8):**
+>   * **Adım 1 (Client $\rightarrow$ Server):** `seq: 8000`, Bayrak: `SYN`. *(SYN segmenti veri taşımaz ama **1 sıra numarası tüketir!**)*
+>   * **Adım 2 (Server $\rightarrow$ Client):** `seq: 15000`, `ack: 8001` ($8000 + 1$), Bayrak: `SYN + ACK`, `rwnd: 5000`.
+>   * **Adım 3 (Client $\rightarrow$ Server):** `seq: 8000` *(Slayttaki not: `Means "no data"! seq: 8001 if piggybacking` — veri taşımayan saf ACK sıra numarası tüketmez!)*, `ack: 15001` ($15000 + 1$), Bayrak: `ACK`, `rwnd: 10000`.
+> * **2) Veri Transferi (Slayt 9):**
+>   * İstemci `seq: 8001, ack: 15001` ile `8001..9000` (1000B) ve `seq: 9001, ack: 15001` ile `9001..10000` (1000B) gönderir (`ACK + PSH`).
+>   * Sunucu `seq: 15001, ack: 10001` ile hem 10000'e kadar olan baytları onaylar hem de kendi `15001..17000` (2000B) verisini gönderir.
+>   * İstemci `seq: 10000, ack: 17001, rwnd: 10000` ile onaylar.
+> * **3) Bağlantı Sonlandırma (Slayt 10):**
+>   * İstemci `seq: x, ack: y` ile `FIN + ACK` gönderir $\rightarrow$ Sunucu `seq: y, ack: x + 1` ile `FIN + ACK` döner (*`FIN` bayrağı 1 sıra numarası tüketir*) $\rightarrow$ İstemci `seq: x, ack: y + 1` ile son `ACK` gönderir.
+
+---
+
+## 6.3. Zaman Çizelgesi, Durum Geçiş Şeması ve Bağlantı Red/İptal (`RST`) (PDF Sayfa 6–7, Slayt 11–13)
+![TCP Zaman Çizelgesi](assets/slides/h4_s11_zaman_cizelgesi.png)
+![TCP Durum Geçiş Şeması](assets/slides/h4_s12_durum_gecis.png)
+![TCP Bağlantı Red ve İptal Etme](assets/slides/h4_s13_rst_iptal.png)
+
+* **Slayt 11–12 (11 TCP Durumu ve Durum Geçiş Tablosu):**
+  * `CLOSED`: Bağlantı yok.
+  * `LISTEN`: Pasif açılış alındı; `SYN` bekleniyor.
+  * `SYN-SENT`: `SYN` gönderildi; `ACK` bekleniyor.
+  * `SYN-RCVD`: `SYN + ACK` gönderildi; `ACK` bekleniyor.
+  * `ESTABLISHED`: Bağlantı kuruldu; veri aktarımı devam ediyor.
+  * `FIN-WAIT-1`: İlk `FIN` gönderildi; `ACK` bekleniyor.
+  * `FIN-WAIT-2`: İlk `FIN`'in `ACK` onayı alındı; karşıdan ikinci `FIN` bekleniyor.
+  * `CLOSE-WAIT`: İlk `FIN` alındı, `ACK` gönderildi; uygulamanın bağlantıyı kapatması bekleniyor.
+  * `TIME-WAIT`: İkinci `FIN` alındı, `ACK` gönderildi; **`2MSL` (Maksimum Segment Ömrünün 2 katı)** zaman aşımı bekleniyor.
+  * `LAST-ACK`: İkinci `FIN` gönderildi; son `ACK` bekleniyor.
+  * `CLOSING`: Her iki taraf aynı anda kapatmaya karar verdi (*Simultaneous close*).
+* **Slayt 13 (Bağlantıları Red / İptal Etme — `RST`):**
+  * **Bağlantı Red Etme (Sol Şema):** İstemci `SYN` gönderdiğinde sunucu portu kapalıysa sunucu **`RST`** göndererek bağlantıyı reddeder.
+  * **Bağlantı İptal Etme (Sağ Şema):** `ESTABLISHED` durumundayken bir taraf normal `FIN` beklemek yerine **`RST + ACK`** göndererek bağlantıyı derhal sonlandırır (`Abort` $\rightarrow$ `CLOSED`).
+
+---
+
+## 6.4. Pencere Kavramı (`Send/Receive Window`) ve Akış Kontrolü (`rwnd`) (PDF Sayfa 7–8, Slayt 14–16)
+![TCP Pencere Kavramı](assets/slides/h4_s14_pencere_kavrami.png)
+![TCP Akış Kontrolü](assets/slides/h4_s15_akis_kontrolu.png)
+![TCP Akış Kontrolü Örnek Uygulama](assets/slides/h4_s16_akis_ornek.png)
+
+> [!TIP]
+> **Pencere Duvarları ve Akış Kontrolü Sayısal Takibi (Slayt 14–16):**
+> * **Slayt 14:** TCP çift yönlü iletişimde her yön için 2 (gönderme ve alma) olmak üzere **toplam 4 pencere** kullanır.
+>   * **Pencere Kapanması (`Closing`):** Sol duvarın sağa hareket etmesi (gönderilen verilerin onaylanması / alınması).
+>   * **Pencere Açılması (`Opening`):** Sağ duvarın sağa hareket etmesi (alıcı uygulamanın tampondan veri çekip boş yer açması).
+>   * **Pencere Küçülmesi (`Shrinking`):** Sağ duvarın sola hareket etmesi (alıcı penceresinde izin verilmez).
+> * **Slayt 16 (Örnek Uygulama Adım Adım `rwnd` Hesabı — Alıcı Tamponu = `800 Byte`):**
+>   1. Bağlantı kurulurken sunucu `rwnd: 800` bildirir $\rightarrow$ İstemci penceresi `101..900` (`Size = 800`).
+>   2. İstemci **`200 byte`** (`101..300`) gönderir $\rightarrow$ Sunucu tamponuna 200B girer, boş yer: $\text{rwnd} = 800 - 200 = \mathbf{600}$, `ackNo: 301` döner.
+>   3. İstemci **`300 byte`** (`301..600`) gönderir $\rightarrow$ Sunucu 300B alır ve uygulama tampondan **100B okur (tüketir)** $\rightarrow$ Boş yer: $\text{rwnd} = 600 - 300 + 100 = \mathbf{400}$, `ackNo: 601` döner (`401..600` tamponda bekliyor).
+>   4. Sunucu uygulaması kalan **200B'yi de okur** $\rightarrow$ Tampon tamamen boşalır, sunucu `ackNo: 601, rwnd: 800` göndererek pencereyi tekrar 800 bayta (`601..1400`) açar!
+
+---
+
+## 6.5. TCP Hata Kontrolü: ARQ Yöntemleri ve 4 Kayıp Senaryosu (PDF Sayfa 9–12, Slayt 17–24)
+![ARQ Hata Kontrolü Yöntemleri](assets/slides/h4_s18_arq_yontemleri.png)
+![Segment Kaybı Go-Back-N ARQ](assets/slides/h4_s20_gobackn.png)
+![Segment Kaybı Selective Repeat](assets/slides/h4_s21_selective_repeat.png)
+![Hızlı Yeniden İletim Fast Retransmit](assets/slides/h4_s22_fast_retransmit.png)
+![Kayıp Onay Bildirimi](assets/slides/h4_s23_kayip_onay.png)
+![Kayıp Segmentin Yeniden Gönderimi](assets/slides/h4_s24_kayip_segment.png)
+
+* **Slayt 17–18 (Hata Denetimi ve ARQ):**
+  * TCP'de hata denetimi **3 araç** ile sağlanır: **1) Checksum**, **2) Onay (`ACK`)**, **3) Zaman aşımı (`Timeout`)**.
+  * Kaybolan veya bozulan paketlerin sezimi ve yeniden iletimi **ARQ (*Automatic Repeat Request*)** olarak adlandırılır: **Stop-and-Wait ARQ**, **Go-Back-N ARQ**, **Selective Repeat ARQ**.
+* **Slayt 19–24 (4 Temel Hata Senaryosu):**
+  1. **Segment Kaybı (`Go-Back-N` vs `Selective Repeat` — Slayt 20–21):**
+     * **Go-Back-N (Slayt 20):** `Packet 2` kaybolduğunda, arkadan gelen `Packet 3, 4, 5` alıcı tarafından atılır ve alıcı sürekli `ACK 2` döner. `Packet 2` için zaman aşımı (`Timeout`) oluştuğunda gönderici **`Packets 2, 3, 4, 5`'in tamamını** baştan gönderir.
+     * **Selective Repeat (Slayt 21):** `Seq: 701–800` kaybolduğunda, arkadan gelen `Seq: 801–900` atılmaz; alıcı tamponda **sırasız (*Out of order*)** olarak saklanır ve `Ack: 701` gönderilir. `RTO` süresi dolunca **yalnızca kaybolan `Seq: 701–800`** yeniden gönderilir; alıcı iki parçayı birleştirip kümülatif **`Ack: 901`** döner.
+  2. **Hızlı Yeniden İletim (`Fast Retransmit` — Slayt 22):**
+     * `Seq: 301–400` kaybolduğunda, arkadan gelen `401–500`, `501–600`, `601–700` segmentlerinin her biri için alıcı `Ack: 301` gönderir.
+     * Gönderici `RTO` zamanlayıcısının dolmasını beklemeden **3 adet yinelenen onay (`First, Second, Third duplicate ACK = 301`)** alır almaz `Seq: 301–400` segmentini anında yeniden gönderir (`Fast retransmit`)!
+  3. **Kayıp Onay Bildirimi (`Lost ACK` — Slayt 23):**
+     * `Ack: 701` yolda kaybolsa bile, bir sonraki segmentin onayı olan **`Ack: 901`** kümülatif olduğu için gönderici `501–700` aralığının da ulaştığını anlar ve yeniden iletim yapmaz!
+  4. **Kayıp Onay Sonrası Yeniden Gönderim (Slayt 24):**
+     * `Ack: 701` kaybolur ve arkadan başka onay gelmeden `RTO` süresi dolarsa, gönderici `Seq: 501–600`'ü tekrar gönderir; alıcı bu baytları zaten aldığı için segmenti atar (**Rule 6**) ve tekrar `Ack: 701` gönderir.
+
+---
+
+# 6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP
 *(Bu bölüm bir sonraki çalışma adımımızda buraya eklenecektir)*
 
 ---
