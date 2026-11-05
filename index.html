@@ -2,7 +2,7 @@
 <html lang="tr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>BSM 451 – Ağ Programlama | Ders Konu Anlatımı ve Vize Rehberi</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,7 @@
       --text-sidebar-active: #ffffff;
       --bg-sidebar-active: #1e293b;
       --accent: #2563eb;
+      --accent-hover: #1d4ed8;
       --accent-soft: #dbeafe;
       --text-main: #0f172a;
       --text-muted: #475569;
@@ -34,6 +35,8 @@
       --imp-bg: #eff6ff;
       --imp-border: #2563eb;
       --imp-title: #1d4ed8;
+      --sidebar-w: 320px;
+      --topbar-h: 56px;
     }
 
     [data-theme="dark"] {
@@ -44,6 +47,7 @@
       --text-sidebar-active: #ffffff;
       --bg-sidebar-active: #1e293b;
       --accent: #3b82f6;
+      --accent-hover: #60a5fa;
       --accent-soft: #1e3a8a;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
@@ -63,10 +67,12 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html {
       scroll-behavior: smooth;
+      text-size-adjust: 100%;
     }
 
     body {
@@ -76,11 +82,82 @@
       line-height: 1.65;
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Okuma İlerleme Çubuğu (Reading Progress Bar) */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
+
+    /* Mobil Üst Bar (Mobile/Tablet Topbar) */
+    .mobile-topbar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topbar-h);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      z-index: 95;
+      padding: 0 14px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-main);
+      font-size: 18px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn-icon:hover, .btn-icon:active {
+      background: var(--code-bg);
+      border-color: var(--accent);
+    }
+
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 190px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* Sidebar */
     .sidebar {
-      width: 320px;
+      width: var(--sidebar-w);
       background-color: var(--bg-sidebar);
       color: var(--text-sidebar);
       position: fixed;
@@ -91,12 +168,30 @@
       flex-direction: column;
       border-right: 1px solid rgba(255, 255, 255, 0.08);
       z-index: 100;
-      transition: transform 0.25s ease;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sidebar-header {
       padding: 20px 18px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .sidebar-close-btn {
+      display: none;
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
     }
 
     .course-badge {
@@ -126,7 +221,7 @@
     }
 
     .sidebar-controls {
-      padding: 12px 18px;
+      padding: 12px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       flex-direction: column;
@@ -135,12 +230,12 @@
 
     .search-input {
       width: 100%;
-      padding: 8px 12px;
+      padding: 9px 12px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       background: rgba(255, 255, 255, 0.06);
       color: #ffffff;
-      font-size: 13px;
+      font-size: 13.5px;
       outline: none;
     }
 
@@ -160,12 +255,13 @@
 
     .btn-tool {
       flex: 1;
-      padding: 6px 10px;
+      padding: 8px 10px;
+      min-height: 36px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(255, 255, 255, 0.05);
       color: #e2e8f0;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -176,18 +272,19 @@
       transition: background 0.15s;
     }
 
-    .btn-tool:hover {
-      background: rgba(255, 255, 255, 0.12);
+    .btn-tool:hover, .btn-tool:active {
+      background: rgba(255, 255, 255, 0.14);
     }
 
     .nav-list {
       flex: 1;
       overflow-y: auto;
       padding: 12px 10px 28px;
+      -webkit-overflow-scrolling: touch;
     }
 
     .nav-list::-webkit-scrollbar {
-      width: 6px;
+      width: 5px;
     }
     .nav-list::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
@@ -196,13 +293,14 @@
 
     .nav-item-h1 {
       display: block;
-      padding: 8px 10px;
+      padding: 9px 12px;
       margin-top: 8px;
       font-size: 13px;
       font-weight: 700;
       color: #f8fafc;
       text-decoration: none;
       border-radius: 6px;
+      line-height: 1.4;
       transition: background 0.15s, color 0.15s;
     }
 
@@ -212,19 +310,20 @@
 
     .nav-item-h2 {
       display: block;
-      padding: 5px 10px 5px 20px;
-      font-size: 12.2px;
+      padding: 6px 10px 6px 20px;
+      font-size: 12.3px;
       font-weight: 500;
       color: var(--text-sidebar);
       text-decoration: none;
       border-radius: 6px;
       border-left: 2px solid rgba(255, 255, 255, 0.08);
       margin-left: 8px;
+      line-height: 1.4;
       transition: all 0.15s;
     }
 
     .nav-item-h1:hover, .nav-item-h2:hover {
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.08);
       color: #ffffff;
     }
 
@@ -234,23 +333,49 @@
       border-left-color: #3b82f6 !important;
     }
 
+    /* Karartma Katmanı (Backdrop) */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(3px);
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+
     /* Main Content */
     .main-wrapper {
       flex: 1;
-      margin-left: 320px;
-      padding: 36px 48px 80px;
+      margin-left: var(--sidebar-w);
+      padding: 36px 40px 80px;
       max-width: 1140px;
+      width: calc(100% - var(--sidebar-w));
+      min-width: 0; /* Flex child overflow fix */
     }
 
     .content-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 44px 52px;
+      padding: 40px 48px;
       box-shadow: var(--shadow);
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
 
     /* Typography */
+    .markdown-body {
+      font-size: 15.5px;
+    }
+
     .markdown-body h1 {
       font-size: 26px;
       font-weight: 800;
@@ -258,50 +383,64 @@
       margin: 44px 0 14px;
       padding-bottom: 12px;
       border-bottom: 2px solid var(--accent);
-      scroll-margin-top: 24px;
+      scroll-margin-top: 30px;
+      line-height: 1.35;
     }
 
     .markdown-body h1:first-child {
       margin-top: 0;
-      font-size: 30px;
+      font-size: 28px;
     }
 
     .markdown-body h2 {
       font-size: 19px;
       font-weight: 700;
       color: var(--text-main);
-      margin: 30px 0 12px;
+      margin: 32px 0 14px;
       padding: 8px 14px;
       background: var(--code-bg);
       border-left: 4px solid var(--accent);
       border-radius: 0 8px 8px 0;
-      scroll-margin-top: 24px;
+      scroll-margin-top: 76px;
+      line-height: 1.4;
+    }
+
+    .markdown-body h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 24px 0 10px;
+      color: var(--text-main);
+      scroll-margin-top: 76px;
+      line-height: 1.4;
     }
 
     .markdown-body p {
       margin: 10px 0;
-      font-size: 15px;
+      font-size: 15.2px;
+      line-height: 1.7;
     }
 
     .markdown-body ul, .markdown-body ol {
-      margin: 10px 0 14px 24px;
+      margin: 10px 0 14px 22px;
     }
 
     .markdown-body li {
-      margin: 5px 0;
+      margin: 6px 0;
       font-size: 15px;
+      line-height: 1.6;
     }
 
     .markdown-body hr {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 28px 0;
+      margin: 30px 0;
     }
 
     .markdown-body a {
       color: var(--accent);
       font-weight: 600;
       text-decoration: none;
+      word-break: break-word;
     }
 
     .markdown-body a:hover {
@@ -317,6 +456,7 @@
       padding: 2px 6px;
       border-radius: 5px;
       border: 1px solid var(--border);
+      word-break: break-word;
     }
 
     .markdown-body pre {
@@ -324,8 +464,10 @@
       border-radius: 10px;
       overflow-x: auto;
       background: #0d1117;
-      padding: 16px 20px;
+      padding: 16px 18px;
       border: 1px solid #30363d;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
 
     .markdown-body pre code {
@@ -333,22 +475,27 @@
       color: #e6edf3;
       padding: 0;
       border: none;
-      font-size: 13.2px;
-      line-height: 1.55;
+      font-size: 13px;
+      line-height: 1.6;
+      word-break: normal;
+      white-space: pre;
     }
 
-    /* Tables */
+    /* Tables (Responsive scroll wrapper) */
     .table-wrap {
       overflow-x: auto;
       margin: 16px 0;
       border-radius: 10px;
       border: 1px solid var(--border);
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
 
     .markdown-body table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13.8px;
+      font-size: 13.5px;
+      min-width: 580px; /* Ensures readable columns */
     }
 
     .markdown-body th {
@@ -358,6 +505,7 @@
       text-align: left;
       padding: 10px 14px;
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     .markdown-body td {
@@ -370,6 +518,15 @@
       background: rgba(148, 163, 184, 0.05);
     }
 
+    /* KaTeX responsive overflow */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+      padding: 6px 0;
+    }
+
     /* Slide Images */
     .slide-figure {
       margin: 18px 0;
@@ -378,12 +535,13 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 12px;
+      max-width: 100%;
     }
 
     .slide-figure img {
       max-width: 100%;
       height: auto;
-      max-height: 460px;
+      max-height: 480px;
       border-radius: 8px;
       cursor: zoom-in;
       transition: transform 0.15s ease;
@@ -400,6 +558,7 @@
       font-weight: 600;
       color: var(--text-muted);
       margin-top: 8px;
+      word-break: break-word;
     }
 
     /* Callout / Alert Boxes */
@@ -409,6 +568,7 @@
       border-radius: 10px;
       border-left: 5px solid var(--imp-border);
       background: var(--imp-bg);
+      overflow-wrap: break-word;
     }
 
     .callout-tip {
@@ -432,7 +592,15 @@
       color: var(--tip-title);
     }
 
-    /* Quiz & Accordion Details */
+    .markdown-body blockquote {
+      margin: 14px 0;
+      padding: 12px 18px;
+      border-left: 4px solid var(--accent);
+      background: var(--code-bg);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Soru Akordiyon / Çözüm Kutuları (Details / Summary) */
     .markdown-body details {
       margin: 10px 0 18px;
       border: 1px solid var(--border);
@@ -440,6 +608,7 @@
       background: var(--code-bg);
       padding: 10px 16px;
       transition: all 0.2s ease;
+      max-width: 100%;
     }
 
     .markdown-body details[open] {
@@ -451,11 +620,15 @@
     .markdown-body summary {
       cursor: pointer;
       font-weight: 700;
-      font-size: 13.8px;
+      font-size: 14px;
       color: var(--accent);
       outline: none;
       user-select: none;
-      padding: 4px 0;
+      padding: 6px 0;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .markdown-body summary:hover {
@@ -466,24 +639,16 @@
       margin-top: 10px;
     }
 
-    .markdown-body blockquote {
-      margin: 14px 0;
-      padding: 12px 18px;
-      border-left: 4px solid var(--accent);
-      background: var(--code-bg);
-      border-radius: 0 8px 8px 0;
-    }
-
     /* Lightbox Modal */
     .lightbox {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.88);
+      background: rgba(15, 23, 42, 0.92);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 999;
-      padding: 24px;
+      padding: 16px;
       cursor: zoom-out;
     }
 
@@ -492,62 +657,219 @@
     }
 
     .lightbox img {
-      max-width: 95vw;
+      max-width: 96vw;
       max-height: 92vh;
-      border-radius: 10px;
+      border-radius: 8px;
       background: #fff;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      object-fit: contain;
     }
 
-    /* Mobile Toggle */
-    .mobile-menu-btn {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 200;
-      background: var(--accent);
-      color: #fff;
+    .lightbox-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
       border: none;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-weight: 700;
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
     }
 
-    @media (max-width: 960px) {
-      .sidebar {
-        transform: translateX(-100%);
+    .lightbox-close-btn:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Yukarı Çık (Back to Top) Butonu */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ==============================================================
+       MEDYA SORGULARI (RESPONSIVE BREAKPOINTS)
+       ============================================================== */
+
+    /* 1. Tablet ve Küçük Ekranlar (1024px ve altı) */
+    @media (max-width: 1024px) {
+      :root {
+        --sidebar-w: 280px;
       }
+      .main-wrapper {
+        padding: 30px 24px 80px;
+      }
+      .content-card {
+        padding: 32px 30px;
+      }
+    }
+
+    /* 2. Mobil ve Küçük Tabletler (860px ve altı) */
+    @media (max-width: 860px) {
+      .mobile-topbar {
+        display: flex;
+      }
+
+      .sidebar {
+        width: min(85vw, 320px);
+        transform: translateX(-100%);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+      }
+
       .sidebar.open {
         transform: translateX(0);
       }
+
+      .sidebar-close-btn {
+        display: flex;
+      }
+
       .main-wrapper {
         margin-left: 0;
-        padding: 20px 16px 80px;
+        width: 100%;
+        padding: calc(var(--topbar-h) + 16px) 14px 70px;
       }
+
       .content-card {
         padding: 24px 18px;
+        border-radius: 12px;
       }
-      .mobile-menu-btn {
-        display: block;
+
+      .markdown-body h1 {
+        font-size: 22px;
+        margin: 32px 0 12px;
+      }
+
+      .markdown-body h1:first-child {
+        font-size: 23px;
+      }
+
+      .markdown-body h2 {
+        font-size: 17px;
+        padding: 7px 10px;
+        margin: 24px 0 10px;
+      }
+
+      .markdown-body h3 {
+        font-size: 15px;
+      }
+
+      .markdown-body p, .markdown-body li {
+        font-size: 14.5px;
+      }
+
+      .slide-figure {
+        padding: 8px;
+      }
+
+      .back-to-top {
+        bottom: 18px;
+        right: 18px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+
+    /* 3. Çok Küçük Ekranlar (480px ve altı) */
+    @media (max-width: 480px) {
+      .topbar-title {
+        max-width: 150px;
+        font-size: 13px;
+      }
+
+      .content-card {
+        padding: 18px 12px;
+        border-radius: 10px;
+      }
+
+      .markdown-body h1 {
+        font-size: 20px;
+      }
+
+      .markdown-body h2 {
+        font-size: 16px;
+      }
+
+      .markdown-body pre {
+        padding: 12px 14px;
+        border-radius: 8px;
+      }
+
+      .markdown-body details {
+        padding: 8px 12px;
+      }
+
+      .markdown-body summary {
+        font-size: 13.2px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Sol Sabit Ders Menüsü -->
+  <!-- Okuma İlerleme Çubuğu -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Mobil Üst Bar -->
+  <header class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-left">
+      <button class="btn-icon" id="mobileMenuBtn" aria-label="Menüyü Aç">☰</button>
+      <div class="topbar-title">BSM 451 – Ağ Programlama</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-icon" id="mobileThemeBtn" aria-label="Tema Değiştir">🌙</button>
+    </div>
+  </header>
+
+  <!-- Karartma Katmanı (Sidebar Backdrop) -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Sol Ders Menüsü -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span class="course-badge">Sakarya Üniversitesi</span>
       <div class="sidebar-title">BSM 451 – Ağ Programlama</div>
       <div class="sidebar-sub">Ders Konu Anlatımı & Vize Rehberi</div>
+      <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Menüyü Kapat">✕</button>
     </div>
 
     <div class="sidebar-controls">
-      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Konu veya başlık ara..." />
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Konu veya soru ara..." />
       <div class="toolbar-btns">
         <button class="btn-tool" id="themeBtn" type="button">🌙 Gece Modu</button>
         <a class="btn-tool" href="https://github.com/yunusemre2604/ag-prog/tree/main/0-Katman2-3%20Kodlar" target="_blank" rel="noopener">💻 C Kodları</a>
@@ -566,11 +888,12 @@
     </article>
   </main>
 
-  <!-- Mobil Menü Butonu -->
-  <button class="mobile-menu-btn" id="mobileMenuBtn">☰ Ders Menüsü</button>
+  <!-- Yukarı Çık Butonu -->
+  <button class="back-to-top" id="backToTop" aria-label="Yukarı Çık">↑</button>
 
   <!-- Görsel Büyütme (Lightbox) -->
   <div class="lightbox" id="lightbox">
+    <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Kapat">✕</button>
     <img id="lightboxImg" src="" alt="Slayt Görseli" />
   </div>
 
@@ -580,27 +903,73 @@
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
 
   <script>
-    // Gece / Gündüz Modu
+    // 1. Gece / Gündüz Modu
     const themeBtn = document.getElementById('themeBtn');
+    const mobileThemeBtn = document.getElementById('mobileThemeBtn');
     const savedTheme = localStorage.getItem('bsm451_theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    themeBtn.textContent = savedTheme === 'dark' ? '☀️ Gündüz Modu' : '🌙 Gece Modu';
 
-    themeBtn.addEventListener('click', () => {
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('bsm451_theme', theme);
+      const isDark = theme === 'dark';
+      themeBtn.textContent = isDark ? '☀️ Gündüz Modu' : '🌙 Gece Modu';
+      mobileThemeBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+
+    applyTheme(savedTheme);
+
+    function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('bsm451_theme', next);
-      themeBtn.textContent = next === 'dark' ? '☀️ Gündüz Modu' : '🌙 Gece Modu';
-    });
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    }
 
-    // Mobil menü
+    themeBtn.addEventListener('click', toggleTheme);
+    mobileThemeBtn.addEventListener('click', toggleTheme);
+
+    // 2. Mobil Sidebar & Backdrop Kontrolleri
     const sidebar = document.getElementById('sidebar');
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      sidebar.classList.toggle('open');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      sidebarBackdrop.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Arka plan kaymasını engelle
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      sidebarBackdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    mobileMenuBtn.addEventListener('click', openSidebar);
+    sidebarCloseBtn.addEventListener('click', closeSidebar);
+    sidebarBackdrop.addEventListener('click', closeSidebar);
+
+    // 3. Okuma İlerleme Çubuğu & Yukarı Çık Butonu
+    const progressBar = document.getElementById('progressBar');
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+
+      if (winScroll > 380) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
     });
 
-    // Türkçe uyumlu başlık ID üretici
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 4. Türkçe Karakter Uyumlu Başlık ID Üretici
     function slugify(text) {
       return text
         .toLowerCase()
@@ -609,12 +978,13 @@
         .replace(/\s+/g, '-');
     }
 
+    // 5. İçerik Yükleme ve Dinamik Render
     async function loadCourseContent() {
       try {
         const res = await fetch('./README.md');
         let md = await res.text();
 
-        // Markdown içindeki statik "## 📑 İçindekiler" bölümünü kaldır (Sol menüde zaten canlı var)
+        // Markdown içindeki statik "## 📑 İçindekiler" bölümünü kaldır
         md = md.replace(/## 📑 İçindekiler[\s\S]*?---\n/, '');
 
         // Matematik ifadelerini ($$...$$ ve $...$) koru
@@ -633,7 +1003,7 @@
         // Markdown -> HTML
         let html = marked.parse(md);
 
-        // Matematik ifadelerini KaTeX ile geri yerleştir
+        // KaTeX ile matematik formüllerini geri yerleştir
         html = html.replace(/@@MATH_(BLOCK|INLINE)_(\d+)@@/g, (_, type, idx) => {
           const item = mathBlocks[Number(idx)];
           try {
@@ -649,7 +1019,7 @@
         const contentArea = document.getElementById('contentArea');
         contentArea.innerHTML = html;
 
-        // GitHub Alert kutularını ([!IMPORTANT], [!TIP]) şık Callout bileşenine dönüştür
+        // GitHub Alert kutularını Callout bileşenine dönüştür
         contentArea.querySelectorAll('blockquote').forEach(bq => {
           const raw = bq.innerHTML.trim();
           if (raw.includes('[!IMPORTANT]')) {
@@ -675,7 +1045,7 @@
           wrap.appendChild(tbl);
         });
 
-        // C Kodu linklerini doğrudan GitHub kod satırlarına yönlendir
+        // C Kodu linklerini GitHub'a yönlendir
         contentArea.querySelectorAll('a').forEach(a => {
           const href = a.getAttribute('href') || '';
           if (href.startsWith('./0-Katman2-3')) {
@@ -685,9 +1055,11 @@
           }
         });
 
-        // Slayt görsellerini Figure kutusuna al ve tıklayınca büyüt (Lightbox)
+        // Slayt Görselleri ve Lightbox
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+
         contentArea.querySelectorAll('img').forEach(img => {
           const fig = document.createElement('figure');
           fig.className = 'slide-figure';
@@ -701,11 +1073,20 @@
           img.addEventListener('click', () => {
             lightboxImg.src = img.src;
             lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
           });
         });
 
-        lightbox.addEventListener('click', () => {
+        function closeLightbox() {
           lightbox.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+
+        lightboxCloseBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+          if (e.target !== lightboxImg) {
+            closeLightbox();
+          }
         });
 
         // Kod renklendirme
@@ -713,14 +1094,14 @@
           hljs.highlightElement(block);
         });
 
-        // Sol Menü (İçindekiler) Oluştur
+        // Sol Menü (İçindekiler) Oluşturma
         const tocNav = document.getElementById('tocNav');
         tocNav.innerHTML = '';
         const headings = contentArea.querySelectorAll('h1, h2');
         const tocLinks = [];
 
         headings.forEach((h, index) => {
-          if (index === 0) return; // En üstteki ana sayfa başlığını atla
+          if (index === 0) return; // Ana başlığı atla
           const id = slugify(h.textContent) + '-' + index;
           h.id = id;
           const link = document.createElement('a');
@@ -728,13 +1109,13 @@
           link.textContent = h.textContent;
           link.className = h.tagName === 'H1' ? 'nav-item-h1' : 'nav-item-h2';
           link.addEventListener('click', () => {
-            sidebar.classList.remove('open');
+            closeSidebar();
           });
           tocNav.appendChild(link);
           tocLinks.push({ id, link, el: h, text: h.textContent.toLowerCase() });
         });
 
-        // Arama kutusu filtreleme
+        // Canlı Arama Filtreleme
         document.getElementById('searchInput').addEventListener('input', (e) => {
           const q = e.target.value.toLowerCase().trim();
           tocLinks.forEach(item => {
@@ -742,10 +1123,10 @@
           });
         });
 
-        // ScrollSpy (Kaydırdıkça sol menüde aktif başlığı işaretle)
+        // ScrollSpy (Aktif Başlığı İşaretle)
         window.addEventListener('scroll', () => {
           let currentId = '';
-          const scrollPos = window.scrollY + 120;
+          const scrollPos = window.scrollY + 140;
           for (const item of tocLinks) {
             if (item.el.offsetTop <= scrollPos) {
               currentId = item.id;
