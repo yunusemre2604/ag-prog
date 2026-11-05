@@ -4,21 +4,272 @@
 > **Ders Sorumlusu:** Dr. Öğr. Üyesi Musa BALTA  
 > **Kapsam:** Hafta 1–5 Ders Sunumları (Slayt Görselleri ve Sayfa/Slayt Referanslarıyla) & Katman 2–3 `libpcap` C Uygulama Kodları (`.c`)
 
+> [!IMPORTANT]
+> ### 🚨 RESMİ VİZE SINAV DUYURUSU VE FORMATI (Dr. Öğr. Üyesi Musa BALTA)
+> * **Sınav Yapısı:** **Karma Sınav $\rightarrow$ 60 Puan Test + 40 Puan Klasik**
+> * **1) TEST KISMI (60 Puan):** Sistemde yüklü tüm sunumlardan sorumlusunuz; **`Hafta-2 Pcap.pdf` sunumu test sorularına DÂHİL DEĞİLDİR!** *(Pcap teorik slaytlarına çalışarak vakit kaybetmeyiniz)*.
+> * **2) KLASİK KISIM (40 Puan):** Bir **Ağ Topolojisi Şeması** verilecek ve bu topoloji üzerinden **2–3 maddelik soru türetilecektir**. Sizden tüm kodu sıfırdan yazmanız değil, verilen C kodlarındaki **kritik boşlukları doldurmanız (Fill-in-the-blanks)** beklenecektir!
+>   * *Sorumlu Olunan Kodlar:* **Katman 2–3 C Kodları** (`1-arpgonder.c`, `2-icmpgonder.c`, `ping_client.c`, `ping_server.c`) ve Hafta 5'teki **TCP İstemci-Sunucu C Kodu** (`socket`, `bind`, `listen`, `accept`, `connect`, `send`, `recv`).
+> * 👉 Bu duyuruya özel olarak hazırlanan **[40 Puanlık Klasik Sınav Topoloji & Kod Boşluk Doldurma Simülasyonları](#-40-puanlık-klasik-sınav-özel-bölümü-topoloji-tabanlı-c-kod-boşluk-doldurma-simülasyonları)** bölümünü mutlaka çözünüz!
+
 ---
 
 ## 📑 İçindekiler
+0. [🏆 VİZE SINAV STRATEJİ REHBERİ: 40P KLASİK SORU SİMÜLASYONU & 60P TEST GARANTİ KONULARI](#-vize-sınav-strateji-rehberi-40p-klasik-soru-simülasyonu--60p-test-garanti-konuları)
+   * [🎯 BÖLÜM 1: 40 Puanlık Klasik Soru İçin Topoloji ve Kod Boşluk Doldurma Simülasyonları](#-bölüm-1-40-puanlık-klasik-soru-i̇çin-topoloji-ve-kod-boşluk-doldurma-simülasyonları)
+   * [🎯 BÖLÜM 2: 60 Puanlık Test Sınavı İçin Garanti Çıkacak Konular](#-bölüm-2-60-puanlık-test-sınavı-i̇çin-garanti-çıkacak-konular)
 1. [1. Ders: Hafta 1 – OSI Referans Modeli ve Katmansal Yapı](#1-ders-hafta-1--osi-referans-modeli-ve-katmansal-yapı)
    * [1.4. Hafta 1 Değerlendirme Soruları (20 Soru & Çözümleri)](#14-hafta-1-değerlendirme-soruları-20-soru--çözümleri)
-2. [2. Ders: Hafta 2 (Bölüm 1) – PCAP ve Libpcap Kütüphanesi](#2-ders-hafta-2-bölüm-1--pcap-ve-libpcap-kütüphanesi)
-3. [3. Ders: Hafta 2 (Bölüm 2) – Katman 2 Protokolleri (Ethernet & ARP) ve `1-arpgonder.c`](#3-ders-hafta-2-bölüm-2--katman-2-protokolleri-ethernet--arp-ve-1-arpgonderc)
-   * [3.5. Hafta 2 Değerlendirme Soruları (20 Soru & Çözümleri)](#35-hafta-2-değerlendirme-soruları-20-soru--çözümleri)
-4. [4. Ders (Bölüm 1): Hafta 3 – Katman 3: IPv4, Fragmantasyon, Opsiyonlar, Checksum ve IPv6](#4-ders-bölüm-1-hafta-3--katman-3-ipv4-fragmantasyon-opsiyonlar-checksum-ve-ipv6)
-5. [5. Ders (Bölüm 2): Hafta 3 – Katman 3: ICMP Protokolü ve 3 C Kodu (`2-icmpgonder.c`, `ping_server.c`, `ping_client.c`)](#5-ders-bölüm-2-hafta-3--katman-3-icmp-protokolü-ve-3-c-kodu)
-   * [5.5. Hafta 3 Değerlendirme Soruları (20 Soru & Çözümleri)](#55-hafta-3-değerlendirme-soruları-20-soru--çözümleri)
-6. [6. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü](#6-ders-bölüm-1-hafta-4--katman-4-tcp-segment-yapısı-3-way-handshake-durum-şeması-akış-ve-hata-kontrolü)
-   * [6.6. Hafta 4 Değerlendirme Soruları (20 Soru & Çözümleri)](#66-hafta-4-değerlendirme-soruları-20-soru--çözümleri)
-7. [6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP *(Sıradaki Konu)*](#6-ders-bölüm-2-hafta-4--katman-4-tcp-tıkanıklık-kontrolü-4-zamanlayıcı-rttrto-hesabı-ve-udp)
-8. [7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness) *(Sıradaki Konu)*](#7-ders-hafta-5--soket-programlama-c-java-ve-endianness)
+2. [2. Ders: Hafta 2 – Katman 2 Protokolleri (Ethernet & ARP) ve `1-arpgonder.c` ⭐](#2-ders-hafta-2--katman-2-protokolleri-ethernet--arp-ve-1-arpgonderc-)
+   * [2.5. Hafta 2 Değerlendirme Soruları (20 Soru & Çözümleri)](#25-hafta-2-değerlendirme-soruları-20-soru--çözümleri)
+3. [3. Ders (Bölüm 1): Hafta 3 – Katman 3: IPv4, Fragmantasyon, Opsiyonlar, Checksum ve IPv6](#3-ders-bölüm-1-hafta-3--katman-3-ipv4-fragmantasyon-opsiyonlar-checksum-ve-ipv6)
+4. [4. Ders (Bölüm 2): Hafta 3 – Katman 3: ICMP Protokolü ve 3 C Kodu (`2-icmpgonder.c`, `ping_server.c`, `ping_client.c`) ⭐](#4-ders-bölüm-2-hafta-3--katman-3-icmp-protokolü-ve-3-c-kodu-)
+   * [4.5. Hafta 3 Değerlendirme Soruları (20 Soru & Çözümleri)](#45-hafta-3-değerlendirme-soruları-20-soru--çözümleri)
+5. [5. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü](#5-ders-bölüm-1-hafta-4--katman-4-tcp-segment-yapısı-3-way-handshake-durum-şeması-akış-ve-hata-kontrolü)
+   * [5.6. Hafta 4 Değerlendirme Soruları (20 Soru & Çözümleri)](#56-hafta-4-değerlendirme-soruları-20-soru--çözümleri)
+6. [6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP *(Sıradaki Konu)*](#6-ders-bölüm-2-hafta-4--katman-4-tcp-tıkanıklık-kontrolü-4-zamanlayıcı-rttrto-hesabı-ve-udp)
+7. [7. Ders: Hafta 5 – Soket Programlama (C & TCP İstemci-Sunucu Kodları) ⭐ *(Klasik Soru Konusu)*](#7-ders-hafta-5--soket-programlama-c--tcp-i̇stemci-sunucu-kodları-)
+
+---
+
+---
+
+# 🏆 VİZE SINAV STRATEJİ REHBERİ: 40P KLASİK SORU SİMÜLASYONU & 60P TEST GARANTİ KONULARI
+
+> ### 📢 Ders Sorumlusu Dr. Öğr. Üyesi Musa BALTA'nın Sınav Duyurusu:
+> 1. **Vize Sınavı Formatı:** Karma olacaktır (**60 Puan Test** + **40 Puan Klasik** = 100 Puan).
+> 2. **60 Puanlık Test Soruları:** Sistemde yüklü tüm konulardan sorumlusunuz (**`Hafta-2 Pcap.pdf` PCAP sunusu HARİÇ!**).
+> 3. **40 Puanlık Klasik Soru:** Sistemde yüklü **Katman 2-3 Kodları** (`1-arpgonder.c`, `2-icmpgonder.c`, `ping_server.c`, `ping_client.c`) ve **TCP İstemci-Sunucu C Kodundan** (`Hafta-5 Soket Programlama`) sorumlusunuz.
+> 4. **Klasik Sorunun Yapısı:** *"Klasik soru için bir topoloji yapısı verilecek oradan 2-3 maddelik soru türetilecektir. Sizden tüm kodu değil ama bazı boşlukları doldurmanız beklenecektir."*
+
+---
+
+## 🎯 BÖLÜM 1: 40 PUANLIK KLASİK SORU İÇİN TOPOLOJİ VE KOD BOŞLUK DOLDURMA SİMÜLASYONLARI
+
+Hocanın duyurusuna göre sınavda kağıda bir **ağ topolojisi** çizilecek (Host A, Switch, Router Gateway, Host B, Sunucu vb.) ve bu topolojiye göre 4 temel C kodumuzdan boşluk doldurma istenecektir. Aşağıda sınavda çıkabilecek **3 kritik topoloji senaryosu** ve boşluk doldurma çözümleri yer almaktadır:
+
+```
+                  +-------------------------------------------------------+
+                  |                 ÖRNEK SINAV TOPOLOJİSİ                |
+                  +-------------------------------------------------------+
+                  
+   [ Host A (İstemci) ]                                   [ Host B (Aynı Ağ) ]
+   IP : 192.168.1.10                                      IP : 192.168.1.50
+   MAC: 00:11:22:33:44:55                                 MAC: 00:AA:22:33:44:55
+          |                                                         |
+          +-------------------+                     +---------------+
+                              |                     |
+                        [ Switch 1 (Yerel Ağ: 192.168.1.0/24) ]
+                                         |
+                                         | eth0: IP : 192.168.1.1
+                                         |       MAC: 00:RR:11:22:33:44
+                                  [ YÖNLENDİRİCİ (ROUTER) ]
+                                         | eth1: IP : 10.0.0.1
+                                         |       MAC: 00:RR:55:66:77:88
+                                         |
+                        [ Switch 2 (Uzak Ağ: 10.0.0.0/24) ]
+                                         |
+                                         |
+                              [ TCP/ICMP Web Sunucusu ]
+                              IP : 10.0.0.100
+                              MAC: 00:EE:99:88:77:66
+                              Port: 8080 (TCP)
+```
+
+---
+
+### 📌 Simülasyon 1: Katman 2 – [`1-arpgonder.c`](./0-Katman2-3%20Kodlar/1-arpgonder.c) Topoloji Boşluk Doldurma
+
+**Senaryo A (Aynı Ağdaki Cihaz):** Host A (`192.168.1.10`), aynı ağdaki Host B'ye (`192.168.1.50`) paket göndermek için MAC adresini öğrenmek istemektedir.  
+**Senaryo B (Farklı Ağdaki Cihaz):** Host A (`192.168.1.10`), uzak ağdaki Sunucuya (`10.0.0.100`) veri göndermek için ARP isteği yapacaktır.
+
+**Sınav Sorusu: Aşağıda `1-arpgonder.c` kodundaki boşlukları yukarıdaki topolojiye göre doldurunuz:**
+
+```c
+u_char packet[42];
+
+/* 1. ETHERNET BAŞLIĞI (14 Byte) */
+// Soru: ARP Request yerel ağda yayınlanacağı için Hedef MAC ne olmalıdır?
+packet[0] = 0xff; packet[1] = 0xff; packet[2] = 0xff;
+packet[3] = 0xff; packet[4] = 0xff; packet[5] = 0xff; // [BOŞLUK 1: Broadcast MAC]
+
+// Soru: Gönderen Host A'nın Kaynak MAC adresi:
+packet[6] = 0x00; packet[7] = 0x11; packet[8] = 0x22;
+packet[9] = 0x33; packet[10]= 0x44; packet[11]= 0x55; // [BOŞLUK 2: Host A MAC]
+
+// Soru: Ethernet Tipi (ARP için EtherType sabiti):
+packet[12]= 0x08; packet[13]= 0x06;                  // [BOŞLUK 3: 0x0806 (ARP)]
+
+/* 2. ARP PAKETİ (28 Byte) */
+packet[14]= 0x00; packet[15]= 0x01;                  // Hardware Type: 1 (Ethernet)
+packet[16]= 0x08; packet[17]= 0x00;                  // Protocol Type: IPv4 (0x0800)
+packet[18]= 0x06;                                    // Hardware Size: 6
+packet[19]= 0x04;                                    // Protocol Size: 4
+
+// Soru: ARP İstek (Request) İşlem Kodu (Opcode):
+packet[20]= 0x00; packet[21]= 0x01;                  // [BOŞLUK 4: Opcode 1 = Request]
+
+// Gönderen (Sender) MAC: Host A MAC
+packet[22]= 0x00; packet[23]= 0x11; packet[24]= 0x22;
+packet[25]= 0x33; packet[26]= 0x44; packet[27]= 0x55;
+
+// Gönderen (Sender) IP: Host A IP (192.168.1.10 -> 0xC0, 0xA8, 0x01, 0x0A)
+packet[28]= 0xc0; packet[29]= 0xa8; packet[30]= 0x01; packet[31]= 0x0a;
+
+// Soru: Hedef MAC (Target MAC) henüz bilinmediği için ne atanmalıdır?
+packet[32]= 0x00; packet[33]= 0x00; packet[34]= 0x00;
+packet[35]= 0x00; packet[36]= 0x00; packet[37]= 0x00; // [BOŞLUK 5: 0x00 sıfırlanır!]
+
+// Soru: Hedef IP (Target IP) - DİKKAT!
+// Senaryo A (Host B için): 192.168.1.50 -> 0xC0, 0xA8, 0x01, 0x32
+// Senaryo B (Sunucu 10.0.0.100 için): Farklı ağda olduğu için paket Router'a gidecektir!
+// Bu yüzden Target IP = Router eth0 IP (192.168.1.1) olmalıdır! -> 0xC0, 0xA8, 0x01, 0x01
+packet[38]= 0xc0; packet[39]= 0xa8; packet[40]= 0x01; packet[41]= 0x01; // [BOŞLUK 6]
+```
+
+---
+
+### 📌 Simülasyon 2: Katman 3 – [`2-icmpgonder.c`](./0-Katman2-3%20Kodlar/2-icmpgonder.c) ve [`ping_server.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c)
+
+**Sınav Sorusu 1 (`2-icmpgonder.c` Boşluk Doldurma):** Host A'dan Sunucuya (`10.0.0.100`) gönderilecek ICMP Echo Request paketinde:
+* `packet[12..13] = 0x08, 0x00;` $\rightarrow$ **EtherType = IPv4**
+* `packet[14] = 0x45;` $\rightarrow$ **Version 4, IHL 5 (20 Byte)**
+* `packet[22] = 0x40;` $\rightarrow$ **TTL = 64**
+* `packet[23] = 0x01;` $\rightarrow$ **Protocol = 1 (ICMP)**
+* `packet[26..29]` $\rightarrow$ **Kaynak IP (Host A): `192.168.1.10`**
+* `packet[30..33]` $\rightarrow$ **Hedef IP (Sunucu): `10.0.0.100`**
+* `packet[34] = 0x08;` $\rightarrow$ **ICMP Type = 8 (Echo Request)**
+* `packet[35] = 0x00;` $\rightarrow$ **ICMP Code = 0**
+
+**Sınav Sorusu 2 (`ping_server.c` Satır 107–120 Takas / Swap ve Reply Mantığı):**  
+Sunucu gelen Echo Request paketine cevap verirken adresleri ters çevirip paketi geri yollar. Sınavda bu döngünün sınırları veya mantığı sorulur:
+
+```c
+// ping_server.c Satır 107-118:
+// Soru: for döngüsü neden 4 adımdır? MAC 6 bayt, IP 4 bayt olduğu için ilk 4 bayt birlikte takas edilir:
+for (int i = 0; i < 4; i++) {
+    swap(&my_packet[i + 0], &my_packet[i + 6]);   // Hedef MAC [0..3] <-> Kaynak MAC [6..9]
+    swap(&my_packet[i + 26], &my_packet[i + 30]); // Kaynak IP [26..29] <-> Hedef IP [30..33]
+}
+// Kalan 2 bayt MAC ayrıca takas edilir:
+swap(&my_packet[4], &my_packet[10]);
+swap(&my_packet[5], &my_packet[11]);
+
+// Soru: Paketi Echo Reply yapmak için Type alanına ne yazılmalıdır?
+my_packet[34] = 0x00; // [BOŞLUK]: 0x08 (Request) -> 0x00 (Echo Reply) yapılır!
+pcap_sendpacket(handle, my_packet, 50);
+```
+
+---
+
+### 📌 Simülasyon 3: Katman 4 – Hafta 5 TCP İstemci - Sunucu C Kodu Boşluk Doldurma
+
+Hoca duyurusunda açıkça belirttiği gibi **TCP istemci-sunucu C kodundan** klasik soru gelecektir.
+
+#### A) TCP Sunucu (Server) Kod Boşluk Doldurma (Slayt 23–26):
+```c
+int servSock, clntSock;
+struct sockaddr_in echoServAddr; // Sunucu adres yapısı
+struct sockaddr_in echoClntAddr; // İstemci adres yapısı
+unsigned int clntLen;
+
+// 1. ADIM: Soket Oluşturma (Slayt 23)
+servSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP); // [BOŞLUK: PF_INET, SOCK_STREAM, IPPROTO_TCP]
+
+// 2. ADIM: Sunucu Adres Yapısını Doldurma (Slayt 24)
+memset(&echoServAddr, 0, sizeof(echoServAddr));
+echoServAddr.sin_family = AF_INET;                // [BOŞLUK: AF_INET]
+echoServAddr.sin_addr.s_addr = htonl(INADDR_ANY); // [BOŞLUK: htonl(INADDR_ANY) - Tüm arayüzleri dinle]
+echoServAddr.sin_port = htons(8080);              // [BOŞLUK: htons(Port) - Host to Network Short]
+
+// 3. ADIM: Soketi IP ve Porta Bağlama (Bind - Slayt 24)
+bind(servSock, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)); // [BOŞLUK: bind]
+
+// 4. ADIM: Dinleme Kuyruğunu Başlatma (Listen - Slayt 25)
+listen(servSock, 5); // [BOŞLUK: listen, 5 = MAXPENDING kuyruk boyutu]
+
+// 5. ADIM: Gelen Bağlantıyı Kabul Etme (Accept - Slayt 26)
+clntLen = sizeof(echoClntAddr);
+clntSock = accept(servSock, (struct sockaddr *)&echoClntAddr, &clntLen); // [BOŞLUK: accept]
+
+// 6. ADIM: Veri Alma ve Gönderme (Slayt 31)
+recv(clntSock, buffer, RCVBUFSIZE, 0); // [BOŞLUK: recv]
+send(clntSock, buffer, recvSize, 0);   // [BOŞLUK: send]
+close(clntSock);
+```
+
+#### B) TCP İstemci (Client) Kod Boşluk Doldurma (Slayt 27–30):
+```c
+int clientSock;
+struct sockaddr_in echoServAddr;
+
+// 1. ADIM: Soket Oluşturma (Slayt 27)
+clientSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP); // [BOŞLUK: SOCK_STREAM]
+
+// 2. ADIM: Hedef Sunucu Adresini Tanımlama (Slayt 28)
+memset(&echoServAddr, 0, sizeof(echoServAddr));
+echoServAddr.sin_family = AF_INET;
+echoServAddr.sin_addr.s_addr = inet_addr("10.0.0.100"); // [BOŞLUK: inet_addr - String IP'yi 32-bit'e çevirir]
+echoServAddr.sin_port = htons(8080);                   // [BOŞLUK: htons]
+
+// 3. ADIM: Sunucuya Bağlantı Kurma (Connect - 3-Way Handshake Tetikler! Slayt 28)
+connect(clientSock, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)); // [BOŞLUK: connect]
+
+// 4. ADIM: Veri Gönderme ve Yanıt Alma (Slayt 30-31)
+send(clientSock, "MERHABA", 7, 0);
+recv(clientSock, buffer, RCVBUFSIZE - 1, 0);
+close(clientSock);
+```
+
+#### C) Byte Ordering (Endianness) Dönüşüm Fonksiyonları (Slayt 52):
+* `htons(val)`: *Host to Network Short* (16-bit Port için)
+* `htonl(val)`: *Host to Network Long* (32-bit IPv4 için)
+* `ntohs(val)`: *Network to Host Short*
+* `ntohl(val)`: *Network to Host Long*
+* *(Ağ her zaman **Big-Endian**'dır; x86 PC'ler ise **Little-Endian**'dır!)*
+
+---
+
+## 🎯 BÖLÜM 2: 60 PUANLIK TEST SINAVI İÇİN GARANTİ ÇIKACAK KONULAR
+
+> [!IMPORTANT]
+> **Hoca Duyurusu:** `Hafta-2 Pcap.pdf` (libpcap mimarisi, pps hesapları, Wireshark tarihi) **TEST SINAVINDAN TAMAMEN ÇIKARILMIŞTIR!**  
+> Sorumlu olduğunuz sunumlar: **Hafta 1 (OSI), Hafta 2 (Katman 2), Hafta 3 (Katman 3), Hafta 4 (Katman 4), Hafta 5 (Soket Programlama).**
+
+Aşağıdaki maddeler test sınavında garanti soru adayıdır:
+1. **Hafta 1 (OSI & Standartlar):**
+   * **De Jure vs De Facto Standartlar (Slayt 3):** CCITT, IEEE, ISO $\rightarrow$ De Jure; IBM, UNIX $\rightarrow$ De Facto.
+   * **Ara Düğümlerin (Router) Katmanları (Slayt 5):** Router'lar yalnızca ilk 3 katmanı (L1, L2, L3) çalıştırır.
+   * **Katman PDU Adları (Slayt 6):** L4 = Segment, L3 = Packet/Datagram, L2 = Frame, L1 = Bit.
+   * **Standart Hiyerarşisi (Slayt 4):** ISOC $\rightarrow$ IAB $\rightarrow$ IETF ve IRTF.
+   * **Cihazlar (Slayt 6):** Hub = L1, Switch = L2, Router = L3.
+2. **Hafta 2 (Katman 2 Ethernet & ARP):**
+   * **Ethernet II Başlığı (Slayt 6):** 14 Byte (Hedef MAC [6B] + Kaynak MAC [6B] + Tip [2B]). Preamble ve CRC donanımda eklenir.
+   * **CSMA/CD (Slayt 4–5):** 1-persistent stratejisi, çarpışmada `Jam Signal` basılması, Backoff rastgele beklemesi.
+   * **MAC Adres Türleri (Slayt 7):** Unicast, Multicast (`01-00-5E-...`), Broadcast (`FF-FF-FF-FF-FF-FF`).
+   * **ARP Paket Formatı (Slayt 11–12):** 28 Byte ARP şablonu. 14B Ethernet + 28B ARP = 42 Byte.
+   * **ARP 4 Senaryosu (Slayt 13):** Farklı ağdaki bir cihaza giderken ARP Target IP = Router'ın IP'sidir!
+3. **Hafta 3 (Katman 3 IPv4 & ICMP):**
+   * **IPv4 Başlık Boyutu (Slayt 4):** Sabit 20B, opsiyonlarla 60B. HLEN (4 bit, $5..15$).
+   * **Protocol Alanı (Slayt 5):** 1 = ICMP, 2 = IGMP, 6 = TCP, 17 = UDP, 89 = OSPF.
+   * **Fragmantasyon Formülleri (Slayt 7):** $D$ biti, $M$ biti ($M=1$ devamı var, $M=0$ son parça). $\text{Offset} = \text{İlk Bayt} \div 8$.
+   * **Strict vs Loose Source Route (Slayt 13–15):** Strict'te liste dışı router yasaktır; Loose'ta araya başka router girebilir.
+   * **Checksum Hesabı (Slayt 18):** 16-bitlik blokların 1'e tümleyeni (tersi). Alıcıda sağlaması `0x0000` çıkmalıdır.
+   * **ICMP Hata Gövdesi (Slayt 24):** Orijinal IP başlığı + orijinal datagramın ilk 8 baytı.
+   * **ICMP Type 3 (Slayt 24):** `Code 2` (protokol ulaşılamaz) ve `Code 3` (port ulaşılamaz) YALNIZCA hedef Host tarafından üretilir!
+   * **ICMP Type 11 (Slayt 26):** Code 0 (Router TTL=0) vs Code 1 (Host parça süre aşımı).
+4. **Hafta 4 (Katman 4 TCP & UDP):**
+   * **Port Numaraları (Slayt 4):** 20/21 FTP, 23 TELNET, 25 SMTP, 53 DNS, 80 HTTP.
+   * **Sözde Başlık / Pseudoheader (Slayt 9):** 12 Byte (IP'ler, Protokol 6, TCP uzunluk) Checksum hesabına katılır.
+   * **Sıra Numarası Tüketimi (Slayt 8, 10):** `SYN` ve `FIN` bayrakları 1 sıra numarası tüketir. Saf `ACK` tüketmez!
+   * **Yarım Kapanma / Half-Close (Slayt 14):** İstemci FIN atar, sunucu veri yollamaya devam edebilir.
+   * **11 Durumlu Şema (Slayt 11–12):** `TIME-WAIT` (2MSL bekleme), `LISTEN` $\rightarrow$ `SYN-RCVD`.
+   * **Akış Kontrolü (Slayt 14, 16):** $\text{rwnd} = \text{Tampon} - \text{Okunmamış Veri}$.
+   * **Hata Kontrolü (Slayt 20–24):** Go-Back-N vs Selective Repeat. Hızlı Yeniden İletim (3 Yinelenen ACK kuralı).
+5. **Hafta 5 (Soket Programlama):**
+   * **Soket Türleri (Slayt 4):** Stream (TCP, `SOCK_STREAM`), Datagram (UDP, `SOCK_DGRAM`), Raw (`SOCK_RAW`).
+   * **Soket Fonksiyonları:** `socket()`, `bind()`, `listen()`, `connect()`, `accept()`, `send()`, `recv()`.
+   * **Byte Ordering (Slayt 52):** Ağ her zaman **Big-Endian**'dır. `htons`, `htonl`, `ntohs`, `ntohl`.
 
 ---
 
@@ -408,72 +659,15 @@
 
 ---
 
-# 2. Ders: Hafta 2 (Bölüm 1) – PCAP ve Libpcap Kütüphanesi
-**Kaynak Sunum:** `Hafta-2 Pcap.pdf` *(Toplam 9 PDF Sayfası / 17 Slayt)*
-
-## 2.1. PCAP Kavramı ve Paket Yakalama Yöntemleri (PDF Sayfa 2, Slayt 3–4)
-* **Slayt 3 (`PCAP == Packet Capture`):** Ağ aktivitelerinin **Katman 2'den Katman 7'ye kadar** tüm kaydıdır. En yaygın açık kaynak C kütüphanesi **`libpcap`**'tir (*nix ve Windows uyumlu; Windows karşılığı **WinPcap**).
-* **Kullanım Alanları (Slayt 3):** Ağ trafiğini dinlemek, bant genişliği kontrolü, pasif DNS çözümlemesi, saldırı girişimlerini görüntüleme, araştırma testleri.
-* **Slayt 4 (PCAP Dosyalarını Yakalamak):** Ağdan paket yakalamanın 3 topolojik yolu:
-  1. **Switch üzerinde Monitoring Ports (Port Mirroring / SPAN)**
-  2. **Tap (Network TAP):** Kablo üzerine fiziksel olarak takılan pasif kopyalayıcı
-  3. **Inline Device:** Trafiğin doğrudan içinden geçtiği ara cihaz
-
-![PCAP Dosyalarını Yakalamak](assets/slides/h2p_s4_yakalama.png)
+> [!NOTE]
+> **📢 Vize Kapsamı Hatırlatması:** `Hafta-2 Pcap.pdf` (libpcap, Wireshark mimarisi, pps depolama hesapları) **hocanın duyurusu ile vize sınav kapsamından (test ve klasik) tamamen çıkarılmıştır.** Bu nedenle bu rehberde yer verilmemiştir. Sınav için doğrudan Katman 2 (Ethernet & ARP) ve kodları çalışınız.
 
 ---
 
-## 2.2. Ham PCAP Depolama, Dosya Formatı ve Overhead Hesapları (PDF Sayfa 3–4, Slayt 5–7)
-![Ham PCAP Depolama](assets/slides/h2p_s5_depolama.png)
-![libpcap Format](assets/slides/h2p_s6_format.png)
-![libpcap Overhead Tablosu](assets/slides/h2p_s7_overhead.png)
-
-> [!TIP]
-> **Sayısal Sınav Sorusu Rehberi (Slayt 5, 6 ve 7 Hesaplamaları):**
-> 1. **1 Gbps Hattın 1 Günlük (24 Saat) Toplam Ham Veri Boyutu (Slayt 5):**
->    $$1\text{ Gbps} \times 3600\text{ sn} \times 24\text{ saat} = 86,400\text{ gigabits} \xrightarrow{\div 8} 10,800\text{ gigabytes (GB/gün)}$$
-> 2. **Saniyedeki Paket Sayısı (`pps` - Packets Per Second) Hesabı (Slayt 5):**
->    * Ortalama paket boyutu **64 byte** ise bit cinsinden boyutu: $64\text{ bytes} \times 8\text{ bits} = 512\text{ bits}$.
->    $$\text{pps} = \frac{1\text{ Gbps}}{512\text{ bits}} = \frac{10^9\text{ bits/s}}{512\text{ bits}} = 1,953,125\text{ pps}$$
-> 3. **libpcap Dosya Formatı ve Başlık Ek Yükü (Overhead) Hesabı (Slayt 6 & 7):**
->    * Slayt 6'da görüldüğü gibi `.pcap` dosyasının en başında **1 adet `File Header` (`24 bytes`)**, ardından yakalanan **her paket için `Packet Header` (Slaytta `4 bytes`)** + `Packet Data (x bytes)` yer alır.
->    * Saniyedeki başlık ek yükü: $N\text{ pps} \times H_{\text{PCAP}} = N \cdot H\text{ Bps}$.
->    * *Slayt 7 Doğrulaması (64 Byte için):* $1,953,125\text{ pps} \times 4\text{ byte} = 7,812,500\text{ Byte/s} \div 1024^2 \approx \mathbf{7.45\text{ MB/s}}$ (Günde $628.64\text{ GB}$). Paket boyutu büyüdükçe (1500B, 9000B) saniyedeki paket sayısı (`pps`) düştüğü için overhead de `0.32 MB/s` ve `0.05 MB/s` seviyesine iner.
-
----
-
-## 2.3. Ağ Dinleme Araçları (Sniffer) ve Wireshark Mimarisi (PDF Sayfa 4–7, Slayt 8–13)
-* **Slayt 8–9 (Sniffer):** Ağ trafiğini **pasif izleme (sezme)** veya **aktif (atak yapma)** amacıyla kullanılan araçlardır. Saldırganlar şifresiz protokollerden (`FTP, POP3, IMAP, SMTP, rlogin, HTTP, VoIP`) pasif veri toplamak için kullanır.
-* **Slayt 10 (Wireshark Hakkında Kesin Bilinmesi Gerekenler):**
-  * **Gerald Combs** tarafından **1998** yılında **Ethereal** adıyla başlatılmış, **Haziran 2006**'da **Wireshark** adını almıştır.
-  * 750'nin üzerinde protokol destekler ve kapsüllemeli görünüm sunar.
-  * **Çok Kritik 2 Sınav Maddesi:**
-    1. *"Paket sniffer uygulamasıdır, dolayısıyla **bir ağın haritasını çıkartmak için kullanılamaz**."*
-    2. *"**Pasif bir izleme aracıdır, dolayısıyla ağ verisi üretmez**."*
-
-![Wireshark ve WinPcap/libpcap Mimarisi](assets/slides/h2p_s11_mimari.png)
-![Sniffer ve Topolojideki Yeri](assets/slides/h2p_s12_topoloji.png)
-
----
-
-## 2.4. Libpcap C Fonksiyonları ve Syntax Yapısı (PDF Sayfa 7–8, Slayt 14–16)
-![Libpcap Cihaz Koklaması](assets/slides/h2p_s15_openlive.png)
-![Libpcap Paket Filtreleme](assets/slides/h2p_s16_filtre.png)
-
-| Libpcap Fonksiyonu | Slayt Yeri | C Kodlarındaki Satır Yeri | Parametreleri, Dönüş Değeri ve Görevi |
-| :--- | :--- | :--- | :--- |
-| `pcap_lookupdev(errbuf)` | Slayt 14 (Sayfa 7) | [`1-arpgonder.c` Satır 14](./0-Katman2-3%20Kodlar/1-arpgonder.c#L14)<br>[`ping_server.c` Satır 37](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c#L37) | Sistemdeki varsayılan aktif ağ kartı adını döndürür. Bulamazsa `NULL` döner ve hatayı `errbuf` (`PCAP_ERRBUF_SIZE`) içine yazar. |
-| `pcap_lookupnet(dev, &net, &mask, errbuf)` | Slayt 16 (Sayfa 8) | [`ping_client.c` Satır 59](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c#L59)<br>[`ping_server.c` Satır 47](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c#L47) | Cihazın IP ağ adresini (`net`) ve alt ağ maskesini (`mask`) `bpf_u_int32` tipinde alır. Başarısızsa `-1` döner. |
-| `pcap_open_live(dev, snaplen, promisc, to_ms, errbuf)` | Slayt 15 (Sayfa 8) | [`1-arpgonder.c` Satır 22](./0-Katman2-3%20Kodlar/1-arpgonder.c#L22)<br>[`ping_server.c` Satır 54](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c#L54) | Cihazı yakalama/gönderme için açar, `pcap_t*` döner (Hata: `NULL`). `snaplen`: max byte (`BUFSIZ` veya `100`), `promisc`: `1` ise promiscuous mod (tüm paketleri yakala), `to_ms`: okuma zaman aşımı (`1000` ms). |
-| `pcap_compile(handle, &fp, filter_exp, 0, net)` | Slayt 16 (Sayfa 8) | [`ping_client.c` Satır 80](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c#L80)<br>[`ping_server.c` Satır 67](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c#L67) | Filtre stringini (Slayt 16'da `"port 23"`, ping kodlarında `"icmp && dst <IP>"`) derleyip `struct bpf_program fp` yapısına yazar (Hata: `-1`). |
-| `pcap_setfilter(handle, &fp)` | Slayt 16 (Sayfa 8) | [`ping_client.c` Satır 85](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c#L85)<br>[`ping_server.c` Satır 72](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c#L72) | Derlenmiş olan `fp` filtresini açık oturuma uygular (Hata: `-1`). |
-
----
-
-# 3. Ders: Hafta 2 (Bölüm 2) – Katman 2 Protokolleri (Ethernet & ARP) ve `1-arpgonder.c`
+# 2. Ders: Hafta 2 – Katman 2 Protokolleri (Ethernet & ARP) ve `1-arpgonder.c` ⭐ [VİZE KLASİK & TEST]
 **Kaynak Sunum ve Kod:** `Hafta-2 Katman 2 Protokolleri.pdf` *(8 PDF Sayfası / 15 Slayt)* & [`1-arpgonder.c`](./0-Katman2-3%20Kodlar/1-arpgonder.c) *(Satır 1–108)*
 
-## 3.1. Ethernet Protokolü (IEEE 802.3) ve CSMA/CD Backoff Algoritması (PDF Sayfa 2–3, Slayt 3–5)
+## 2.1. Ethernet Protokolü (IEEE 802.3) ve CSMA/CD Backoff Algoritması (PDF Sayfa 2–3, Slayt 3–5)
 * **Slayt 3 (Ethernet):** En yaygın LAN veri bağı protokolü **IEEE 802.3 Ethernet**'tir (1960'lardaki radyo tabanlı **Alohanet**'in uzantısıdır). Tercih sebepleri: Kurulum kolaylığı, güvenilirlik, ölçeklenebilirlik, çoklu kullanım uyumu.
 * **Slayt 4 (CSMA/CD):**
   * **Carrier Sense (Taşıyıcı Sezme):** Kabloda aktarım olup olmadığını kontrol eder.
@@ -490,7 +684,7 @@
 
 ---
 
-## 3.2. Ethernet II Başlık Yapısı (14 Byte) ve İletişim Şekilleri (PDF Sayfa 3–4, Slayt 6–7)
+## 2.2. Ethernet II Başlık Yapısı (14 Byte) ve İletişim Şekilleri (PDF Sayfa 3–4, Slayt 6–7)
 ![Ethernet II Başlık Yapısı](assets/slides/h2k_s6_eth_header.png)
 
 * **Slayt 6 (Ethernet II Başlığı = `14 Byte`):**
@@ -508,7 +702,7 @@
 
 ---
 
-## 3.3. ARP (Address Resolution Protocol) Yapısı ve Senaryoları (PDF Sayfa 4–7, Slayt 8–14)
+## 2.3. ARP (Address Resolution Protocol) Yapısı ve Senaryoları (PDF Sayfa 4–7, Slayt 8–14)
 * **Slayt 8–10 (ARP Görevi):** Paketin teslimi için **Mantıksal (IP)** ve **Fiziksel (MAC)** olmak üzere iki düzey adresleme gerekir. ARP, IP protokolünden mantıksal (IP) adresi alır, fiziksel (MAC) adresle eşler ve veri bağı katmanına iletir.
 * **Slayt 9 (ARP İşleyişi):** **ARP Request** tüm yerel ağa yayınlanır (**Broadcast**: Ethernet hedef MAC `FF:FF:FF:FF:FF:FF`), **ARP Reply** ise sadece soran düğüme gönderilir (**Unicast**).
 
@@ -535,7 +729,7 @@
 
 ---
 
-## 3.4. Kod Analizi: [`1-arpgonder.c`](./0-Katman2-3%20Kodlar/1-arpgonder.c) (Satır 1–108)
+## 2.4. Kod Analizi: [`1-arpgonder.c`](./0-Katman2-3%20Kodlar/1-arpgonder.c) (Satır 1–108)
 
 | Dizi İndeksi | Boyut | Katman ve Alan Adı | Kodda Atanan Değer | `1-arpgonder.c` Satır No ve Açıklama |
 | :--- | :---: | :--- | :--- | :--- |
@@ -553,158 +747,153 @@
 | `packet[38..41]` | 4 Byte | ARP: Target IP | `0x0a, 0x09, 0x1b, 0x64` | **[Satır 93–97](./0-Katman2-3%20Kodlar/1-arpgonder.c#L93-L97):** MAC adresi sorulan hedef IP: `10.9.27.100`. |
 
 ---
-## 3.5. Hafta 2 Değerlendirme Soruları (20 Soru & Çözümleri)
+## 2.5. Hafta 2 Değerlendirme Soruları (20 Soru & Çözümleri)
 
-### Soru 1: PCAP Kapsamı ve Yakalama Seviyesi
-**Soru:** libpcap / WinPcap mimarisine göre ağ kartından paket yakalama işlemi (PCAP), OSI modelinin hangi katman aralığındaki tüm verileri kaydeder?  
-- A) Yalnızca Katman 7 (Uygulama)  
-- B) Katman 3 ve Katman 4  
-- C) Katman 2'den Katman 7'ye kadar tüm katmanlar  
-- D) Yalnızca Katman 1 (Fiziksel bitler)  
-
-<details>
-<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
-
-**Doğru Cevap: C**  
-**Açıklama (Hafta 2 Pcap PDF Sayfa 2, Slayt 3):** PCAP, Ethernet çerçevesinden (Katman 2) başlayarak IP (Katman 3), TCP/UDP (Katman 4) ve Uygulama (Katman 7) dahil tüm PDU içeriğini yakalar.
-</details>
-
----
-
-### Soru 2: Ağdan Paket Yakalama Topolojileri
-**Soru:** Ağ trafiğini izlemek amacıyla bir ağ kablosunun arasına fiziksel olarak takılan ve iletilen sinyallerin bir kopyasını donanımsal olarak izleme portuna aktaran cihaz nedir?  
-- A) Switch Monitoring Port (SPAN)  
-- B) Network TAP  
-- C) Inline Proxy  
-- D) Loopback Adaptör  
+### Soru 1: Ethernet (IEEE 802.3) ve Alohanet Kökeni
+**Soru:** IEEE 802.3 Ethernet protokolü tarihsel olarak 1960'larda Hawaii Üniversitesi'nde geliştirilen hangi öncü ağ mimarisinin uzantısı ve geliştirilmiş halidir?  
+- A) ARPANET  
+- B) Alohanet  
+- C) Token Ring  
+- D) SNA (IBM)  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
 **Doğru Cevap: B**  
-**Açıklama (Hafta 2 Pcap PDF Sayfa 2, Slayt 4):** Slayt 4'e göre paket yakalamanın 3 yöntemi vardır: 1) Switch SPAN portu, 2) Network TAP (pasif donanımsal kopyalayıcı), 3) Inline cihaz.
+**Açıklama (Hafta 2 Katman 2 PDF Sayfa 2, Slayt 3):** Slayt 3'te belirtildiği üzere Ethernet, 1960'ların sonlarında Hawaii Üniversitesi'nde radyo paket ağı olarak geliştirilen **Alohanet**'in devamı ve genişletilmiş şeklidir.
 </details>
 
 ---
 
-### Soru 3: 1 Gbps Hat Ham Veri Depolama Hesabı
-**Soru:** 1 Gbps (Gigabit per second) hızındaki bir omurga hattından geçen tüm ham veri 24 saat boyunca PCAP formatında diske kaydedilirse toplam kaç Gigabayt (GB) disk alanına ihtiyaç duyulur?  
-- A) 1,080 GB  
-- B) 8,640 GB  
-- C) 10,800 GB  
-- D) 86,400 GB  
+### Soru 2: Ethernet'in Yaygınlaşma Nedenleri
+**Soru:** Slayt 3'te Ethernet protokolünün yerel alan ağlarında (LAN) en yaygın kullanılan teknoloji olmasını sağlayan temel nedenler arasında hangisi **sayılmamıştır**?  
+- A) Kolay anlaşılır, kurulumu ve bakımı kolay olması  
+- B) Düşük maliyetli ve güvenilir olması  
+- C) Farklı ağ teknolojileri ve hız artışlarına kolay ölçeklenebilmesi  
+- D) Ağdaki tüm paketleri otomatik olarak uçtan uca şifrelemesi  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
-**Doğru Cevap: C**  
-**Açıklama (Hafta 2 Pcap PDF Sayfa 3, Slayt 5):**
-$$1\text{ Gbps} \times 3600\text{ saniye} \times 24\text{ saat} = 86,400\text{ gigabit}$$
-Gigabayt'a dönüştürmek için 8'e böleriz:
-$$\frac{86,400}{8} = \mathbf{10,800\text{ Gigabyte (GB)}}$$
+**Doğru Cevap: D**  
+**Açıklama (Hafta 2 Katman 2 Slayt 3):** Standart Ethernet (Katman 2) şifreleme sağlamaz; veriyi açık çerçeve olarak iletir. Avantajları: Kurulum kolaylığı, güvenilirlik, ölçeklenebilirlik ve düşük maliyettir.
 </details>
 
 ---
 
-### Soru 4: Saniyedeki Paket Sayısı (pps) Hesabı
-**Soru:** 1 Gbps hızındaki bir hatta ortalama paket büyüklüğü **64 bayt** olduğuna göre hatta saniyede teorik olarak kaç paket (pps - packets per second) iletilir?  
-- A) 1,953,125 pps  
-- B) 15,625,000 pps  
-- C) 81,274 pps  
-- D) 512,000 pps  
-
-<details>
-<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
-
-**Doğru Cevap: A**  
-**Açıklama (Hafta 2 Pcap PDF Sayfa 3, Slayt 5):**
-Bir paketin bit cinsinden boyutu: $64\text{ bayt} \times 8\text{ bit} = 512\text{ bit}$.
-$$\text{pps} = \frac{1\text{ Gbps}}{512\text{ bit}} = \frac{10^9\text{ bit/sn}}{512\text{ bit}} = \mathbf{1,953,125\text{ pps}}$$
-</details>
-
----
-
-### Soru 5: libpcap Başlık Ek Yükü (Overhead) Hesabı
-**Soru:** Standart bir libpcap dosyasında dosyanın en başında kaç baytlık global `File Header`, yakalanan her paketin başında ise kaç baytlık `Packet Header` bulunur?  
-- A) 14 Byte File Header, 20 Byte Packet Header  
-- B) 24 Byte File Header, 4 Byte Packet Header (Slayt 6-7 tablosu)  
-- C) 20 Byte File Header, 8 Byte Packet Header  
-- D) 42 Byte File Header, 14 Byte Packet Header  
+### Soru 3: CSMA/CD Açılımı ve Anlamı
+**Soru:** CSMA/CD (Carrier Sense Multiple Access with Collision Detection) terimindeki bileşenlerin anlamı aşağıdakilerden hangisinde doğru eşleştirilmiştir?  
+- A) Carrier Sense: Hatta çarpışma sinyali gönderme | Multiple Access: Tek bir bilgisayarın iletim yapması | Collision Detection: Hatta sinyal olup olmadığını dinleme  
+- B) Carrier Sense: İletim hattında sinyal olup olmadığını kontrol etme (dinleme) | Multiple Access: Hattı tüm düğümlerin eşit hakla paylaşması | Collision Detection: İki istasyon aynı anda veri yolladığında oluşan çarpışmayı algılama  
+- C) Carrier Sense: Paketleri yönlendirme | Multiple Access: Jeton dolaştırma | Collision Detection: Hata düzeltme  
+- D) Carrier Sense: MAC adresini kontrol etme | Multiple Access: Broadcast yayın | Collision Detection: Çerçeveyi yeniden numaralandırma  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
 **Doğru Cevap: B**  
-**Açıklama (Hafta 2 Pcap PDF Sayfa 3-4, Slayt 6 & 7):** Slayt 6 şemasına göre libpcap dosya yapısı başında **24 Bayt File Header**, ardından her paket için **4 Bayt Packet Header** ve `Packet Data` gelir. Slayt 7 tablosunda 64B için $1,953,125 \times 4\text{ bayt} \approx 7.45\text{ MB/sn}$ ek yük bu sayede hesaplanır.
+**Açıklama (Hafta 2 Katman 2 Slayt 4):**
+* **Carrier Sense (Taşıyıcı Sezme):** Gönderim öncesinde kabloda sinyal/veri olup olmadığını dinler.
+* **Multiple Access (Çoklu Erişim):** Ortam paylaşımlıdır, tüm istasyonlar aynı iletim hattına bağlıdır.
+* **Collision Detection (Çarpışma Tespiti):** Veri gönderirken aynı anda başka sinyal gelirse çarpışmayı sezebilir.
 </details>
 
 ---
 
-### Soru 6: Wireshark Hakkındaki Kesin Sınav Maddeleri
-**Soru:** Slayt 10'da Wireshark için vurgulanan ve sınavda soru olarak gelebilecek aşağıdaki ifadelerden hangisi **doğrudur**?  
-- A) Wireshark aktif bir tarayıcıdır, ağdaki cihazlara ping atarak harita çıkarır.  
-- B) Wireshark pasif bir izleme aracıdır; ağ verisi üretmez ve ağın haritasını çıkartmak için kullanılamaz.  
-- C) Wireshark 1980 yılında AT&T tarafından geliştirilmiştir.  
-- D) Wireshark yalnızca TCP paketlerini çözümler, ARP ve ICMP'yi desteklemez.  
+### Soru 4: Ethernet IFG (Interframe Gap) Süresi
+**Soru:** Slayt 5'teki CSMA/CD akış şemasına göre hat boş bulunduğunda çerçeve gönderilmeden hemen önce neden **`Wait IFG time`** (Interframe Gap) kadar beklenir?  
+- A) Bilgisayarın IP adresini yenilemek için  
+- B) Alıcı istasyonun ağ kartının önceki çerçeveyi işleyip yeni çerçeveyi almaya hazır hale gelmesini sağlamak ve hat stabilizasyonu için  
+- C) Router'ın yönlendirme tablosunu güncellemesi için  
+- D) ARP önbelleğini temizlemek için  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
 **Doğru Cevap: B**  
-**Açıklama (Hafta 2 Pcap PDF Sayfa 5, Slayt 10):** Slayt 10'da kırmızıyla belirtilen iki altın kural:
-1. *"Paket sniffer uygulamasıdır, dolayısıyla bir ağın haritasını çıkartmak için kullanılamaz."*
-2. *"Pasif bir izleme aracıdır, dolayısıyla ağ verisi üretmez."*
-*(Wireshark 1998'de Gerald Combs tarafından Ethereal adıyla başlatılmış, 2006'da Wireshark olmuştur).*
+**Açıklama (Hafta 2 Katman 2 Slayt 5):** İki Ethernet çerçevesi arasında donanımın toparlanması ve alıcı cihazın çerçeveyi ayırt edebilmesi için standart bir boşluk süresi (**IFG - Interframe Gap**, 96 bit zamanı) beklenir.
 </details>
 
 ---
 
-### Soru 7: `pcap_lookupdev` Fonksiyonu
-**Soru:** Bir C libpcap programında sistemdeki varsayılan aktif ağ cihazının adını (`eth0`, `wlan0` vb.) öğrenmek için çağrılan fonksiyon hangisidir? Cihaz bulunamazsa ne döner?  
-- A) `pcap_open_live`, hata durumunda `-1` döner  
-- B) `pcap_lookupdev`, hata durumunda `NULL` döner ve hatayı `errbuf` dizisine yazar  
-- C) `pcap_findalldevs`, hata durumunda `0` döner  
-- D) `pcap_compile`, hata durumunda `PCAP_ERROR` döner  
+### Soru 5: CSMA/CD Backoff Sayacı Sınırı
+**Soru:** CSMA/CD Backoff algoritmasında bir istasyon üst üste çarpışma yaşadığında deneme sayacını ($k$) 1 artırır ($k = k + 1$). Slayt 5'teki akış şemasında iletim denemesi en fazla kaça kadar tekrarlanır, limit aşılırsa ne olur?  
+- A) En fazla 3 deneme; aşılırsa bilgisayar kilitlenir  
+- B) En fazla 10 veya 16 deneme; limit aşılırsa gönderim iptal edilir (`Abort`) ve üst katmana hata bildirilir  
+- C) Sonsuza kadar denenir  
+- D) Sadece 1 kez denenir  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
 **Doğru Cevap: B**  
-**Açıklama (Hafta 2 Pcap Slayt 14 & `1-arpgonder.c` Satır 14):** `char *dev = pcap_lookupdev(errbuf);` fonksiyonu başarı durumunda cihaz adresi işaretçisi, başarısızlıkta `NULL` döner ve `errbuf` içine açıklama yazar.
+**Açıklama (Hafta 2 Katman 2 Slayt 5):** Şemada $k < 10$ kontrolü bulunur. Çarpışma sayısı limiti aşarsa iletim **`Abort`** edilir; ağda aşırı yoğunluk veya fiziksel kablo arızası olduğu anlaşılır.
 </details>
 
 ---
 
-### Soru 8: `pcap_open_live` ve Promiscuous Mod
-**Soru:** `pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf)` fonksiyon çağrısındaki `1` (üçüncü parametre) neyi ifade eder?  
-- A) Paket yakalama işleminin arka planda çalışacağını  
-- B) Promiscuous (Karmaşık / Ayrım gözetmeyen) modun açıldığını; hedef MAC adresi kendisine ait olmayan paketlerin de yakalanacağını  
-- C) Yalnızca 1 adet paket yakalanıp programın sonlanacağını  
-- D) Filtrelemenin aktif olduğunu  
+### Soru 6: Ethernet II Çerçevesinde EtherType Değerleri
+**Soru:** Ethernet II başlığında yer alan 2 baytlık `Packet Type` (EtherType - `packet[12..13]`) alanına IPv4 ve ARP protokolleri için sırasıyla hangi hex değerler yazılır?  
+- A) IPv4: `0x0806`, ARP: `0x0800`  
+- B) IPv4: `0x0800`, ARP: `0x0806`  
+- C) IPv4: `0x0600`, ARP: `0x0100`  
+- D) IPv4: `0xFFFF`, ARP: `0x0000`  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
 **Doğru Cevap: B**  
-**Açıklama (Hafta 2 Pcap Slayt 15 & `1-arpgonder.c` Satır 22):** `promisc = 1` verildiğinde ağ kartı promiscuous moda geçer ve switch hub gibi davranarak hatta geçen hedefi kim olursa olsun tüm çerçeveleri işletim sistemine iletir.
+**Açıklama (Hafta 2 Katman 2 Slayt 6 & `1-arpgonder.c` Satır 46–48 & `2-icmpgonder.c` Satır 40–41):**
+* **IPv4 için:** `0x08, 0x00` (`0x0800`)
+* **ARP için:** `0x08, 0x06` (`0x0806`)
 </details>
 
 ---
 
-### Soru 9: BPF Filtreleme Fonksiyonları Sırası
-**Soru:** Libpcap kullanarak yalnızca belirli paketleri (örneğin `"port 23"` veya `"icmp"`) filtrelemek için hangi iki fonksiyon hangi sırayla çağrılmalıdır?  
-- A) Önce `pcap_setfilter`, sonra `pcap_compile`  
-- B) Önce `pcap_compile`, sonra `pcap_setfilter`  
-- C) Önce `pcap_open_live`, sonra `pcap_lookupnet`  
-- D) Sadece `pcap_filter` fonksiyonu yeterlidir  
+### Soru 7: Ethernet Minimum ve Maksimum Payload (Veri) Boyutu
+**Soru:** Standart bir Ethernet çerçevesinin veri taşıma (Payload / MTU) kapasitesi kaç bayt aralığında olmak zorundadır?  
+- A) 14 – 60 Bayt  
+- B) 46 – 1500 Bayt  
+- C) 20 – 65,535 Bayt  
+- D) 28 – 50 Bayt  
 
 <details>
 <summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
 
 **Doğru Cevap: B**  
-**Açıklama (Hafta 2 Pcap Slayt 16 & `ping_server.c` Satır 67-72):**
-1. `pcap_compile(handle, &fp, filter_exp, 0, net)` ile metin filtresi BPF bytecode'una derlenir.
-2. `pcap_setfilter(handle, &fp)` ile derlenmiş filtre dinleme oturumuna uygulanır.
+**Açıklama (Hafta 2 Katman 2 Slayt 6):** Ethernet çerçevesinin `Data` kısmı **en az 46 bayt, en fazla 1500 bayt (standart MTU)** olabilir. Veri 46 bayttan küçükse araya padding (dolgu) baytları eklenir.
+</details>
+
+---
+
+### Soru 8: MAC Adresi Formatı ve Boyutu
+**Soru:** Fiziksel donanım adresi olan MAC adresi kaç bittir (kaç bayttır) ve genellikle nasıl gösterilir?  
+- A) 32 bit (4 Bayt), noktalı ondalık  
+- B) 48 bit (6 Bayt), iki basamaklı 6 adet onaltılık (hexadecimal) blok halinde  
+- C) 64 bit (8 Bayt), ikili bloklar  
+- D) 128 bit (16 Bayt), iki nokta ile  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 2 Katman 2 Slayt 6 & 7):** MAC adresi **48 bit (6 bayt)** uzunluğundadır (örneğin: `00:11:22:33:44:55` veya `00-11-22-33-44-55`).
+</details>
+
+---
+
+### Soru 9: ARP Protokolünün Temel Görevi
+**Soru:** Bilgisayar ağlarında ARP (Address Resolution Protocol) protokolünün temel varoluş amacı nedir?  
+- A) Alan adlarını (Domain Name) IP adresine dönüştürmek  
+- B) Mantıksal IP adresini bilinen bir cihazın fiziksel donanım (MAC) adresini bulmak ve eşleştirmek  
+- C) IP paketlerini parçalamak  
+- D) Ağ kartlarının hızını belirlemek  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 2 Katman 2 Slayt 8):** Paketin yerel ağda bir cihaza teslim edilebilmesi için IP yetmez, o cihazın fiziksel MAC adresi gereklidir. ARP, IP adresini alıp yerel ağda sorarak karşılık gelen MAC adresini çözer.
 </details>
 
 ---
@@ -899,10 +1088,10 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-# 4. Ders (Bölüm 1): Hafta 3 – Katman 3: IPv4, Fragmantasyon, Opsiyonlar, Checksum ve IPv6
+# 3. Ders (Bölüm 1): Hafta 3 – Katman 3: IPv4, Fragmantasyon, Opsiyonlar, Checksum ve IPv6 ⭐ [VİZE TEST]
 **Kaynak Sunum:** `Hafta-3 Katman 3 Protokolleri.pdf` *(PDF Sayfa 1–10, Slayt 1–20)*
 
-## 4.1. IPv4 Temel Özellikleri ve Başlık Yapısı (PDF Sayfa 2–3, Slayt 3–5)
+## 3.1. IPv4 Temel Özellikleri ve Başlık Yapısı (PDF Sayfa 2–3, Slayt 3–5)
 * **Slayt 4 (IPv4 Özellikleri):** Ağ katmanı paketlerine **datagram** denir. **Bağlantısız**, **en iyi teslim (best-effort)** ve **ortam bağımsız** bir protokoldür.
 * **Boyut Kuralları (Slayt 4):** IP Başlığı **20–60 bayt** aralığındadır (Sabit kısım **20 bayt**, Opsiyonlar **0–40 bayt**). Toplam datagram boyutu **20–65,535 bayt** aralığındadır.
 * **Slayt 5 (`Protocol` Alanı Değerleri Tablosu — `packet[23]`):** **`1` = ICMP**, **`2` = IGMP**, **`6` = TCP**, **`17` = UDP**, **`89` = OSPF**.
@@ -912,7 +1101,7 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-## 4.2. IPv4 Fragmantasyon (Parçalama) ve Sayısal Hesaplama (PDF Sayfa 3–4, Slayt 6–7)
+## 3.2. IPv4 Fragmantasyon (Parçalama) ve Sayısal Hesaplama (PDF Sayfa 3–4, Slayt 6–7)
 ![IP Datagramı Detaylı Fragmantasyon](assets/slides/h3_s7_fragmantasyon.png)
 
 > [!TIP]
@@ -929,7 +1118,7 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-## 4.3. IPv4 Başlık Opsiyonları (Seçenekler) (PDF Sayfa 4–9, Slayt 8–17)
+## 3.3. IPv4 Başlık Opsiyonları (Seçenekler) (PDF Sayfa 4–9, Slayt 8–17)
 ![Opsiyon Type Alanı](assets/slides/h3_s9_opsiyon_type.png)
 ![Opsiyon Ağacı](assets/slides/h3_s10_opsiyon_agaci.png)
 
@@ -944,7 +1133,7 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-## 4.4. IPv4 Kontrol Toplamı (Checksum), İşletim Modülleri ve IPv6 (PDF Sayfa 9–10, Slayt 18–20)
+## 3.4. IPv4 Kontrol Toplamı (Checksum), İşletim Modülleri ve IPv6 (PDF Sayfa 9–10, Slayt 18–20)
 ![IP Başlık Kontrol Toplamı](assets/slides/h3_s18_checksum.png)
 ![IP Datagramının İşletimi Modülleri](assets/slides/h3_s19_ip_moduller.png)
 ![IPv6 ve Başlık Karşılaştırması](assets/slides/h3_s20_ipv6.png)
@@ -955,14 +1144,14 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-# 5. Ders (Bölüm 2): Hafta 3 – Katman 3: ICMP Protokolü ve 3 C Kodu
+# 4. Ders (Bölüm 2): Hafta 3 – Katman 3: ICMP Protokolü ve 3 C Kodu ⭐ [VİZE KLASİK & TEST]
 **Kaynak Sunum ve Kodlar:** `Hafta-3 Katman 3 Protokolleri.pdf` *(PDF Sayfa 11–16, Slayt 21–32)* & [`2-icmpgonder.c`](./0-Katman2-3%20Kodlar/2-icmpgonder.c), [`ping_server.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c), [`ping_client.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c)
 
-## 5.1. ICMP Kapsüllemesi, 8 Byte Başlık ve Mesaj Kategorileri (PDF Sayfa 11–12, Slayt 21–23)
+## 4.1. ICMP Kapsüllemesi, 8 Byte Başlık ve Mesaj Kategorileri (PDF Sayfa 11–12, Slayt 21–23)
 ![ICMP Kapsülleme](assets/slides/h3_s21_icmp_kapsulleme.png)
 ![ICMP Başlık ve Mesaj Kategorileri](assets/slides/h3_s22_icmp_tablo.png)
 
-## 5.2. ICMP Hata Raporlama ve Sorgu Mesajları Kuralları (PDF Sayfa 12–16, Slayt 24–31)
+## 4.2. ICMP Hata Raporlama ve Sorgu Mesajları Kuralları (PDF Sayfa 12–16, Slayt 24–31)
 ![ICMP Hedef Ulaşılamaz Type 3](assets/slides/h3_s24_icmp_type3.png)
 ![ICMP Yeniden Yönlendirme Type 5](assets/slides/h3_s28_icmp_type5_redirect.png)
 ![ICMP Echo Request ve Reply Type 8 ve 0](assets/slides/h3_s29_icmp_echo.png)
@@ -983,7 +1172,7 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-## 5.3. Kod Analizi 1: [`2-icmpgonder.c`](./0-Katman2-3%20Kodlar/2-icmpgonder.c) (Satır 1–118) — 50 Byte ICMP Echo Request
+## 4.3. Kod Analizi 1: [`2-icmpgonder.c`](./0-Katman2-3%20Kodlar/2-icmpgonder.c) (Satır 1–118) — 50 Byte ICMP Echo Request
 
 **Toplam Boyut:** `14 Byte` (Ethernet Başlığı) + `20 Byte` (IPv4 Başlığı) + `16 Byte` (8B ICMP Başlığı + 8B Veri) = **`50 Byte`** (`u_char packet[50]`)
 
@@ -1010,7 +1199,7 @@ $$\mathbf{14\text{ Byte Ethernet Başlığı}} + \mathbf{28\text{ Byte ARP Şabl
 
 ---
 
-## 5.4. Kod Analizi 2: [`ping_server.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c) ve [`ping_client.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c)
+## 4.4. Kod Analizi 2: [`ping_server.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c) ve [`ping_client.c`](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c)
 
 * **1) Dinamik BPF Filtresi Oluşturma (`filter_ip_address` — [`ping_server.c` Satır 148–176](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_server.c#L148-L176) & [`ping_client.c` Satır 186–212](./0-Katman2-3%20Kodlar/Ping%20Uygulaması/ping_client.c#L186-L212)):**
   * `pcap_findalldevs(&alldevs, error_buffer)` ile tüm ağ arayüzlerini bağlı liste olarak alır.
@@ -1031,7 +1220,7 @@ pcap_sendpacket(handle, my_packet, 50);
 ```
 
 ---
-## 5.5. Hafta 3 Değerlendirme Soruları (20 Soru & Çözümleri)
+## 4.5. Hafta 3 Değerlendirme Soruları (20 Soru & Çözümleri)
 
 ### Soru 1: IPv4 Başlık Boyutu ve HLEN Alanı
 **Soru:** Bir IPv4 datagram başlığının sabit boyutu kaç bayttır ve opsiyonlarla en fazla kaç bayt olabilir? 4 bitlik HLEN (Header Length) alanı bu boyutu nasıl gösterir?  
@@ -1387,10 +1576,10 @@ Sunucu isteği cevaplamak için `my_packet[34] = 0x00;` ataması yapar.
 
 ---
 
-# 6. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü
+# 5. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü ⭐ [VİZE TEST]
 **Kaynak Sunum:** `Hafta-4 Katman 4 Protokolleri.pdf` *(PDF Sayfa 1–12, Slayt 1–24)*
 
-## 6.1. TCP Temel Özellikleri, Portlar, Segment Yapısı ve Akış Gönderimi (PDF Sayfa 2–4, Slayt 3–7)
+## 5.1. TCP Temel Özellikleri, Portlar, Segment Yapısı ve Akış Gönderimi (PDF Sayfa 2–4, Slayt 3–7)
 ![TCP Port Numaraları](assets/slides/h4_s4_tcp_portlar.png)
 ![TCP Segment Yapısı](assets/slides/h4_s5_tcp_segment.png)
 ![TCP Akış Gönderimi ve Tamponlar](assets/slides/h4_s6_akis_gonderimi.png)
@@ -1414,7 +1603,7 @@ Sunucu isteği cevaplamak için `my_packet[34] = 0x00;` ataması yapar.
 
 ---
 
-## 6.2. 3 Yollu El Sıkışma (3-Way Handshake): Kurulum, Veri Transferi ve Sonlandırma (PDF Sayfa 4–5, Slayt 8–10)
+## 5.2. 3 Yollu El Sıkışma (3-Way Handshake): Kurulum, Veri Transferi ve Sonlandırma (PDF Sayfa 4–5, Slayt 8–10)
 ![TCP 3 Yollu El Sıkışma Bağlantı Kurulumu](assets/slides/h4_s8_3way_handshake.png)
 ![TCP Veri Transferi](assets/slides/h4_s9_veri_transferi.png)
 ![TCP Bağlantı Sonlandırma](assets/slides/h4_s10_baglanti_sonlandirma.png)
@@ -1434,7 +1623,7 @@ Sunucu isteği cevaplamak için `my_packet[34] = 0x00;` ataması yapar.
 
 ---
 
-## 6.3. Zaman Çizelgesi, Durum Geçiş Şeması ve Bağlantı Red/İptal (`RST`) (PDF Sayfa 6–7, Slayt 11–13)
+## 5.3. Zaman Çizelgesi, Durum Geçiş Şeması ve Bağlantı Red/İptal (`RST`) (PDF Sayfa 6–7, Slayt 11–13)
 ![TCP Zaman Çizelgesi](assets/slides/h4_s11_zaman_cizelgesi.png)
 ![TCP Durum Geçiş Şeması](assets/slides/h4_s12_durum_gecis.png)
 ![TCP Bağlantı Red ve İptal Etme](assets/slides/h4_s13_rst_iptal.png)
@@ -1457,7 +1646,7 @@ Sunucu isteği cevaplamak için `my_packet[34] = 0x00;` ataması yapar.
 
 ---
 
-## 6.4. Pencere Kavramı (`Send/Receive Window`) ve Akış Kontrolü (`rwnd`) (PDF Sayfa 7–8, Slayt 14–16)
+## 5.4. Pencere Kavramı (`Send/Receive Window`) ve Akış Kontrolü (`rwnd`) (PDF Sayfa 7–8, Slayt 14–16)
 ![TCP Pencere Kavramı](assets/slides/h4_s14_pencere_kavrami.png)
 ![TCP Akış Kontrolü](assets/slides/h4_s15_akis_kontrolu.png)
 ![TCP Akış Kontrolü Örnek Uygulama](assets/slides/h4_s16_akis_ornek.png)
@@ -1476,7 +1665,7 @@ Sunucu isteği cevaplamak için `my_packet[34] = 0x00;` ataması yapar.
 
 ---
 
-## 6.5. TCP Hata Kontrolü: ARQ Yöntemleri ve 4 Kayıp Senaryosu (PDF Sayfa 9–12, Slayt 17–24)
+## 5.5. TCP Hata Kontrolü: ARQ Yöntemleri ve 4 Kayıp Senaryosu (PDF Sayfa 9–12, Slayt 17–24)
 ![ARQ Hata Kontrolü Yöntemleri](assets/slides/h4_s18_arq_yontemleri.png)
 ![Segment Kaybı Go-Back-N ARQ](assets/slides/h4_s20_gobackn.png)
 ![Segment Kaybı Selective Repeat](assets/slides/h4_s21_selective_repeat.png)
@@ -1500,7 +1689,7 @@ Sunucu isteği cevaplamak için `my_packet[34] = 0x00;` ataması yapar.
      * `Ack: 701` kaybolur ve arkadan başka onay gelmeden `RTO` süresi dolarsa, gönderici `Seq: 501–600`'ü tekrar gönderir; alıcı bu baytları zaten aldığı için segmenti atar (**Rule 6**) ve tekrar `Ack: 701` gönderir.
 
 ---
-## 6.6. Hafta 4 Değerlendirme Soruları (20 Soru & Çözümleri)
+## 5.6. Hafta 4 Değerlendirme Soruları (20 Soru & Çözümleri)
 
 ### Soru 1: TCP Süreçten Sürece İletişim ve Port Kavramı
 **Soru:** Taşıma katmanında TCP protokolünün aynı bilgisayar üzerinde çalışan farklı uygulama süreçlerini (process) birbirinden ayırt etmek için kullandığı adresleme bilgisi nedir?  
@@ -1834,10 +2023,337 @@ Alıcı `ackNo: 201, rwnd: 600` döner.
 
 ---
 
-# 6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP
+# 6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP ⭐ [VİZE TEST]
 *(Bu bölüm bir sonraki çalışma adımımızda buraya eklenecektir)*
 
 ---
 
-# 7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness)
+# 7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness) ⭐ [VİZE KLASİK & TEST]
 *(Bu bölüm bir sonraki çalışma adımımızda buraya eklenecektir)*
+
+
+---
+
+# 🎯 40 Puanlık Klasik Sınav Özel Bölümü: Topoloji Tabanlı C Kod Boşluk Doldurma Simülasyonları
+
+> [!IMPORTANT]
+> **Sınav Formatı Garantisi:** Musa Hoca'nın duyurusunda belirttiği *"Bir topoloji verilecek, oradan 2-3 maddelik soru türetilecek ve kod boşlukları doldurulacaktır"* formatına birebir uygun olarak hazırlanmış 4 özgün sınav senaryosudur. Her senaryoda topoloji, C kodundaki kritik boşluklar `[ ___X___ ]` ve açılıp kapanabilir detaylı sınav çözümleri yer almaktadır.
+
+---
+
+## 🏛️ Topoloji 1: Aynı Ağda ve Farklı Ağda ARP Request Paketi Doldurma (`1-arpgonder.c`)
+
+### Verilen Ağ Topolojisi Şeması:
+```text
+  [ Host A (Kaynak) ]                      [ Host B (Aynı LAN) ]
+  IP:  192.168.1.10                        IP:  192.168.1.20
+  MAC: 00:11:22:33:44:AA                   MAC: 00:11:22:33:44:BB
+           |                                        |
+    =======+==================+=====================+======= (Yerel Ağ / Switch: 192.168.1.0/24)
+                              |
+                     [ Router R1 (Ağ Geçidi) ]
+                     eth0 (LAN): 192.168.1.1  | MAC: AA:BB:CC:DD:EE:01
+                     eth1 (WAN): 10.0.0.1     | MAC: AA:BB:CC:DD:EE:02
+                              |
+    ==========================+============================= (Uzak Ağ: 10.0.0.0/24)
+                              |
+                     [ Host C (Uzak Sunucu) ]
+                     IP:  10.0.0.50
+                     MAC: CC:DD:EE:11:22:33
+```
+
+### Sınav Sorusu (3 Madde):
+Host A üzerinde `1-arpgonder.c` programı çalıştırılarak ham ARP paketi (`u_char packet[42]`) kabloya basılacaktır.
+
+* **Madde 1:** Host A, **aynı yerel ağdaki Host B'nin (`192.168.1.20`)** MAC adresini öğrenmek istemektedir. Aşağıda verilen C kodundaki `[ ___1___ ]` ile `[ ___6___ ]` arasındaki boşlukları topolojiye göre doldurunuz.
+* **Madde 2:** Host A, **farklı bir ağda bulunan Host C'ye (`10.0.0.50`)** veri gönderebilmek için yerel ağda ARP Request yayınlayacaktır. Bu durumda `packet[38..41]` (Target IP) alanına **hangi IP adresi yazılmalıdır? Nedenini 1 cümleyle açıklayınız.**
+* **Madde 3:** Hazırlanan 42 baytlık bu paketi ağ kartından göndermek için çağrılan `pcap_sendpacket` fonksiyonunun eksik bırakılan `[ ___7___ ]` parametresini yazınız.
+
+```c
+// Topoloji 1 Kod Şablonu (1-arpgonder.c)
+u_char packet[42];
+
+// 1) Ethernet Başlığı (14 Byte)
+// packet[0..5]: Ethernet Hedef MAC (Broadcast)
+packet[0]=0xff; packet[1]=0xff; packet[2]=0xff; packet[3]=0xff; packet[4]=0xff; packet[5]=0xff;
+
+// packet[6..11]: Ethernet Kaynak MAC (Host A)
+packet[6]=0x00; packet[7]=0x11; packet[8]=0x22; packet[9]=0x33; packet[10]=0x44; packet[11]=0xaa;
+
+// packet[12..13]: EtherType (ARP)
+packet[12] = [ ___1___ ]; // Hex formatında EtherType
+packet[13] = [ ___2___ ];
+
+// 2) ARP Başlığı (28 Byte)
+// packet[14..15]: Donanım Tipi (Ethernet = 1)
+packet[14]=0x00; packet[15]=0x01;
+
+// packet[16..17]: Protokol Tipi (IPv4 = 0x0800)
+packet[16]=0x08; packet[17]=0x00;
+
+// packet[18..19]: Donanım Boyutu (6B) ve Protokol Boyutu (4B)
+packet[18]=0x06; packet[19]=0x04;
+
+// packet[20..21]: Opcode (ARP Request)
+packet[20] = [ ___3___ ]; // Opcode Yüksek Bayt
+packet[21] = [ ___4___ ]; // Opcode Düşük Bayt (1=Request, 2=Reply)
+
+// packet[22..27]: Gönderen MAC (Host A)
+packet[22]=0x00; packet[23]=0x11; packet[24]=0x22; packet[25]=0x33; packet[26]=0x44; packet[27]=0xaa;
+
+// packet[28..31]: Gönderen IP (Host A: 192.168.1.10)
+packet[28]=192; packet[29]=168; packet[30]=1; packet[31]=10;
+
+// packet[32..37]: Hedef MAC (Henüz bilinmiyor!)
+packet[32] = [ ___5___ ]; // Hedef MAC baytlarına ne atanır?
+
+// packet[38..41]: Hedef IP (Host B: 192.168.1.20)
+packet[38]=192; packet[39]=168; packet[40]=1; packet[41] = [ ___6___ ];
+
+// 3) Paketi Gönderme
+pcap_sendpacket(handle, packet, [ ___7___ ]);
+```
+
+<details>
+<summary><b>💡 Topoloji 1 Çözümünü ve Açıklamasını Gör</b></summary>
+
+#### Boşlukların Doğru Cevapları:
+* `[ ___1___ ] = 0x08;` ve `[ ___2___ ] = 0x06;` $\rightarrow$ ARP için EtherType `0x0806`'dır (IPv4 olsaydı `0x0800` olurdu).
+* `[ ___3___ ] = 0x00;` ve `[ ___4___ ] = 0x01;` $\rightarrow$ ARP Request Opcode değeri `1`'dir (`0x0001`). ARP Reply olsaydı `2` (`0x0002`) olurdu.
+* `[ ___5___ ] = 0x00;` $\rightarrow$ Hedef cihazın MAC adresi henüz bilinmediği için ARP Request paketinde `packet[32..37]` arasındaki 6 baytın tamamına **`0x00`** yazılır (Slayt 12).
+* `[ ___6___ ] = 20;` $\rightarrow$ Hedef IP Host B olduğu için `192.168.1.20` son baytı `20` (Hex: `0x14`).
+* `[ ___7___ ] = 42;` $\rightarrow$ Toplam paket boyutu: $14\text{B Ethernet} + 28\text{B ARP} = \mathbf{42\text{ Byte}}$ (`u_char packet[42]`).
+
+#### Madde 2 Cevabı (Çok Kritik Sınav Sorusu - ARP Case 2):
+* **Yazılacak IP Adresi:** `192.168.1.1` (Router R1'in eth0 yerel IP adresi).
+* **Açıklama:** Host C farklı bir ağda olduğu için Host A ona doğrudan Katman 2 çerçevesi gönderemez; paket yerel ağ geçidinden (Router R1) çıkmalıdır. Bu nedenle Host A, paketi teslim edeceği **Router R1'in MAC adresini öğrenmek amacıyla** ARP Target IP alanına Router'ın IP'sini (`192.168.1.1`) yazar!
+</details>
+
+---
+
+## 🏛️ Topoloji 2: Yönlendirici Üzerinden ICMP Echo Request (`2-icmpgonder.c`)
+
+### Verilen Ağ Topolojisi Şeması:
+```text
+  [ İstemci PC ]                                        [ Router R1 ]                                   [ Google DNS ]
+  IP:  192.168.1.50                                     eth0: 192.168.1.1                               IP:  8.8.8.8
+  MAC: AA:AA:AA:11:11:11                                MAC:  BB:BB:BB:22:22:22                         MAC: DD:DD:DD:44:44:44
+           |                                                  |
+           +-----------------[ Yerel Switch ]-----------------+
+```
+
+### Sınav Sorusu (3 Madde):
+İstemci PC, dış dünyadaki `8.8.8.8` IP adresli sunucuya ping atmak için `2-icmpgonder.c` kodunu kullanarak 50 baytlık bir paket oluşturmaktadır.
+
+* **Madde 1:** İstemcinin oluşturacağı Ethernet başlığında `packet[0..5]` (Hedef MAC) alanına **Google DNS'in MAC adresi mi (`DD:..`), yoksa Router R1'in MAC adresi mi (`BB:..`) yazılmalıdır? Nedenini belirtiniz.**
+* **Madde 2:** Aşağıdaki kod parçasında IP başlığı ve ICMP başlığına ait boşlukları (`[ ___1___ ]` .. `[ ___5___ ]`) doldurunuz.
+* **Madde 3:** Bu paketin toplam boyutu neden tam olarak **50 bayttır?** Katman katman bayt hesabını gösteriniz.
+
+```c
+// Topoloji 2 Kod Şablonu (2-icmpgonder.c)
+u_char packet[50];
+
+// 1) Ethernet Başlığı (packet[0..13])
+// packet[0..5]: Hedef MAC
+packet[0] = [ ___1___ ]; // Hangi cihazın MAC adresi?
+// ... kalan 5 bayt ...
+
+// packet[12..13]: EtherType (IPv4)
+packet[12] = 0x08; packet[13] = 0x00;
+
+// 2) IPv4 Başlığı (packet[14..33])
+// packet[14]: Sürüm (4 bit) + Başlık Uzunluğu HLEN (4 bit)
+packet[14] = [ ___2___ ]; // IPv4 ve 20 Byte başlık için hex değeri nedir?
+
+// packet[16..17]: Total Length (IP Başlığı + ICMP = 20B + 16B = 36B)
+packet[16] = 0x00; packet[17] = [ ___3___ ]; // 36'nın hex karşılığı
+
+// packet[22]: Yaşam Süresi (TTL = 64)
+packet[22] = 0x40; // 64
+
+// packet[23]: Protokol Alanı (ICMP taşındığını belirtir)
+packet[23] = [ ___4___ ]; // ICMP protokol numarası
+
+// packet[26..29]: Kaynak IP (192.168.1.50)
+// packet[30..33]: Hedef IP (8.8.8.8)
+
+// 3) ICMP Başlığı (packet[34..49])
+// packet[34]: ICMP Tip Alanı (Echo Request)
+packet[34] = [ ___5___ ]; // Echo Request tip değeri
+
+// packet[35]: ICMP Kod Alanı
+packet[35] = 0x00;
+```
+
+<details>
+<summary><b>💡 Topoloji 2 Çözümünü ve Açıklamasını Gör</b></summary>
+
+#### Madde 1 Cevabı:
+* **Yazılacak MAC:** Router R1'in MAC adresi (`BB:BB:BB:22:22:22`) yazılmalıdır!
+* **Nedeni:** Kaynak ve hedef farklı ağlardadır. Katman 2 MAC adresleri yerel ağda düğümden düğüme (hop-by-hop) değişir ve asla yönlendiriciden dışarı geçemez. İstemci paketi kendi yerel ağından çıkarabilmek için çerçevenin hedef MAC adresine **yerel ağ geçidinin (Router R1) MAC adresini** yazmak zorundadır.
+
+#### Boşlukların Doğru Cevapları:
+* `[ ___1___ ] = 0xbb;` $\rightarrow$ Router R1'in MAC adresinin ilk baytı.
+* `[ ___2___ ] = 0x45;` $\rightarrow$ `4` = IPv4 sürümü, `5` = 5 adet 32-bitlik kelime ($5 \times 4 = 20\text{ Byte}$ sabit IP başlığı).
+* `[ ___3___ ] = 0x24;` $\rightarrow$ Toplam IP uzunluğu $20\text{B IP} + 16\text{B ICMP} = 36\text{ Byte}$. $36 = 2 \times 16 + 4 \Rightarrow \mathbf{0x24}$.
+* `[ ___4___ ] = 0x01;` $\rightarrow$ IPv4 başlığında **ICMP** protokol numarası **`1`**'dir (TCP: 6, UDP: 17).
+* `[ ___5___ ] = 0x08;` $\rightarrow$ **ICMP Echo Request** için `Type = 8` (`0x08`)'dir (Cevap yani Echo Reply olsaydı `0x00` olurdu).
+
+#### Madde 3 Cevabı (50 Baytın Katman Dağılımı):
+$$\begin{aligned}
+\text{Ethernet II Başlığı} &= 14\text{ Byte } (\text{packet}[0..13]) \\
+\text{IPv4 Başlığı} &= 20\text{ Byte } (\text{packet}[14..33]) \\
+\text{ICMP Başlığı} &= 8\text{ Byte } (\text{packet}[34..41]) \\
+\text{ICMP Veri / Zaman Damgası} &= 8\text{ Byte } (\text{packet}[42..49]) \\
+\hline
+\mathbf{Toplam\ Paket\ Boyutu} &= 14 + 20 + 8 + 8 = \mathbf{50\text{ Byte}}
+\end{aligned}$$
+</details>
+
+---
+
+## 🏛️ Topoloji 3: `ping_server.c` – BPF Filtresi, Adres Takası ve Echo Reply Üretimi
+
+### Senaryo:
+`ping_server.c` programı çalışan bir sunucu, istemciden gelen ICMP Echo Request paketini yakalayıp adreslerini takas ederek Echo Reply olarak istemciye geri fırlatacaktır.
+
+### Sınav Sorusu (2 Madde):
+* **Madde 1:** Sunucunun ağdaki ilgisiz paketlerle yorulmaması ve **yalnızca kendisine gelen ICMP paketlerini** yakalaması için oluşturulan BPF filtre dizgisindeki `[ ___1___ ]` boşluğunu doldurunuz.
+* **Madde 2:** Gelen paketi Echo Reply'a dönüştürmek için yazılan C kodundaki `[ ___2___ ]`, `[ ___3___ ]` ve `[ ___4___ ]` boşluklarını doldurunuz.
+
+```c
+// ping_server.c Kod Kesiti
+
+// 1) Dinamik BPF Filtresi Oluşturma (ping_server.c Satır 171)
+char filter_exp[50];
+// Sunucunun kendi IP adresi "my_ip" değişkenindedir (Örn: "192.168.1.100")
+sprintf(filter_exp, [ ___1___ ], my_ip); 
+// Derleme ve uygulama:
+pcap_compile(handle, &fp, filter_exp, 0, net);
+pcap_setfilter(handle, &fp);
+
+// 2) Paketi Yakalayıp Echo Reply Yapma (ping_server.c Satır 107-122)
+void packet_handler(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
+    u_char my_packet[50];
+    memcpy(my_packet, packet, 50);
+
+    // MAC (6 Bayt) ve IP (4 Bayt) Adreslerini Takas Etme:
+    for (int i = 0; i < 4; i++) {
+        swap(&my_packet[i + 0],  &my_packet[i + 6]);  // MAC ilk 4 bayt takası
+        swap(&my_packet[i + 26], &my_packet[i + [ ___2___ ]]); // IP 4 bayt takası (packet[26..29] ile ...)
+    }
+    // MAC adresinin kalan 2 baytını takas etme (Çünkü MAC 6 bayttır!):
+    swap(&my_packet[4], &my_packet[10]);
+    swap(&my_packet[5], &my_packet[11]);
+
+    // ICMP Tipini Echo Request'ten Echo Reply'a dönüştürme:
+    my_packet[ [ ___3___ ] ] = [ ___4___ ];
+
+    // Cevap paketini kabloya basma:
+    pcap_sendpacket(handle, my_packet, 50);
+}
+```
+
+<details>
+<summary><b>💡 Topoloji 3 Çözümünü ve Açıklamasını Gör</b></summary>
+
+#### Boşlukların Doğru Cevapları:
+* `[ ___1___ ] = "icmp && dst %s"` $\rightarrow$ Sunucu yalnızca ICMP protokolünü ve hedef adresi kendi IP'si olan paketleri dinlemek için filtreyi `"icmp && dst %s"` formatında derler (`ping_server.c` Satır 171).
+* `[ ___2___ ] = 30;` $\rightarrow$ Kaynak IP `packet[26..29]`, Hedef IP ise `packet[30..33]` alanındadır. Döngü $i=0$ iken $26+0$ ile $30+0$ takas edilir; bu yüzden `i + 30` yazılmalıdır.
+* `[ ___3___ ] = 34;` $\rightarrow$ ICMP Tip (Type) alanı `packet[34]` baytında yer alır.
+* `[ ___4___ ] = 0x00;` $\rightarrow$ Gelen paket Echo Request (`0x08`) idi. Sunucu bunu **Echo Reply** yapmak için bu bayta **`0x00`** (sıfır) atar (`my_packet[34] = 0x00;`).
+</details>
+
+---
+
+## 🏛️ Topoloji 4: TCP İstemci – Sunucu C Soket Programlama (`Hafta 5` Slayt 23–32)
+
+### Senaryo ve Topoloji:
+```text
+  [ TCP İstemci (Client) ]                                [ TCP Sunucu (Server) ]
+  IP:   192.168.1.10                                      IP:   192.168.1.200
+  Port: Dinamik / Ephemeral (Örn: 54321)                  Port: 8080 (Sabit Servis Portu)
+```
+
+### Sınav Sorusu (3 Madde):
+Dr. Musa Balta'nın Hafta 5 sunumundaki standart C TCP akış temelli (Stream) soket kodları üzerinden boşluk doldurma:
+
+* **Madde 1 (Sunucu Soket Kurulumu):** Aşağıdaki sunucu kodunda soket oluşturma, port atama (`bind`), dinleme (`listen`) ve istemci kabul etme (`accept`) fonksiyonlarındaki `[ ___1___ ]` .. `[ ___5___ ]` boşluklarını doldurunuz.
+* **Madde 2 (Endianness Dönüşümleri):** Kodda port numarası atanırken neden doğrudan `8080` yazılmayıp `htons(8080)` fonksiyonu kullanılır? IP için neden `htonl(INADDR_ANY)` kullanılır? Açıklayınız.
+* **Madde 3 (İstemci Bağlantı Kurma):** İstemci tarafında sunucunun IP ve portuna bağlanmak için çağrılan `[ ___6___ ]` fonksiyonunu ve parametrelerini yazınız.
+
+```c
+// ==========================================
+// 1) TCP SUNUCU KODU (Server - Hafta 5 Slayt 23-26)
+// ==========================================
+int servSock;                    // Sunucu soket tanımlayıcısı
+int clntSock;                    // İstemciye özel veri soketi tanımlayıcısı
+struct sockaddr_in echoServAddr; // Sunucu yerel adres yapısı
+struct sockaddr_in echoClntAddr; // Bağlanan istemcinin adres yapısı
+unsigned short echoServPort = 8080;
+unsigned int clntLen;
+
+// Adım 1: TCP Soketi Oluşturma (Slayt 23)
+servSock = socket(PF_INET, [ ___1___ ], IPPROTO_TCP);
+
+// Adım 2: Sunucu Adres Yapısını Doldurma ve Sokete Bağlama (bind) (Slayt 24)
+memset(&echoServAddr, 0, sizeof(echoServAddr));
+echoServAddr.sin_family = AF_INET;
+echoServAddr.sin_addr.s_addr = htonl( [ ___2___ ] ); // Herhangi bir yerel arayüzü kabul et
+echoServAddr.sin_port = htons(echoServPort);
+
+bind(servSock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr));
+
+// Adım 3: Soketi Dinleme Moduna Alma (Slayt 25)
+listen(servSock, [ ___3___ ]); // Maksimum bekleyen kuyruk sınırı
+
+// Adım 4: Bağlantı Kabul Etme (Slayt 26)
+clntLen = sizeof(echoClntAddr);
+clntSock = [ ___4___ ](servSock, (struct sockaddr *) &echoClntAddr, [ ___5___ ]);
+
+// Adım 5: Veri Okuma ve İstemciye Geri Gönderme (Echo) (Slayt 31)
+char buffer[1000];
+int recvMsgSize = recv(clntSock, buffer, 1000, 0);
+send(clntSock, buffer, recvMsgSize, 0);
+close(clntSock);
+close(servSock);
+
+
+// ==========================================
+// 2) TCP İSTEMCİ KODU (Client - Hafta 5 Slayt 27-30)
+// ==========================================
+int sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+struct sockaddr_in servAddr;
+memset(&servAddr, 0, sizeof(servAddr));
+servAddr.sin_family = AF_INET;
+servAddr.sin_addr.s_addr = inet_addr("192.168.1.200"); // Sunucu IP'si
+servAddr.sin_port = htons(8080);                       // Sunucu Portu
+
+// Adım 6: Sunucuya Aktif Bağlantı Başlatma (Slayt 28)
+[ ___6___ ](sock, (struct sockaddr *) &servAddr, sizeof(servAddr));
+
+// Adım 7: Mesaj Gönderme (Slayt 30)
+char *msg = "Merhaba Sunucu!";
+send(sock, msg, strlen(msg), 0);
+close(sock);
+```
+
+<details>
+<summary><b>💡 Topoloji 4 Çözümünü ve Açıklamasını Gör</b></summary>
+
+#### Boşlukların Doğru Cevapları:
+* `[ ___1___ ] = SOCK_STREAM;` $\rightarrow$ TCP bağlantı yönelimli, güvenilir bir akış protokolü olduğu için soket tipi **`SOCK_STREAM`**'dir (UDP olsaydı `SOCK_DGRAM` olurdu).
+* `[ ___2___ ] = INADDR_ANY;` $\rightarrow$ Sunucunun makinedeki tüm ağ kartlarından (Ethernet, Wi-Fi, Loopback) gelen istekleri dinlemesi için IP adresi `INADDR_ANY` sabiti ile ayarlanır (Slayt 12 & 24).
+* `[ ___3___ ] = MAXPENDING;` $\rightarrow$ `listen()` fonksiyonunun 2. parametresi bağlantı kabul kuyruğunun uzunluğudur (Slayt 25'te `MAXPENDING` sembolik sabiti verilmiştir, örneğin `5`).
+* `[ ___4___ ] = accept;` $\rightarrow$ Gelen TCP bağlantı isteğini kabul edip istemciyle haberleşecek yeni soket tanımlayıcısını döndüren fonksiyon **`accept()`**'tir.
+* `[ ___5___ ] = &clntLen;` $\rightarrow$ `accept` fonksiyonunun 3. parametresi istemci adres yapısının boyutunu tutan değişkenin **işaretçisidir (`&clntLen`)**; çünkü fonksiyon bu değeri günceller.
+* `[ ___6___ ] = connect;` $\rightarrow$ İstemcinin uzak sunucuya TCP 3 yollu el sıkışmasını başlatmak için kullandığı sistem çağrısı **`connect()`** fonksiyonudur.
+
+#### Madde 2 Cevabı (Endianness Sınav Notu - Hafta 5 Slayt 50–52):
+* **Host Byte-Ordering vs Network Byte-Ordering:**
+  * Çoğu x86/Intel bilgisayar veriyi bellekte **Little-Endian** (düşük bayt önce) mimarisinde saklar.
+  * Ancak internet standartları (TCP/IP) gereği ağ üzerindeki tüm adres ve portlar **Big-Endian** (yüksek bayt önce) sırasında iletilmek zorundadır.
+* `htons(8080)` (*Host to Network Short*): 16-bitlik port numarasını ana makine formatından ağ formatına çevirir.
+* `htonl(INADDR_ANY)` (*Host to Network Long*): 32-bitlik IP adresini ana makine formatından ağ formatına çevirir.
+</details>
