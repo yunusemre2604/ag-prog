@@ -2023,8 +2023,153 @@ Alıcı `ackNo: 201, rwnd: 600` döner.
 
 ---
 
-# 6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP ⭐ [VİZE TEST]
-*(Bu bölüm bir sonraki çalışma adımımızda buraya eklenecektir)*
+# 6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı, Opsiyonlar ve UDP
+**Kaynak Sunum:** `Hafta-4 Katman 4 Protokolleri.pdf` *(PDF Sayfa 13–22, Slayt 25–44)*
+
+---
+
+## 6.7. TCP Yeniden İletim Zamanlayıcısı (Retransmission Timer) ve RTO Temelleri (PDF Sayfa 13, Slayt 25)
+![TCP Yeniden İletim Zamanlayıcısı](assets/slides/h4_s25_retransmission_timer.png)
+
+* **RTO (Retransmission Time-Out) Tanımı:** TCP, her bir bağlantı için bir yeniden iletim zamanlayıcısı kullanır. Bu sayaç RTO değerine ulaştığında gönderici, karşıdan onayı (`ACK`) gelmemiş olan ilk segmenti kayıp kabul eder ve yeniden iletir.
+* **Zamanlayıcının Başlatılma ve Durdurulma Kuralları (Slayt 25):**
+  * **Sayaç Başlatılır:**
+    1. Veri içeren bir segment kabloya iletilmeye başlandığında.
+    2. Yeni bir veriyi kabul eden bir ACK segmenti alındığında.
+    3. Kayıp bir segment yeniden iletildiğinde.
+  * **Sayaç Durdurulur:** İletilmiş olan tüm segmentlerin onayı (`ACK`) eksiksiz alındığında.
+* **RTO'nun Adaptif Olma Zorunluluğu (Sınavın Altın Kuralı):**
+  * Süre aşımı değeri **çok küçük** olursa: Ağdaki normal gecikmeler kayıp zannedilir ve gereksiz yeniden iletimler yapılarak ağ gereksiz tıkanır.
+  * Süre aşımı değeri **çok büyük** olursa: Gerçek paket kayıplarında sistem yeniden iletim yapmadan önce çok uzun süre bekler ve bağlantı aşırı yavaşlar.
+  * Bu nedenle TCP'de RTO süresi statik olamaz; ağın anlık gecikmesine göre dinamik (**adaptif**) olarak hesaplanır.
+
+---
+
+## 6.8. TCP Sıkışıklık Kontrolü (Congestion Control) ve Algoritmalar (PDF Sayfa 13–14, Slayt 26–27)
+![TCP Yavaş Başlatma ve Üstel Artış](assets/slides/h4_s26_yavas_baslatma.png)
+![TCP Tıkanıklıktan Kaçış Katkı Artışı](assets/slides/h4_s27_tikaniklik_kacis.png)
+
+* **Akış Kontrolü vs Sıkışıklık Kontrolü Farkı:**
+  * **Akış Kontrolü (`rwnd`):** Alıcının tamponunun taşmasını engeller (Alıcı odaklı).
+  * **Sıkışıklık Kontrolü (`cwnd`):** Ağdaki yönlendirici (Router) kuyruklarının taşmasını engeller (Ağ odaklı).
+  * **Gerçek Gönderim Penceresi:** $\mathbf{\text{Pencere Boyutu} = \min(\text{cwnd}, \text{rwnd})}$.
+* **1) Yavaş Başlatma (Slow Start) – Üstel Artış (Slayt 26):**
+  * Bağlantı ilk kurulduğunda $\text{cwnd} = 1\text{ MSS}$ (Maksimum Segment Boyutu) ile başlar.
+  * Alınan her geçerli ACK için $\text{cwnd}$ değeri 1 MSS artırılır.
+  * Bu durum her gidiş-dönüşte (RTT) pencerenin **2 katına çıkması** anlamına gelir: $\mathbf{1 \rightarrow 2 \rightarrow 4 \rightarrow 8 \rightarrow 16...}$ (**Üstel Artış**).
+* **2) Tıkanıklıktan Kaçınma (Congestion Avoidance) – Katkı Artışı (Slayt 27):**
+  * cwnd değeri belirlenen eşik değerine (**Threshold / `ssthresh`**, örneğin 32 KB) ulaştığında üstel artış durur.
+  * Bu aşamadan sonra her RTT döngüsünde pencere yalnızca **+1 MSS** kadar artırılır: $\mathbf{32 \rightarrow 33 \rightarrow 34 \rightarrow 35...}$ (**Katkı Artışı / Doğrusal Artış**).
+* **3) Tıkanıklık Algılandığında Ne Yapılır? (Slayt 26–27):**
+  * **Zaman Aşımı (Timeout) Olduğunda (Tahoe Mantığı):**
+    * Yeni Eşik Değeri: $\mathbf{\text{ssthresh} = \text{Mevcut cwnd} / 2}$ yapılır (Grafikte $40 \div 2 = 20$).
+    * Tıkanıklık penceresi sıfırlanır: $\mathbf{\text{cwnd} = 1\text{ MSS}}$'e düşürülür ve tekrar Yavaş Başlatma ile yeni eşiğe (20) kadar üstel büyütülür.
+  * **3 Yinelenen ACK (Fast Retransmit & Fast Recovery - Reno Mantığı):**
+    * Paket hala akıyordur (hafif tıkanıklık). Bu yüzden Reno'da cwnd 1'e düşürülmez; $\text{ssthresh} = \text{cwnd} / 2$ yapılır ve doğrudan $\text{cwnd} = \text{ssthresh}$ seviyesinden katkı artışına devam edilir (**Fast Recovery**).
+
+---
+
+## 6.9. TCP'nin 4 Temel Zamanlayıcısı (4 Timers) (PDF Sayfa 14–16, Slayt 28–32)
+![TCP 4 Zamanlayıcı Şeması](assets/slides/h4_s28_4zamanlayici.png)
+![Kalıcılık Zamanlayıcısı Persistence Timer](assets/slides/h4_s30_persistent_timer.png)
+![Tutma Zamanlayıcısı Keepalive Timer](assets/slides/h4_s31_keepalive_timer.png)
+![Sessiz Zamanlayıcı Time-Wait Timer](assets/slides/h4_s32_timewait_timer.png)
+
+| Zamanlayıcı No | Zamanlayıcı Adı | Slayt No | Görevi ve Çalışma Prensibi (Sınav Tanımları) |
+| :---: | :--- | :---: | :--- |
+| **1** | **Retransmission Timer** | Slayt 29 | Gönderilen segmentlerin kaybolma ihtimaline karşı RTO süresini sayar. Süre biterse segment yeniden iletilir. |
+| **2** | **Persistence Timer** *(Kalıcılık / Israr)* | Slayt 30 | **Sıfır Pencere Kilitlenmesi (Deadlock) Çözümü:** Alıcı `rwnd = 0` bildirdikten sonra pencereyi açan yeni `ACK (rwnd > 0)` gönderse ve bu onay yolda kaybolsa iki taraf sonsuza kadar kilitlenir. Gönderici bu zamanlayıcı dolunca **1 baytlık özel Prob (Sonda) segmenti** yollar; alıcı güncel `rwnd` değerini tekrar göndermek zorunda kalır. |
+| **3** | **Keepalive Timer** *(Canlı Tutma)* | Slayt 31 | **Çöken İstemcileri Temizleme:** İstemci veri aktarıp aniden çöker veya sessizleşirse sunucu portu sonsuza kadar açık kalmasın diye **2 saatlik** sayaç başlatılır. 2 saat haber alınamazsa **75 saniye arayla 10 adet prob** yollanır; yanıt yoksa bağlantı sonlandırılır (`CLOSED`). |
+| **4** | **TIME-WAIT Timer** *(Sessiz Sayaç)* | Slayt 32 | **Temiz Kapanma ve Eski Paket Koruması:** Aktif kapatma yapan taraf son ACK'yı attıktan sonra **2 MSL (Maksimum Segment Ömrünün 2 katı)** kadar bekler. Son ACK kaybolursa sunucunun yeniden atacağı FIN'i karşılayabilmeyi ve eski bağlantının paketlerinin yeni oturuma karışmamasını sağlar. |
+
+---
+
+## 6.10. RTT ve RTO Değerlerinin Sayısal Hesabı (PDF Sayfa 15–17, Slayt 29, 33–34)
+![RTT ve RTO Tanımları](assets/slides/h4_s29_rtt_rto_tanim.png)
+![RTT ve RTO Sayısal Örnek Hesap](assets/slides/h4_s33_rtt_ornek_hesap.png)
+![RTT ve RTO Zaman Çizelgesi](assets/slides/h4_s34_rtt_zaman_cizelgesi.png)
+
+> [!TIP]
+> ### 🧮 Sınavda Kesin Çıkabilecek RTT / RTO Sayısal Soru Kalıbı
+> 
+> **Temel Formüller (Standart Sabitler: $\alpha = 1/8$, $\beta = 1/4$):**
+> 1. **Düzeltilmiş Ortalama RTT:**  
+>    $$\mathbf{RTT_s = \frac{7}{8} RTT_s + \frac{1}{8} RTT_m}$$
+> 2. **Sapma (Dalgalanma) Değeri:**  
+>    $$\mathbf{RTT_d = \frac{3}{4} RTT_d + \frac{1}{4} |RTT_s - RTT_m|}$$
+> 3. **Yeniden İletim Süresi:**  
+>    $$\mathbf{RTO = RTT_s + 4 \times RTT_d}$$
+> 
+> ---
+> 
+> **Slayt 33 ve 34'teki Örnek Problemin Adım Adım Çözümü:**
+> 
+> * **Adım 1: Bağlantı Başlatma (`SYN` Gönderildiğinde):**
+>   * Henüz hiçbir ölçüm yoktur ($RTT_m, RTT_s, RTT_d$ tanımsızdır).
+>   * Başlangıç varsayılanı olarak: $\mathbf{RTO = 6.00\text{ s}}$ atanır.
+> 
+> * **Adım 2: `SYN + ACK` Geldiğinde (İlk Ölçüm: $RTT_m = 1.5\text{ s}$):**
+>   * $RTT_s = RTT_m = \mathbf{1.50\text{ s}}$
+>   * İlk sapma değeri kural gereği ölçülen değerin yarısıdır: $RTT_d = \frac{1.5}{2} = \mathbf{0.75\text{ s}}$
+>   * $\mathbf{RTO} = RTT_s + 4 \times RTT_d = 1.50 + 4 \times (0.75) = 1.50 + 3.00 = \mathbf{4.50\text{ s}}$
+> 
+> * **Adım 3: İlk Veri Segmenti Gönderilip ACK Alındığında (İkinci Ölçüm: $RTT_m = 2.5\text{ s}$):**
+>   * $RTT_s = \left(\frac{7}{8} \times 1.50\right) + \left(\frac{1}{8} \times 2.50\right) = 1.3125 + 0.3125 = \mathbf{1.625\text{ s}}$
+>   * $RTT_d = \left(\frac{3}{4} \times 0.75\right) + \left(\frac{1}{4} \times |1.625 - 2.50|\right) = 0.5625 + \left(\frac{1}{4} \times 0.875\right) = 0.5625 + 0.21875 \approx \mathbf{0.78\text{ s}}$
+>   * $\mathbf{RTO} = RTT_s + 4 \times RTT_d = 1.625 + 4 \times (0.78) = 1.625 + 3.12 = \mathbf{4.74\text{ s}}$
+
+---
+
+## 6.11. TCP Opsiyonları ve İletim Kontrol Bloğu (TCB) (PDF Sayfa 18, Slayt 35–36)
+![TCP Opsiyonlar Şeması](assets/slides/h4_s35_tcp_opsiyonlar.png)
+![TCP İletim Kontrol Bloğu TCB](assets/slides/h4_s36_tcb_blok.png)
+
+* **Slayt 35 (TCP Başlık Opsiyonları – Maksimum 40 Byte):**
+  * **Tek Baytlık Seçenekler (Single-byte):**
+    * `End of option list (0)`: Opsiyon alanının sonunu belirtir, padding doldurur.
+    * `No operation (1)`: Seçenekleri 32-bit (4 bayt) kelime sınırına hizalamak için aralara boşluk atar.
+  * **Çok Baytlık Seçenekler (Multiple-byte):**
+    * `Maximum segment size (MSS)`: İstemci ve sunucunun tek bir segmentte kabul edebileceği maksimum veri boyutunu belirtir (Yalnızca SYN segmentlerinde iletilir!).
+    * `Window scale factor`: Pencere boyutu alanını (16 bit) sola kaydırarak 1 Gigabayta kadar genişletir (Yüksek hızlı ağlar için).
+    * `Timestamp`: RTT ölçümünü hassaslaştırmak için gidiş ve dönüş zaman damgalarını taşır.
+    * `SACK-permitted` ve `SACK`: Sırasız gelen blokların tek tek onaylanmasını sağlar.
+* **Slayt 36 (TCB - Transmission Control Block):**
+  * İşletim sisteminin her aktif TCP oturumu için bellekte tuttuğu veri yapısıdır.
+  * İçeriğinde: Bağlantı durumu (`State`), Süreç kimliği (`Process`), Yerel ve Uzak IP/Portlar, Alıcı/Gönderici tampon işaretçileri (`Pointers & Buffers`) ve 4 adet zamanlayıcı yer alır.
+
+---
+
+## 6.12. UDP (User Datagram Protocol): Yapısı, Başlığı ve Çalışma Modülleri (PDF Sayfa 19–22, Slayt 37–43)
+![UDP Genel Bilgiler](assets/slides/h4_s37_udp_genel.png)
+![UDP Başlık Formatı ve Portlar](assets/slides/h4_s38_udp_baslik.png)
+![UDP Checksum ve Sözde Başlık](assets/slides/h4_s39_udp_checksum.png)
+![UDP Kapsülleme ve Ters Kapsülleme](assets/slides/h4_s40_udp_kapsulleme.png)
+![UDP Kuyruklama Mimarisi](assets/slides/h4_s41_udp_kuyruklama.png)
+![UDP Çoğullama ve Ayırma](assets/slides/h4_s42_udp_multiplexing.png)
+![UDP Çalışma Yapısı Modülleri](assets/slides/h4_s43_udp_calisma_yapisi.png)
+
+* **Slayt 37 (UDP Temel Özellikleri):**
+  * Taşıma katmanında çalışır, veri birimine **Datagram** denir.
+  * **Bağlantısızdır (Connectionless):** Gönderimden önce el sıkışma veya sanal yol kurma yoktur.
+  * **Güvenilmezdir (Unreliable):** Akış kontrolü, tıkanıklık kontrolü ve paket onay (`ACK`) mekanizması **YOKTUR**.
+  * **Hata Durumu:** Kısıtlı hata kontrolü yapar; Checksum bozuk çıkarsa **paketi doğrudan atar (drop)**.
+  * **Kullanım Alanı:** Gecikmenin tolere edilemeyeceği gerçek zamanlı uygulamalar (**Multimedia streaming, VoIP, DNS, DHCP, TFTP, SNMP, NTP**).
+* **Slayt 38 (UDP Başlığı = `8 Byte`):**
+  * Sabit 8 bayttır, opsiyon alanı yoktur.
+  * `Source Port` (**16 bit** / 2 Byte)
+  * `Destination Port` (**16 bit** / 2 Byte)
+  * `Total Length` (**16 bit** / 2 Byte): UDP Başlığı + UDP Verisinin toplam bayt sayısıdır ($\text{Min} = 8\text{ B}$, $\text{Maks} = 65,535\text{ B}$).
+  * `Checksum` (**16 bit** / 2 Byte): İsteğe bağlıdır (Hesaplanmazsa tamamı 0 doldurulur).
+* **Slayt 39 (UDP Kontrol Toplamı / Checksum Hesabı):**
+  * Tıpkı TCP gibi IP katmanından alınan **12 Baytlık Sözde Başlığı (Pseudoheader)** hesaplamaya dahil eder:
+    $$\text{Kaynak IP (4B)} + \text{Hedef IP (4B)} + \text{Tümü 0 (1B)} + \text{Protokol: 17 (1B)} + \text{UDP Toplam Uzunluk (2B)} = \mathbf{12\text{ Byte}}$$
+  * Eğer veri bayt sayısı tek ise, 16-bitlik bloklara tamamlamak için sonuna geçici olarak **1 baytlık `0x00` (Padding)** eklenir. Toplama işleminden sonra bu padding atılır, kabloya iletilmez.
+* **Slayt 41 (UDP Kuyruklama / Queuing):**
+  * Her bir UDP portu için bir **Gelen Kuyruğu (Incoming Queue)** ve **Giden Kuyruğu (Outgoing Queue)** bulunur.
+  * Bir istemci bir porta veri gönderdiğinde, eğer hedef port için dinleyen bir süreç yoksa veya kuyruk tamamen doluysa paket düşürülür ve kaynak bilgisayara **`ICMP Port Unreachable (Type 3 Code 3)`** hata mesajı döndürülür!
+* **Slayt 42 (Multiplexing & Demultiplexing):**
+  * **Multiplexing (Çoğullama):** Farklı uygulamalardan gelen mesajlara UDP başlığı eklenip IP katmanına aktarılması.
+  * **Demultiplexing (Ayırma):** IP katmanından gelen datagramların hedef port numarasına göre doğru uygulama sürecinin giriş kuyruğuna dağıtılması.
 
 ---
 
