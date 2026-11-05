@@ -432,6 +432,40 @@
       color: var(--tip-title);
     }
 
+    /* Quiz & Accordion Details */
+    .markdown-body details {
+      margin: 10px 0 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--code-bg);
+      padding: 10px 16px;
+      transition: all 0.2s ease;
+    }
+
+    .markdown-body details[open] {
+      background: var(--bg-surface);
+      border-color: var(--accent);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+    }
+
+    .markdown-body summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13.8px;
+      color: var(--accent);
+      outline: none;
+      user-select: none;
+      padding: 4px 0;
+    }
+
+    .markdown-body summary:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-body details p {
+      margin-top: 10px;
+    }
+
     .markdown-body blockquote {
       margin: 14px 0;
       padding: 12px 18px;
