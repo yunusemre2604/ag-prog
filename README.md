@@ -27,8 +27,12 @@
    * [4.5. Hafta 3 Değerlendirme Soruları (20 Soru & Çözümleri)](#45-hafta-3-değerlendirme-soruları-20-soru--çözümleri)
 5. [5. Ders (Bölüm 1): Hafta 4 – Katman 4: TCP Segment Yapısı, 3-Way Handshake, Durum Şeması, Akış ve Hata Kontrolü](#5-ders-bölüm-1-hafta-4--katman-4-tcp-segment-yapısı-3-way-handshake-durum-şeması-akış-ve-hata-kontrolü)
    * [5.6. Hafta 4 Değerlendirme Soruları (20 Soru & Çözümleri)](#56-hafta-4-değerlendirme-soruları-20-soru--çözümleri)
-6. [6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP *(Sıradaki Konu)*](#6-ders-bölüm-2-hafta-4--katman-4-tcp-tıkanıklık-kontrolü-4-zamanlayıcı-rttrto-hesabı-ve-udp)
-7. [7. Ders: Hafta 5 – Soket Programlama (C & TCP İstemci-Sunucu Kodları) ⭐ *(Klasik Soru Konusu)*](#7-ders-hafta-5--soket-programlama-c--tcp-i̇stemci-sunucu-kodları-)
+6. [6. Ders (Bölüm 2): Hafta 4 – Katman 4: TCP Tıkanıklık Kontrolü, 4 Zamanlayıcı, RTT/RTO Hesabı ve UDP](#6-ders-bölüm-2-hafta-4--katman-4-tcp-tıkanıklık-kontrolü-4-zamanlayıcı-rttrto-hesabı-ve-udp)
+   * [6.13. Hafta 4 (Bölüm 2) Değerlendirme Soruları (20 Soru & Çözümleri)](#613-hafta-4-bölüm-2-değerlendirme-soruları-20-soru--çözümleri)
+7. [7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness) 🎯 *(Klasik Soru Konusu)*](#7-ders-hafta-5--soket-programlama-c-java-ve-endianness--vize-klasik--test)
+   * [7.8. Hafta 5 Değerlendirme Soruları (20 Soru & Çözümleri)](#78-hafta-5-değerlendirme-soruları-20-soru--çözümleri)
+8. [8. Ders: Hafta 6 – Katman 7 Protokolleri (FTP, SMTP, MIME, POP3/IMAP, SNMP, MIB, HTTP)](#8-ders-hafta-6--katman-7-protokolleri-ftp-smtp-mime-pop3imap-snmp-mib-http)
+   * [8.7. Hafta 6 Değerlendirme Soruları (20 Soru & Çözümleri)](#87-hafta-6-değerlendirme-soruları-20-soru--çözümleri)
 
 ---
 
@@ -2174,7 +2178,1067 @@ Alıcı `ackNo: 201, rwnd: 600` döner.
 ---
 
 # 7. Ders: Hafta 5 – Soket Programlama (C, Java ve Endianness) ⭐ [VİZE KLASİK & TEST]
-*(Bu bölüm bir sonraki çalışma adımımızda buraya eklenecektir)*
+**Kaynak Sunum ve Kodlar:** `Hafta-5 Soket Programlama.pdf` *(Toplam 27 PDF Sayfası / 54 Slayt)* & [`TCP Server-Client C Kodu.pdf`](./TCP%20Server-Client%20C%20Kodu.pdf)
+
+
+## 6.13. Hafta 4 (Bölüm 2) Değerlendirme Soruları (20 Soru & Çözümleri)
+
+### Soru 1: TCP Yeniden İletim Zamanlayıcısı (Retransmission Timer) Başlatılma Kuralı
+**Soru:** TCP'de gönderici tarafında yeniden iletim zamanlayıcısı (Retransmission Timer) çalışmıyorken hangi olay gerçekleştiğinde zamanlayıcı derhal başlatılır? (PDF Sayfa 13, Slayt 25)  
+- A) Alıcıdan herhangi bir ACK segmenti alındığında  
+- B) İletim kuyruğuna (buffer) yeni bir veri paketi girip hatta gönderildiğinde  
+- C) Bağlantı `ESTABLISHED` durumuna geçtiğinde  
+- D) Pencere boyutu (rwnd) 0 olduğunda  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 13, Slayt 25):** Slayt 25'teki sayaç kurallarına göre: *"Kuyrukta bekleyen veri olduğunda eğer sayaç çalışmıyorsa sayaç başlatılır."* Yeni bir segment hatta iletildiğinde sayaç RTO süresini saymaya başlar.
+</details>
+
+---
+
+### Soru 2: Retransmission Timer Sıfırlanma (Reset) Şartı
+**Soru:** TCP'de çalışan bir yeniden iletim sayacı, hatta bekleyen verilerden biri için geçerli bir ACK alındığında nasıl davranır? (PDF Sayfa 13, Slayt 25)  
+- A) Sayacı durdurur ve bağlantıyı sonlandırır  
+- B) Sayacı sıfırlar ve kuyrukta hala onay bekleyen veri varsa yeniden başlatır  
+- C) RTO değerini iki katına çıkarır  
+- D) Sayacın kalan süresine devam eder, hiçbir değişiklik yapmaz  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 13, Slayt 25):** Kural 3: *"Bekleyen veriler için bir ACK segmenti alındığında sayaç sıfırlanır ve bekleyen başka veri varsa sayaç yeniden başlatılır."* Tüm veriler onaylandığında ise sayaç tamamen durdurulur (Kural 2).
+</details>
+
+---
+
+### Soru 3: Yavaş Başlatma (Slow Start) ve cwnd Artış Hızı
+**Soru:** TCP Yavaş Başlatma (Slow Start) algoritmasında, her Başarılı RTT (Round Trip Time) süresi sonunda Tıkanıklık Penceresi (`cwnd`) nasıl bir artış sergiler? (PDF Sayfa 13, Slayt 26)  
+- A) Her RTT'de 1 MSS sabit artar (Doğrusal artış)  
+- B) Her RTT'de 2 katına çıkar (Üstel / Geometrik artış: 1, 2, 4, 8...)  
+- C) Her RTT'de yarıya düşer  
+- D) Alıcının bildirdiği rwnd değerine anında eşitlenir  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 13, Slayt 26):** Yavaş başlatma aşamasında `cwnd` başlangıçta 1 MSS'tir. Alınan her geçerli ACK için `cwnd` 1 MSS artırılır; bu da her bir RTT döngüsünde pencere boyutunun **2 katına çıkması (üstel artış)** anlamına gelir. Bu artış `ssthresh` (yavaş başlatma eşiği) değerine kadar devam eder.
+</details>
+
+---
+
+### Soru 4: Tıkanıklıktan Kaçınma (Congestion Avoidance)
+**Soru:** Tıkanıklık penceresi `cwnd` eşik değeri olan `ssthresh` seviyesine ulaştığında TCP hangi algoritmaya geçer ve artış hızı ne olur? (PDF Sayfa 14, Slayt 27)  
+- A) Hızlı Yeniden İletim (Fast Retransmit) algoritmasına geçer ve pencereyi 1 yapar  
+- B) Kalıcılık Zamanlayıcısına geçer ve veri iletimini durdurur  
+- C) Tıkanıklıktan Kaçınma (Congestion Avoidance) algoritmasına geçer ve her RTT'de 1 MSS artırır (Katkılı Artış)  
+- D) Pencere boyutunu dondurur ve hiç artırmaz  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 4 PDF Sayfa 14, Slayt 27):** `cwnd >= ssthresh` olduğunda ağ tıkanıklığı riskine karşı üstel artış durdurulur ve **Katkılı Artış (Additive Increase)** evresine geçilir. Bu evrede `cwnd` her tam RTT periyodunda sadece **+1 MSS** kadar doğrusal artar.
+</details>
+
+---
+
+### Soru 5: Kalıcılık Zamanlayıcısı (Persistence Timer) ve Zero-Window Deadlock
+**Soru:** TCP'de alıcı taraf "rwnd = 0" (Pencerem doldu, gönderme) bildirdikten sonra, tamponu boşalıp gönderdiği "rwnd = 4000" ACK paketinin ağda kaybolması durumunda iki tarafın da birbirini sonsuza kadar beklemesini (Kilitlenme / Deadlock) hangi zamanlayıcı çözer? (PDF Sayfa 14, Slayt 28, 30)  
+- A) Retransmission Timer  
+- B) Persistence Timer (Kalıcılık Zamanlayıcısı)  
+- C) Keepalive Timer  
+- D) Time-Wait Timer  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 14 & 15, Slayt 28, 30):** Kalıcılık zamanlayıcısı alıcı pencere boyutunu 0 ilan ettiğinde başlatılır. Süre dolduğunda gönderici alıcıya 1 baytlık **Probe (Sonda)** segmenti yollar; alıcı buna güncel pencere durumunu içeren ACK ile cevap vermek zorunda kalır ve kilitlenme kırılır.
+</details>
+
+---
+
+### Soru 6: Tutma Zamanlayıcısı (Keepalive Timer)
+**Soru:** Bir istemci TCP bağlantısı kurulduktan sonra aniden çökerse veya bağlantısı koparsa, sunucunun o istemci için ayırdığı kaynakları sonsuza kadar açık tutmasını engelleyen zamanlayıcı hangisidir ve varsayılan süresi nedir? (PDF Sayfa 14, 16, Slayt 28, 31)  
+- A) Time-Wait Timer - 2 dakika  
+- B) Retransmission Timer - 5 saniye  
+- C) Keepalive Timer - Genellikle 2 saat  
+- D) Persistence Timer - 60 saniye  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 4 PDF Sayfa 16, Slayt 31):** Keepalive sayacı bağlantı üzerinde belirli bir süre (genellikle **2 saat**) hiçbir veri hareketi olmadığında devreye girer. Sunucu 75 saniye aralıklarla 10 adet probe paketi gönderir; cevap alamazsa bağlantıyı sonlandırır.
+</details>
+
+---
+
+### Soru 7: Sessiz Zamanlayıcı (Time-Wait Timer) ve 2MSL
+**Soru:** TCP bağlantı kapatma aşamasında aktif kapatmayı yapan tarafın `TIME_WAIT` durumunda bekleme süresi ve temel amacı aşağıdakilerden hangisidir? (PDF Sayfa 16, Slayt 32)  
+- A) 1 RTO süresi kadar bekler; amaç sunucuya veri göndermektir  
+- B) 2MSL (Maximum Segment Lifetime, 2-4 dakika) kadar bekler; son ACK'nın kaybolması ihtimaline karşı ve ağda dolaşan eski paketlerin yeni bağlantıya karışmasını önler  
+- C) 2 saat bekler; amacı bağlantıyı canlı tutmaktır  
+- D) Beklemez, `TIME_WAIT`'ten anında `CLOSED` durumuna geçer  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 16, Slayt 32):** `TIME_WAIT` süresi **2MSL**'dir (tipik olarak 2 veya 4 dakika). Gönderilen son ACK kaybolursa karşı tarafın yeniden yollayacağı FIN segmentini karşılayıp tekrar ACK göndermek ve ağda gecikmiş eski kopyaların yeni kurulacak bağlantıyı kirletmesini önlemek için beklenir.
+</details>
+
+---
+
+### Soru 8: RTT_S (Smoothed RTT) Formülü ve Ağırlık Katsayısı
+**Soru:** TCP'de düzeltilmiş RTT ($RTT_S$) hesaplanırken kullanılan formül ve RFC 2988 tarafından önerilen $lpha$ (alfa) katsayısı nedir? (PDF Sayfa 15, Slayt 29)  
+- A) $RTT_S = RTT_S + RTT_M$, $lpha = 0.5$  
+- B) $RTT_S = (1 - lpha) RTT_S + lpha RTT_M$, $lpha = 1/8$ ($0.125$)  
+- C) $RTT_S = lpha RTT_S + (1 - lpha) RTT_M$, $lpha = 1/4$ ($0.25$)  
+- D) $RTT_S = 4 	imes RTT_D$, $lpha = 0.75$  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 15, Slayt 29):** Formül: $RTT_S = (1 - lpha) RTT_S + lpha RTT_M$ şeklindedir. Standart $lpha$ değeri $1/8 = 0.125$'tir (%87.5 geçmiş tecrübe, %12.5 yeni ölçüm ağırlığı).
+</details>
+
+---
+
+### Soru 9: RTO (Retransmission Time-Out) Hesaplama Formülü
+**Soru:** Jacobson algoritmasına göre RTO süresi $RTT_S$ (düzeltilmiş RTT) ve $RTT_D$ (sapma) cinsinden nasıl hesaplanır? (PDF Sayfa 15, Slayt 29)  
+- A) $RTO = RTT_S + RTT_D$  
+- B) $RTO = 2 	imes RTT_S + RTT_D$  
+- C) $RTO = RTT_S + 4 	imes RTT_D$  
+- D) $RTO = 4 	imes RTT_S + RTT_D$  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 4 PDF Sayfa 15, Slayt 29 & 33):** RTO süresi $RTO = RTT_S + 4 	imes RTT_D$ formülü ile bulunur.
+</details>
+
+---
+
+### Soru 10: İlk Segment İçin Başlangıç RTO Hesabı (Sayısal Örnek)
+**Soru:** İlk segment gönderildiğinde ölçülen $RTT_M = 100	ext{ ms}$ ise, slayt kurallarına göre ilk hesaplanan $RTT_S$, $RTT_D$ ve $RTO$ değerleri sırasıyla nedir? (PDF Sayfa 16, Slayt 33)  
+- A) $RTT_S = 100	ext{ ms}$, $RTT_D = 50	ext{ ms}$, $RTO = 300	ext{ ms}$  
+- B) $RTT_S = 100	ext{ ms}$, $RTT_D = 25	ext{ ms}$, $RTO = 200	ext{ ms}$  
+- C) $RTT_S = 50	ext{ ms}$, $RTT_D = 50	ext{ ms}$, $RTO = 250	ext{ ms}$  
+- D) $RTT_S = 100	ext{ ms}$, $RTT_D = 0	ext{ ms}$, $RTO = 100	ext{ ms}$  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: A**  
+**Açıklama (Hafta 4 PDF Sayfa 16, Slayt 33):** İlk ölçüm kuralına göre:
+1. $RTT_S = RTT_M = 100	ext{ ms}$
+2. $RTT_D = RTT_M / 2 = 100 / 2 = 50	ext{ ms}$
+3. $RTO = RTT_S + 4 	imes RTT_D = 100 + 4 	imes 50 = 100 + 200 = 300	ext{ ms}$.
+</details>
+
+---
+
+### Soru 11: İkinci Segment RTT ve RTO Güncellemesi (Sayısal Örnek)
+**Soru:** Bir önceki sorudaki bağlantıda ($RTT_S=100	ext{ ms}$, $RTT_D=50	ext{ ms}$), 2. segment için $RTT_M = 120	ext{ ms}$ ölçülmüştür ($lpha=1/8$, $eta=1/4$). Yeni $RTT_S$ ve $RTT_D$ değerleri nedir? (PDF Sayfa 16, Slayt 33)  
+- A) $RTT_S = 102.5	ext{ ms}$, $RTT_D = 42.5	ext{ ms}$  
+- B) $RTT_S = 110	ext{ ms}$, $RTT_D = 55	ext{ ms}$  
+- C) $RTT_S = 120	ext{ ms}$, $RTT_D = 60	ext{ ms}$  
+- D) $RTT_S = 105	ext{ ms}$, $RTT_D = 35	ext{ ms}$  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: A**  
+**Açıklama (Hafta 4 PDF Sayfa 16, Slayt 33):**
+* $RTT_S = rac{7}{8}(100) + rac{1}{8}(120) = 87.5 + 15 = 102.5	ext{ ms}$
+* Sapma farkı: $|102.5 - 120| = 17.5	ext{ ms}$
+* $RTT_D = rac{3}{4}(50) + rac{1}{4}(17.5) = 37.5 + 4.375 pprox 42.5	ext{ ms}$ (veya Slayt 33 tablosundaki yuvarlama değeri).
+* $RTO = 102.5 + 4 	imes 42.5 = 272.5	ext{ ms}$.
+</details>
+
+---
+
+### Soru 12: Karn Algoritması ve Zamanlayıcı Katlama (Timer Backoff)
+**Soru:** Karn algoritmasına göre bir TCP segmenti zaman aşımına uğrayıp yeniden iletildiğinde (Retransmission):  
+I. Gelen ACK için RTT ölçümü yapılmaz (RTT_M geçersiz sayılır).  
+II. RTO değeri iki katına çıkarılır ($RTO = 2 	imes RTO$).  
+ifadelerinden hangileri doğrudur? (PDF Sayfa 17, Slayt 34)  
+- A) Yalnız I  
+- B) Yalnız II  
+- C) I ve II  
+- D) Hiçbiri  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 4 PDF Sayfa 17, Slayt 34):** Karn algoritması gereği: Yeniden iletilen segmentin ACK'sının ilk pakete mi yoksa ikinci pakete mi ait olduğu anlaşılamaz (ACK belirsizliği). Bu yüzden RTT ölçümü yapılmaz ve tıkanıklığı hafifletmek için RTO süresi 2 ile çarpılarak iki katına çıkarılır (Timer Backoff).
+</details>
+
+---
+
+### Soru 13: TCP Opsiyon Alanının Maksimum Boyutu
+**Soru:** Bir TCP başlığında opsiyonlar alanı (Options) en fazla kaç bayt olabilir? (PDF Sayfa 18, Slayt 35)  
+- A) 20 Byte  
+- B) 40 Byte  
+- C) 60 Byte  
+- D) 64 Byte  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 18, Slayt 35):** TCP başlığının toplam boyutu 20 ile 60 bayt arasındadır (HLEN alanı 4-bit, 4'lük katlarla $15 	imes 4 = 60$ bayt). Sabit başlık 20 bayt olduğuna göre opsiyonlar alanı en fazla $60 - 20 = 40$ bayt olabilir.
+</details>
+
+---
+
+### Soru 14: TCP Tek Baytlık Opsiyonlar
+**Soru:** TCP opsiyonlarında tür (Kind) değeri 1 bayt olan ve uzunluk (Length) alanı içermeyen tek baytlık seçenekler hangileridir? (PDF Sayfa 18, Slayt 35)  
+- A) MSS ve Window Scale  
+- B) NOP (No Operation) ve EOP / End of Option List  
+- C) SACK ve Timestamp  
+- D) Checksum ve URG  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 18, Slayt 35):** Tek baytlık seçenekler:
+* `Kind = 0`: Seçenekler Sonu (End of Option List)
+* `Kind = 1`: İşlemsiz (No Operation - NOP, 4 baytlık hizalama için dolgu amaçlı kullanılır). Diğer seçenekler (MSS, SACK, Pencere Ölçeği) çok baytlıdır.
+</details>
+
+---
+
+### Soru 15: MSS (Maximum Segment Size) Opsiyonu
+**Soru:** TCP başlığında MSS (Maximum Segment Size) seçeneği ne zaman ve hangi amaçla belirlenir? (PDF Sayfa 18, Slayt 35)  
+- A) Her veri iletiminde dinamik olarak değişir  
+- B) Sadece bağlantı kurma aşamasında (`SYN` segmentinde) taşınır ve tarafın alabileceği maksimum veri baytını bildirir  
+- C) Bağlantı kapatılırken `FIN` paketinde gönderilir  
+- D) Sadece UDP paketlerinde kullanılır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 18, Slayt 35):** MSS opsiyonu yalnızca bağlantı kurulurken el sıkışma (`SYN` bayraklı) paketlerinde bildirilir. Varsayılan değer belirtilmezse 536 bayttır.
+</details>
+
+---
+
+### Soru 16: İletim Kontrol Bloğu (TCB - Transmission Control Block)
+**Soru:** İşletim sisteminde TCP bağlantısının durumunu, yerel/uzak IP ve portlarını, pencere boyutlarını, RTO sayacını ve gönderme/alma tamponlarını saklayan bellek veri yapısına ne ad verilir? (PDF Sayfa 18, Slayt 36)  
+- A) PCB (Process Control Block)  
+- B) TCB (Transmission Control Block)  
+- C) ARP Tablosu  
+- D) Routing Table  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 18, Slayt 36):** TCP her aktif bağlantı için çekirdek belleğinde bir **TCB (Transmission Control Block)** oluşturur ve bağlantı ömrü boyunca tüm durum parametrelerini bu blokta tutar.
+</details>
+
+---
+
+### Soru 17: UDP Başlık Formatı ve Alan Boyutları
+**Soru:** UDP başlığının toplam sabit boyutu kaç bayttır ve hangi alanlardan oluşur? (PDF Sayfa 19-20, Slayt 37-38)  
+- A) 20 Byte (Kaynak Port, Hedef Port, Sıra No, ACK No)  
+- B) 8 Byte (Kaynak Port 2B, Hedef Port 2B, Toplam Uzunluk 2B, Checksum 2B)  
+- C) 16 Byte (Portlar ve 32-bit Checksum)  
+- D) Değişken boyutlu (8-60 Byte arası)  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 20, Slayt 38):** UDP başlığı son derece basittir ve sabit **8 bayt**tır. 4 alandan oluşur:
+1. Kaynak Port (16 bit / 2 Byte)
+2. Hedef Port (16 bit / 2 Byte)
+3. Toplam Uzunluk (16 bit / 2 Byte)
+4. Kontrol Sağlaması / Checksum (16 bit / 2 Byte).
+</details>
+
+---
+
+### Soru 18: UDP Sözde Başlık (Pseudo Header)
+**Soru:** UDP'de checksum hesaplanırken Katman 3'ten alınan bilgilerle oluşturulan Sözde Başlık (Pseudo Header) kaç bayttır ve hangi bilgileri içerir? (PDF Sayfa 20, Slayt 39)  
+- A) 8 Byte - Sadece IP adresleri  
+- B) 12 Byte - Kaynak IP (4B), Hedef IP (4B), 8-bit Sıfır (1B), Protokol No=17 (1B), UDP Toplam Uzunluğu (2B)  
+- C) 20 Byte - Standart IPv4 başlığı  
+- D) 16 Byte - MAC adresleri ve IP adresleri  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 20, Slayt 39):** Sözde başlık **12 bayt**tır:
+* Kaynak IP Adresi (4 Byte)
+* Hedef IP Adresi (4 Byte)
+* Tümü sıfır alanı (1 Byte)
+* Protokol Numarası (1 Byte, UDP için 17)
+* UDP Toplam Uzunluğu (2 Byte).
+Bu başlık pakete eklenip gönderilmez, sadece gönderici ve alıcıda checksum hesabı yapılırken bellekte geçici olarak eklenir.
+</details>
+
+---
+
+### Soru 19: UDP Checksum Zorunluluğu
+**Soru:** IPv4 altında UDP protokolünde Checksum alanı kullanımı hakkında aşağıdakilerden hangisi doğrudur? (PDF Sayfa 20, Slayt 38-39)  
+- A) Kullanımı zorunludur, hesaplanmazsa paket atılır  
+- B) IPv4'te isteğe bağlıdır (opsiyoneldir); eğer gönderici checksum hesaplamazsa bu alana tamamen sıfır (`0x0000`) yazar  
+- C) Sadece broadcast paketlerde zorunludur  
+- D) Checksum alanı 32-bit CRC algoritması kullanır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 20, Slayt 38):** IPv4'te UDP checksum kullanımı opsiyoneldir. Gönderici hesaplamak istemezse alana `0x0000` yazar. (Not: IPv6'da UDP checksum zorunlu hale getirilmiştir).
+</details>
+
+---
+
+### Soru 20: UDP Kuyruklama Mimarisi (Queuing)
+**Soru:** UDP'de gelen paketler istemci veya sunucu süreçlerine nasıl teslim edilir? (PDF Sayfa 21, Slayt 41)  
+- A) Süreç doğrudan ağ kartındaki ham tamponu okur  
+- B) İşletim sistemi her açık UDP portu için bir Giriş Kuyruğu (Incoming Queue) ve Çıkış Kuyruğu (Outgoing Queue) tahsis eder; kuyruk dolarsa gelen paketler sessizce atılır  
+- C) Paketler TCP gibi sıralı bir yeniden düzenleme kuyruğuna sokulur  
+- D) Alıcı her paket için tek tek ACK gönderir  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 4 PDF Sayfa 21, Slayt 41):** UDP kuyruklama modelinde işletim sistemi her soket için gelen ve giden kuyrukları tutar. Süreç kuyruktan veriyi yeterince hızlı çekemezse gelen kuyruğu taşar ve gelen UDP datagramları akış kontrolü olmadığı için kaybolur (drop edilir).
+</details>
+
+
+---
+
+## 7.1. Soket Kavramı ve 3 Temel Soket Türü (PDF Sayfa 2–3, Slayt 3–5)
+![Soket Türleri](assets/slides/h5_s4_soket_turleri.png)
+
+* **Soket Tanımı (Slayt 3):** Soketler, TCP veya UDP kullanan iki bilgisayar arasındaki genel iletişim mekanizmasını sağlayan standart API'lerdir (*Application Programming Interface*).
+* Bir soket mantıksal olarak 3 ana parametrenin birleşimidir:
+  $$\mathbf{Soket} = \mathbf{IP\ Adresi} + \mathbf{Port\ Numaras\imath} + \mathbf{Ta\mbox{ş}\imath ma\ Katman\ Protokol\ddot{u}\ (TCP/UDP)}$$
+* **Slayt 4 (3 Temel Soket Türü - Sınav Sınıflandırması):**
+  1. **Akış Soketleri (`Stream Sockets - SOCK_STREAM`):** **TCP temellidir.** Bağlantı yönelimlidir, güvenilirdir ve çift yönlü kesintisiz bayt akışı sağlar.
+  2. **Datagram Soketler (`Datagram Sockets - SOCK_DGRAM`):** **UDP temellidir.** Bağlantısızdır, güvenilmezdir. Mesajlar bağımsız datagramlar halinde iletilir; maksimum mesaj uzunluğu sınırlıdır.
+  3. **Ham Soketler (`Raw Sockets - SOCK_RAW`):** Taşıma katmanını atlayarak doğrudan Katman 3 (IP) ve Katman 2 (Ethernet) seviyesinde ham paket oluşturma ve yakalama imkanı sunar (`libpcap` uygulamalarımız ham paket mantığıyla çalışır).
+* **Slayt 5 (Tanımlayıcı Tablosu / Descriptor Table):** İşletim sistemi her açık soket için tanımlayıcı tablosunda bir giriş tutar (`Family: PF_INET`, `Service: SOCK_STREAM`, Yerel/Uzak IP ve Port).
+
+---
+
+## 7.2. İstemci-Sunucu Mimarisi ve 10 Temel Soket Prosedürü (PDF Sayfa 3–5, Slayt 6–10)
+![Soket Prosedürleri](assets/slides/h5_s7_soket_prosedurleri.png)
+![sockaddr ve sockaddr_in Yapıları](assets/slides/h5_s8_sockaddr_in.png)
+
+* **Sunucu (Server - Slayt 6):** Pasif soket yapısı kullanır. Belirli bir portu dinler (`LISTEN`) ve istemcilerden gelen bağlantı isteklerini bekler.
+* **İstemci (Client - Slayt 6):** Aktif soket yapısı kullanır. Sunucunun IP ve portunu bilerek bağlantıyı başlatan taraftır (`connect`).
+
+| No | C Fonksiyonu | Görevi ve Sınav Açıklaması (Slayt 7) | TCP / UDP |
+| :---: | :--- | :--- | :---: |
+| **1** | `socket()` | Uç noktalarda yeni bir soket tanımlayıcısı oluşturur. | Her İkisi |
+| **2** | `bind()` | Bir lokal IP ve port numarasını oluşturulan sokete bağlar / ilişkilendirir. | Her İkisi |
+| **3** | `listen()` | Soketi pasif dinleme moduna alır; bağlantı kuyruk sınırını belirler. *(Asla veri iletmez!)* | **Yalnızca TCP Sunucu** |
+| **4** | `connect()` | İstemcinin uzak sunucu soketine 3 yollu el sıkışma bağlantısını başlatmasını sağlar. | **Yalnızca TCP İstemci** |
+| **5** | `accept()` | Kuyrukta bekleyen yeni bir istemci bağlantısını kabul eder ve ona özel yeni bir veri soketi döner. | **Yalnızca TCP Sunucu** |
+| **6** | `write()` / `send()` | Akış soketine veri yazar / gönderir. | TCP |
+| **7** | `read()` / `recv()` | Akış soketinden veri okur / alır. | TCP |
+| **8** | `sendto()` | Bağlantısız UDP soketine hedef adresini belirterek datagram gönderir. | **Yalnızca UDP** |
+| **9** | `recvfrom()` | Bağlantısız UDP soketinden datagram okur ve gönderenin adresini alır. | **Yalnızca UDP** |
+| **10**| `close()` | Soketi kapatır; kullanılan port numarasını sisteme iade eder. | Her İkisi |
+
+* **Slayt 8 (Adres Yapıları):**
+  * `struct sockaddr`: Soket API'sinin kullandığı 16 baytlık genel adres yapısıdır.
+  * `struct sockaddr_in`: IPv4 için özelleştirilmiş yapıdır (`sin_family = AF_INET; sin_port = htons(PORT); sin_addr.s_addr = htonl(INADDR_ANY);`). Fonksiyonlara geçirilirken `(struct sockaddr *)` tür dönüşümü (cast) yapılır.
+
+---
+
+## 7.3. TCP ve UDP İletişim Akış Şeması (PDF Sayfa 6, Slayt 11)
+![TCP ve UDP İstemci Sunucu İletişim Akışı](assets/slides/h5_s11_iletisim_akisi.png)
+
+> [!IMPORTANT]
+> **Sınav Karşılaştırması (TCP vs UDP Akış Adımları):**
+> * **TCP Akışı (Stream):**
+>   * *Sunucu:* `socket()` $\rightarrow$ `bind()` $\rightarrow$ `listen()` $\rightarrow$ `accept()` (Bloklanır) $\rightarrow$ `read()/write()` $\rightarrow$ `close()`
+>   * *İstemci:* `socket()` $\rightarrow$ `connect()` (Senkronizasyon) $\rightarrow$ `write()/read()` $\rightarrow$ `close()`
+> * **UDP Akışı (Datagram):**
+>   * *Sunucu:* `socket()` $\rightarrow$ `bind()` $\rightarrow$ `recvfrom()` $\rightarrow$ `sendto()` $\rightarrow$ `close()`  
+>     *(DİKKAT: Sunucuda KESİNLİKLE `listen()` ve `accept()` ÇAĞRILMAZ!)*
+>   * *İstemci:* `socket()` $\rightarrow$ `sendto()` $\rightarrow$ `recvfrom()` $\rightarrow$ `close()`  
+>     *(İstemcide `bind()` ve `connect()` çağrılmasına gerek yoktur).*
+
+---
+
+## 7.4. ⭐ [40 PUANLIK KLASİK SINAV KODU] C Dili ile TCP İstemci - Sunucu Kod Analizi
+**Kaynak:** [`TCP Server-Client C Kodu.pdf`](./TCP%20Server-Client%20C%20Kodu.pdf) *(Dr. Musa Balta'nın Sınav Kod Dosyası)*
+
+![TCP Sunucu socket Oluşturma](assets/slides/h5_s23_tcp_server_socket.png)
+![TCP Sunucu bind İşlemi](assets/slides/h5_s24_tcp_server_bind.png)
+![TCP Sunucu listen Dinleme](assets/slides/h5_s25_tcp_server_listen.png)
+![TCP Sunucu accept Kabul Etme](assets/slides/h5_s26_tcp_server_accept.png)
+![TCP İstemci socket Oluşturma](assets/slides/h5_s27_tcp_client_socket.png)
+![TCP İstemci connect Bağlantısı](assets/slides/h5_s28_tcp_client_connect.png)
+
+```c
+// ============================================================================
+// 1) TCP SUNUCU KODU (Server - TCP Server-Client C Kodu.pdf Sayfa 1)
+// ============================================================================
+#include <stdio.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h> // read(), write(), close()
+
+#define MAX 80
+#define PORT 8080
+#define SA struct sockaddr
+
+void func(int connfd) {
+    char buff[MAX];
+    int n;
+    for (;;) {
+        bzero(buff, MAX);
+        read(connfd, buff, sizeof(buff)); // İstemciden gelen mesajı oku
+        printf("From client: %s\t To client : ", buff);
+        bzero(buff, MAX);
+        n = 0;
+        while ((buff[n++] = getchar()) != '\n'); // Sunucudan cevabı al
+        write(connfd, buff, sizeof(buff));       // İstemciye gönder
+        if (strncmp("exit", buff, 4) == 0) {
+            printf("Server Exit...\n");
+            break;
+        }
+    }
+}
+
+int main() {
+    int sockfd, connfd, len;
+    struct sockaddr_in servaddr, cli;
+
+    // 1. Soket oluşturma
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1) {
+        printf("socket creation failed...\n");
+        exit(0);
+    }
+    bzero(&servaddr, sizeof(servaddr));
+
+    // 2. IP ve PORT adresi atama
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY); // Tüm yerel arayüzleri kabul et
+    servaddr.sin_port = htons(PORT);              // Port numarasını Big-Endian yap
+
+    // 3. Soketi bağlama (bind)
+    if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+        printf("socket bind failed...\n");
+        exit(0);
+    }
+
+    // 4. Dinleme moduna alma (listen)
+    if ((listen(sockfd, 5)) != 0) {
+        printf("Listen failed...\n");
+        exit(0);
+    }
+    len = sizeof(cli);
+
+    // 5. İstemci bağlantısını kabul etme (accept) - BLOKLAYAN ÇAĞRI
+    connfd = accept(sockfd, (SA*)&cli, &len);
+    if (connfd < 0) {
+        printf("server accept failed...\n");
+        exit(0);
+    }
+
+    // 6. İletişim ve Soketi Kapatma
+    func(connfd);
+    close(sockfd);
+}
+
+// ============================================================================
+// 2) TCP İSTEMCİ KODU (Client - TCP Server-Client C Kodu.pdf Sayfa 2)
+// ============================================================================
+#include <arpa/inet.h> // inet_addr()
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h> // bzero()
+#include <sys/socket.h>
+#include <unistd.h> // read(), write(), close()
+
+#define MAX 80
+#define PORT 8080
+#define SA struct sockaddr
+
+void func(int sockfd) {
+    char buff[MAX];
+    int n;
+    for (;;) {
+        bzero(buff, sizeof(buff));
+        printf("Enter the string : ");
+        n = 0;
+        while ((buff[n++] = getchar()) != '\n');
+        write(sockfd, buff, sizeof(buff)); // Sunucuya gönder
+        bzero(buff, sizeof(buff));
+        read(sockfd, buff, sizeof(buff));  // Sunucudan cevabı oku
+        printf("From Server : %s", buff);
+        if ((strncmp(buff, "exit", 4)) == 0) {
+            printf("Client Exit...\n");
+            break;
+        }
+    }
+}
+
+int main() {
+    int sockfd, connfd;
+    struct sockaddr_in servaddr, cli;
+
+    // 1. Soket oluşturma
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1) {
+        printf("socket creation failed...\n");
+        exit(0);
+    }
+    bzero(&servaddr, sizeof(servaddr));
+
+    // 2. Sunucu IP ve PORT adresi atama
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // Sunucunun IP adresi
+    servaddr.sin_port = htons(PORT);
+
+    // 3. Sunucuya bağlanma (connect) - 3 yollu el sıkışmayı başlatır
+    if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
+        printf("connection with the server failed...\n");
+        exit(0);
+    }
+
+    // 4. İletişim ve Soketi Kapatma
+    func(sockfd);
+    close(sockfd);
+}
+```
+
+---
+
+## 7.5. Java Soket Programlama Mimarisi (PDF Sayfa 19–23, Slayt 38–46)
+![Java Soket Mimarisi](assets/slides/h5_s38_java_mimari.png)
+
+* **Paketler:**
+  * `java.net`: Ağ iletişim sınıfları (`ServerSocket`, `Socket`, `DatagramSocket`, `DatagramPacket`).
+  * `java.io`: Bayt tabanlı (`InputStream`, `OutputStream`) ve Karakter tabanlı (`BufferedReader`, `PrintWriter`) giriş/çıkış akışları.
+* **1) `ServerSocket` Sınıfı (Sunucu - Slayt 41–42):**
+  * Kurucular: `ServerSocket(int port)`, `ServerSocket(int port, int backlog)`, `ServerSocket(int port, int backlog, InetAddress address)`.
+  * `Socket accept()`: İstemci bağlanana kadar engellenir (bloklanır) ve bağlantı kurulunca `Socket` döner.
+  * `int getLocalPort()`: Sunucunun dinlediği yerel portu döner.
+  * `void setSoTimeout(int timeout)`: `accept()` için zaman aşımı süresini belirler.
+* **2) `Socket` Sınıfı (İstemci & İletişim - Slayt 43–46):**
+  * Kurucu: `Socket(String host, int port)` $\rightarrow$ Sunucuya bağlanır.
+  * `InputStream getInputStream()`: Soketten veri okuma akışını döner (Uzak soketin çıkış akışına bağlıdır).
+  * `OutputStream getOutputStream()`: Sokete veri yazma akışını döner (Uzak soketin giriş akışına bağlıdır).
+  * `int getPort()`: Uzak makinenin (sunucunun) portunu döner.
+  * `int getLocalPort()`: İstemcinin yerel portunu döner.
+
+---
+
+## 7.6. Mesaj Kodlama ve Byte Dizilimi (Endianness) (PDF Sayfa 24–27, Slayt 47–53)
+![Endianness Kavramı](assets/slides/h5_s50_endian_kavrami.png)
+![Bellekte Byte Dizilimi](assets/slides/h5_s51_endian_bellek.png)
+![Byte Ordering Dönüşüm Rutinleri](assets/slides/h5_s52_byte_ordering_rutinler.png)
+
+> [!IMPORTANT]
+> ### 🔀 Sınavın Garanti Endianness Konusu:
+> * **Little-Endian:** Düşük ağırlıklı bayt (LSB) düşük bellek adresine yazılır (Intel x86/x64).
+> * **Big-Endian:** Yüksek ağırlıklı bayt (MSB) düşük bellek adresine yazılır (Ağ standartı!).
+> * **Host Byte-Ordering:** Bilgisayarın kendi işlemcisinin bayt sırasıdır (Little-Endian).
+> * **Network Byte-Ordering:** Ağ standartı olan bayt sırasıdır: **HER ZAMAN BİG-ENDİAN'DIR!**
+> 
+> | Fonksiyon | Açılımı | Boyut | Kullanım Yeri |
+> | :--- | :--- | :---: | :--- |
+> | **`htons(x)`** | *Host to Network Short* | **16 bit** | Port numaralarını Big-Endian'a çevirir (`servaddr.sin_port = htons(PORT)`). |
+> | **`htonl(x)`** | *Host to Network Long* | **32 bit** | IP adreslerini Big-Endian'a çevirir (`servaddr.sin_addr.s_addr = htonl(INADDR_ANY)`). |
+> | **`ntohs(x)`** | *Network to Host Short* | **16 bit** | Ağdan gelen portu makine formatına çevirir. |
+> | **`ntohl(x)`** | *Network to Host Long* | **32 bit** | Ağdan gelen IP'yi makine formatına çevirir. |
+
+---
+
+# 8. Ders: Hafta 6 – Katman 7 Protokolleri (FTP, SMTP, MIME, POP3/IMAP, SNMP, MIB, HTTP)
+**Kaynak Sunum:** `Hafta-6 Katman7 Protokolleri.pdf` *(Toplam 28 PDF Sayfası / 55 Slayt)*
+
+
+## 7.8. Hafta 5 Değerlendirme Soruları (20 Soru & Çözümleri)
+
+### Soru 1: Üç Temel Soket Türü
+**Soru:** Berkeley Soket API'sinde `socket()` çağrısında kullanılan soket türlerinden hangisi TCP protokolü ile güvenilir, çift yönlü bayt akışı sağlar? (PDF Sayfa 2-3, Slayt 4-5)  
+- A) `SOCK_DGRAM`  
+- B) `SOCK_RAW`  
+- C) `SOCK_STREAM`  
+- D) `SOCK_PACKET`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 5 PDF Sayfa 2, Slayt 4):**
+* `SOCK_STREAM`: Bağlantı yönelimli, güvenilir, çift yönlü TCP akış soketidir.
+* `SOCK_DGRAM`: Bağlantısız, güvenilmez UDP datagram soketidir.
+* `SOCK_RAW`: Doğrudan Katman 3/Katman 2 başlıklarına erişim sağlayan ham sokettir.
+</details>
+
+---
+
+### Soru 2: Soket Tanımlayıcısı (Descriptor) Nedir?
+**Soru:** `socket()` sistem çağrısı başarıyla tamamlandığında geriye dönen değer nedir? (PDF Sayfa 3, Slayt 5)  
+- A) Bir IP adresi dizgisidir  
+- B) İşletim sisteminin açık soketler tablosundaki indeksi temsil eden küçük bir pozitif tamsayıdır (file/socket descriptor)  
+- C) Bir pointer (hafıza adresi) referansıdır  
+- D) Port numarasıdır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 3, Slayt 5):** Soket tanımlayıcısı UNIX/Linux ve Windows mimarisinde açık bir dosya/soket girişini gösteren tamsayı (integer / file descriptor) değeridir. Hata durumunda negatif değer (`-1`) döner.
+</details>
+
+---
+
+### Soru 3: Sunucu Soket Adımlarının Doğru Sırası
+**Soru:** Bir TCP sunucu uygulamasının bağlantı kabul edebilmesi için çağırması gereken prosedürlerin doğru kronolojik sırası hangisidir? (PDF Sayfa 4, Slayt 7)  
+- A) `socket()` $ightarrow$ `listen()` $ightarrow$ `bind()` $ightarrow$ `accept()`  
+- B) `socket()` $ightarrow$ `bind()` $ightarrow$ `listen()` $ightarrow$ `accept()`  
+- C) `bind()` $ightarrow$ `socket()` $ightarrow$ `connect()` $ightarrow$ `accept()`  
+- D) `socket()` $ightarrow$ `connect()` $ightarrow$ `listen()` $ightarrow$ `accept()`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 4, Slayt 7):** TCP Sunucu yaşam döngüsü:
+1. `socket()`: Soket oluşturulur.
+2. `bind()`: Yerel IP ve port atanır.
+3. `listen()`: Soket dinleme moduna alınıp kuyruk belirlenir.
+4. `accept()`: Gelen istemci bağlantısı kabul edilir.
+</details>
+
+---
+
+### Soru 4: `bind()` Fonksiyonunun Temel Görevi
+**Soru:** C dili soket programlamasında `bind(servSock, (struct sockaddr *)&servAddr, sizeof(servAddr))` fonksiyonunun görevi nedir? (PDF Sayfa 4, 12, Slayt 8, 24)  
+- A) Karşı sunucuya aktif TCP bağlantı isteği (SYN) göndermek  
+- B) Soket tanımlayıcısını yerel bir IP adresi ve port numarası ile eşleştirmek (bağlamak)  
+- C) Soketi dinleme kuyruğuna sokmak  
+- D) İstemciden gelen veriyi okumak  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 4, 12, Slayt 8, 24):** `bind()` fonksiyonu, oluşturulan isimsiz sokete işletim sistemi seviyesinde belirli bir yerel IP ve port adresi atamak için kullanılır.
+</details>
+
+---
+
+### Soru 5: `listen()` Fonksiyonundaki İkinci Parametre (`backlog`)
+**Soru:** `listen(servSock, 5)` fonksiyonundaki `5` değeri neyi ifade eder? (PDF Sayfa 4, 13, Slayt 9, 25)  
+- A) Sunucunun en fazla 5 saniye açık kalacağını  
+- B) Sunucunun aynı anda gönderebileceği maksimum bayt sayısını  
+- C) `accept()` tarafından henüz kabul edilmemiş bekleyen bağlantı isteklerinin kuyruk uzunluğunu (queue limit)  
+- D) Port numarasını  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 5 PDF Sayfa 4, 13, Slayt 9, 25):** İkinci parametre olan `backlog`, işletim sistemi çekirdeğinin el sıkışması tamamlanmış ancak henüz `accept()` ile uygulama tarafından teslim alınmamış bekleyen bağlantı kuyruğunun maksimum sınırını belirler.
+</details>
+
+---
+
+### Soru 6: `accept()` Fonksiyonunun Dönüş Değeri
+**Soru:** TCP sunucusunda çağrılan `clntSock = accept(servSock, ...)` fonksiyonu başarılı olduğunda ne döndürür? (PDF Sayfa 5, 13, Slayt 10, 26)  
+- A) 0 değerini döndürür  
+- B) Dinleme yapan `servSock` soketini istemci soketine dönüştürür  
+- C) O istemci ile özel olarak haberleşecek YEPYENİ bir soket tanımlayıcısı (connected socket descriptor) döndürür  
+- D) İstemcinin IP adres dizgisini döndürür  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 5 PDF Sayfa 5, 13, Slayt 10, 26):** `accept()` bağlantı kurulduğunda o istemciye özel yeni bir soket tanımlayıcısı (`clntSock`) üretir. Orijinal dinleme soketi (`servSock`) ise yeni gelen bağlantıları dinlemeye devam eder.
+</details>
+
+---
+
+### Soru 7: `accept()` Fonksiyonunda Son Parametre Neden İşaretçidir (`&len`)?
+**Soru:** `accept(servSock, (struct sockaddr *)&cliAddr, &len)` çağrısında üçüncü parametre neden bir tamsayı değeri değil de adres (`&len`) olarak geçilir? (PDF Sayfa 5, 13, Slayt 10, 26)  
+- A) Hata kontrolü yapabilmek için  
+- B) Değer-sonuç (value-result) parametresidir; fonksiyona yapının tahsis edilen boyutu verilir, fonksiyon içine bağlanan istemcinin adresinin gerçek boyutunu yazar  
+- C) C dilinde tüm parametreler pointer olmak zorundadır  
+- D) Port numarasını döndürmek için  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 5, 13, Slayt 10, 26):** Bu bir **value-result** parametredir. Çağrılmadan önce tahsis edilen hafıza boyutunu taşır; fonksiyon tamamlandığında içine yazılan istemci adres yapısının gerçek bayt uzunluğunu günceller.
+</details>
+
+---
+
+### Soru 8: `connect()` Fonksiyonu ve TCP El Sıkışması
+**Soru:** İstemci tarafında çağrılan `connect(sock, (struct sockaddr *)&servAddr, sizeof(servAddr))` fonksiyonu ağ düzeyinde hangi TCP mekanizmasını tetikler? (PDF Sayfa 5, 14, Slayt 10, 28)  
+- A) İstemcinin portunu kapatır  
+- B) Sunucuya bir `FIN` paketi gönderir  
+- C) Sunucu ile TCP 3 Yollu El Sıkışmasını (`SYN`, `SYN+ACK`, `ACK`) başlatır  
+- D) Sunucudan dosya indirme işlemini başlatır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 5 PDF Sayfa 5, 14, Slayt 10, 28):** `connect()` istemci soketini sunucunun dinlediği IP ve porta bağlamak için TCP 3-way handshake sürecini başlatır ve el sıkışma başarıyla tamamlanana kadar (veya zaman aşımına uğrayana kadar) bloklanır.
+</details>
+
+---
+
+### Soru 9: `sockaddr` ile `sockaddr_in` Arasındaki Fark
+**Soru:** C dili soket programlamasında `sockaddr` ve `sockaddr_in` yapıları arasındaki ilişki aşağıdakilerden hangisidir? (PDF Sayfa 4, Slayt 8)  
+- A) `sockaddr` TCP için, `sockaddr_in` UDP için kullanılır  
+- B) `sockaddr` 16 baytlık genel adres arayüzüdür; `sockaddr_in` ise IPv4 internet ailesine özel IP ve port alanlarını içeren yapıdır  
+- C) `sockaddr_in` sadece Linux'ta vardır, Windows'ta `sockaddr` kullanılır  
+- D) İki yapı tamamen özdeştir, isimleri farklıdır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 4, Slayt 8):** Soket API fonksiyonları (`bind`, `connect`, `accept`) genel `struct sockaddr *` işaretçisi bekler. IPv4 programlamasında alanları kolayca doldurmak için `struct sockaddr_in` kullanılır ve fonksiyonlara tür dönüşümü (typecast) yapılarak iletilir.
+</details>
+
+---
+
+### Soru 10: `INADDR_ANY` Sabiti
+**Soru:** Bir TCP sunucu kodunda `servAddr.sin_addr.s_addr = htonl(INADDR_ANY);` satırının anlamı nedir? (PDF Sayfa 6, 12, Slayt 12, 24)  
+- A) Sunucunun sadece 127.0.0.1 loopback adresinden gelen istekleri kabul etmesini sağlar  
+- B) Sunucunun bilgisayardaki tüm ağ arayüzlerine (Ethernet, Wi-Fi vb.) gelen bağlantı isteklerini dinlemesini sağlar  
+- C) IP adresini otomatik olarak DHCP'den alır  
+- D) Sunucuya rastgele bir IP adresi atar  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 6 & 12, Slayt 12, 24):** `INADDR_ANY` (değeri `0.0.0.0`) sunucu uygulamasının makine üzerindeki hiçbir spesifik IP adresine kilitlenmeden, o makineye gelen tüm arayüzlerdeki paketleri kabul etmesini sağlar.
+</details>
+
+---
+
+### Soru 11: Endianness: Little-Endian vs Big-Endian
+**Soru:** Bilgisayar mimarisinde bir sayının belleğe yerleşiminde En Düşük Anlamlı Baytın (LSB) en düşük bellek adresine yazıldığı mimariye ne ad verilir? (PDF Sayfa 25, Slayt 50-51)  
+- A) Big-Endian  
+- B) Middle-Endian  
+- C) Little-Endian  
+- D) Network Byte Order  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 5 PDF Sayfa 25, Slayt 50-51):**
+* **Little-Endian:** En düşük anlamlı bayt (LSB) düşük adrese yazılır (x86/Intel mimarisi).
+* **Big-Endian:** En yüksek anlamlı bayt (MSB) düşük adrese yazılır (Ağ Bayt Sıralaması / Network Byte Order).
+</details>
+
+---
+
+### Soru 12: Network Byte Order Hangi Sıralamadır?
+**Soru:** İnternet protokollerinde (TCP/IP) standart olarak kabul edilen Ağ Bayt Sıralaması (Network Byte Order) hangisidir? (PDF Sayfa 25, Slayt 50-51)  
+- A) Little-Endian  
+- B) Big-Endian  
+- C) Bi-Endian  
+- D) Bit-Reversed  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 25, Slayt 50-51):** TCP/IP standartlarında ağ bayt sıralaması daima **Big-Endian** olarak tanımlanmıştır.
+</details>
+
+---
+
+### Soru 13: `htons()` Fonksiyonunun Açılımı ve Amacı
+**Soru:** C soket kodunda port numarası atanırken çağrılan `htons(8080)` fonksiyonunun tam adı ve görevi nedir? (PDF Sayfa 26, Slayt 52)  
+- A) Host to Network Short: 16-bit tamsayıyı ana makine bayt sırasından ağ bayt sırasına çevirir  
+- B) Host to Network String: Metin portunu tamsayıya çevirir  
+- C) Hexadecimal to Network Short: Onaltılık sayıyı ikiliye çevirir  
+- D) High to New Short: Portu sıfırlar  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: A**  
+**Açıklama (Hafta 5 PDF Sayfa 26, Slayt 52):** `htons` = **Host TO Network Short** demektir. 16-bitlik kısa tamsayıları (port numaraları gibi) makinenin yerel formatından Big-Endian ağ formatına dönüştürür.
+</details>
+
+---
+
+### Soru 14: `htonl()` Fonksiyonunun Kullanım Yeri
+**Soru:** `htonl()` fonksiyonu hangi veri türünü ağ bayt sırasına çevirmek için kullanılır? (PDF Sayfa 26, Slayt 52)  
+- A) 16-bit Port numaraları  
+- B) 32-bit IPv4 Adresleri (Long integer)  
+- C) 64-bit Kayan noktalı sayılar  
+- D) 8-bit Karakterler  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 26, Slayt 52):** `htonl` = **Host TO Network Long** demektir. 32-bitlik IPv4 adreslerini ana makine formatından ağ formatına dönüştürür.
+</details>
+
+---
+
+### Soru 15: `inet_addr()` Fonksiyonunun Görevi
+**Soru:** `servAddr.sin_addr.s_addr = inet_addr("192.168.1.1");` satırındaki `inet_addr()` fonksiyonu ne işe yarar? (PDF Sayfa 7, Slayt 14)  
+- A) Belirtilen IP'ye ping atar  
+- B) Noktalı ondalık (dotted-decimal) dizgi formatındaki IPv4 adresini 32-bitlik ikili (binary) ağ bayt sırasına çevirir  
+- C) İkili IP adresini metne dönüştürür  
+- D) Alan adını (DNS) çözer  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 7, Slayt 14):** `inet_addr()` metin tabanlı IP adresini ("192.168.1.1") doğrudan soket yapısının beklediği 32-bit ikili formata ve ağ bayt sırasına dönüştürür.
+</details>
+
+---
+
+### Soru 16: UDP Soketlerinde Veri İletim Fonksiyonları
+**Soru:** UDP protokolünde bağlantı kurulmadığı için veri gönderme ve alma amacıyla `send()` ve `recv()` yerine hangi fonksiyonlar kullanılır? (PDF Sayfa 17, Slayt 33)  
+- A) `write()` ve `read()`  
+- B) `sendto()` ve `recvfrom()`  
+- C) `put()` ve `get()`  
+- D) `push()` ve `pull()`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 17, Slayt 33):** UDP bağlantısız (connectionless) olduğu için her veri paketinin hedef/kaynak adresi fonksiyon çağrısında ayrıca belirtilmelidir; bu nedenle `sendto()` ve `recvfrom()` fonksiyonları kullanılır.
+</details>
+
+---
+
+### Soru 17: Java'da TCP Sunucu ve İstemci Sınıfları
+**Soru:** Java Soket Programlamasında TCP sunucusunun dinleme yapması ve istemcinin sunucuya bağlanması için kullanılan standart sınıflar hangileridir? (PDF Sayfa 19-20, Slayt 38-40)  
+- A) `DatagramSocket` ve `DatagramPacket`  
+- B) `ServerSocket` (Sunucu dinleme) ve `Socket` (İstemci bağlantı & veri iletimi)  
+- C) `HttpServer` ve `HttpClient`  
+- D) `ChannelServer` ve `ChannelClient`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 19 & 20, Slayt 38-40):** Java'da TCP için:
+* Sunucu portu dinlemek ve istemci kabul etmek için `java.net.ServerSocket`
+* İstemci bağlantısı kurmak ve `getInputStream()` / `getOutputStream()` ile veri aktarmak için `java.net.Socket` kullanılır.
+</details>
+
+---
+
+### Soru 18: Java'da UDP Soket Programlama Sınıfları
+**Soru:** Java'da UDP protokolü üzerinden paket gönderip almak için hangi iki sınıf kullanılır? (PDF Sayfa 22, Slayt 43)  
+- A) `Socket` ve `ServerSocket`  
+- B) `DatagramSocket` (Soket noktası) ve `DatagramPacket` (Veri paketi ve hedef adres)  
+- C) `UDPSocket` ve `UDPStream`  
+- D) `ByteSocket` ve `BytePacket`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 5 PDF Sayfa 22, Slayt 43):** Java'da UDP iletişimi `DatagramSocket` (portu açan soket) ve datagram verisi ile alıcı adresini paketleyen `DatagramPacket` sınıfları üzerinden gerçekleştirilir.
+</details>
+
+---
+
+### Soru 19: TCP Sunucusunda `close()` Fonksiyonunun İki Farklı Sokete Etkisi
+**Soru:** Bir TCP sunucu uygulamasında `close(clntSock)` ve `close(servSock)` çağrılarının farkı nedir? (PDF Sayfa 13, 15, Slayt 26, 31)  
+- A) `close(clntSock)` sadece o istemciyle olan oturumu sonlandırır; `close(servSock)` ise sunucunun yeni bağlantı kabul etmesini tamamen durdurur  
+- B) İkisi de tamamen aynı işi yapar  
+- C) `close(servSock)` sunucuyu yeniden başlatır  
+- D) `close(clntSock)` tüm bağlı istemcileri aynı anda düşürür  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: A**  
+**Açıklama (Hafta 5 PDF Sayfa 13, 15, Slayt 26, 31):** `clntSock` `accept()` tarafından üretilen ve o istemciye özel veri soketidir; kapatılması sadece o istemcinin oturumunu bitirir. `servSock` ise ana dinleme soketidir; kapatılırsa sunucu portu bırakır ve artık hiçbir yeni istemci bağlanamaz.
+</details>
+
+---
+
+### Soru 20: `TCP Server-Client C Kodu.pdf` Sınav Kodundaki `bzero()` Fonksiyonu
+**Soru:** Dr. Musa Balta'nın klasik sınav kodunda yer alan `bzero(&servaddr, sizeof(servaddr));` veya `bzero(buff, sizeof(buff));` fonksiyonunun görevi nedir? (Kaynak: `TCP Server-Client C Kodu.pdf` Sayfa 1-2)  
+- A) Değişkeni string formatına dönüştürür  
+- B) Belirtilen bellek alanındaki tüm baytları sıfırlar (temizler)  
+- C) Değişkenin bellek adresini ekrana yazdırır  
+- D) Karşı tarafa sıfır baytlı ACK gönderir  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (`TCP Server-Client C Kodu.pdf`):** `bzero()` fonksiyonu, soket adres yapısını (`servaddr`) veya mesaj tamponunu (`buff`) içerisindeki artık/çöp verileri temizlemek için tüm baytlarını sıfır (`0`) ile doldurur (`memset(&servaddr, 0, sizeof(...))` ile eşdeğerdir).
+</details>
+
+
+---
+
+## 8.1. Dosya Transfer Protokolü (FTP - File Transfer Protocol) (PDF Sayfa 2–11, Slayt 3–22)
+![FTP Portlar](assets/slides/h6_s4_ftp_portlar.png)
+![FTP Kontrol ve Veri Bağlantısı](assets/slides/h6_s5_ftp_kontrol_veri.png)
+![FTP Dizin Listeleme](assets/slides/h6_s22_ftp_liste.png)
+
+* **Slayt 3–4 (Temel Özellikler):**
+  * FTP, TCP/IP tarafından bir dosyayı bir ana bilgisayardan diğerine kopyalamak için sağlanan standart mekanizmadır.
+  * **İki Bağlantı Prensibi:** FTP, diğer istemci-sunucu uygulamalarından farklı olarak **2 ayrı TCP bağlantısı** kurar:
+    1. **Kontrol Bağlantısı (Port 21):** Komutlar ve yanıtlar için kullanılır. Tüm oturum boyunca **açık kalır**. 7-bit ASCII kullanır.
+    2. **Veri Bağlantısı (Port 20):** Gerçek dosya aktarımı için kullanılır. **Her dosya aktarımında açılır ve dosya bittiğinde kapatılır!**
+* **Slayt 6 (Veri Bağlantısının Kurulması - Active FTP):**
+  * İstemci geçici bir bağlantı noktası açar ve sunucuya **`PORT`** komutu ile bu numarayı bildirir.
+  * Sunucu, iyi bilinen **Port 20**'yi kullanarak istemcinin bu geçici portuna etkin bir bağlantı açar.
+* **Slayt 9–10 (Dosya Tipleri):**
+  * `ASCII Dosyası`: Metin dosyaları için varsayılan formattır (7-bit ASCII).
+  * `EBCDIC Dosyası`: IBM anaçatı sistemleri için kullanılır.
+  * `Görüntü (Image / Binary) Dosyası`: Yorumsuz doğrudan sürekli bit akışıdır; derlenmiş `.exe`, resim ve ikili dosyalar için varsayılandır.
+* **Slayt 11–13 (Veri Yapıları ve İletim Modları):**
+  * **Veri Yapıları:** `Dosya yapısı` (kesintisiz bayt akışı, varsayılan), `Kayıt yapısı` (EOR ve EOF karakterleri içerir), `Sayfa yapısı` (sayfa no ve başlık).
+  * **İletim Modları:**
+    * `Akış (Stream) Modu`: Varsayılan mod. Veri bağlantısının kapatılması dosya sonunu (EOF) gösterir.
+    * `Blok Modu`: Her bloktan önce **3 baytlık başlık** gelir (1B Blok Tanımlayıcı + 2B Blok Boyutu).
+    * `Sıkıştırılmış Mod`: **RLE (Run Length Encoding)** algoritması kullanılarak ardışık boşluk ve sıfırlar sıkıştırılır.
+* **Slayt 15–21 (Temel FTP Komutları ve Dosya Transferi):**
+  * `USER <kullanıcı_adı>` ve `PASS <şifre>`: Erişim komutları.
+  * `RETR <dosya_adı>`: **Alınıyor (Download)** $\rightarrow$ Sunucudan istemciye dosya kopyalar.
+  * `STOR <dosya_adı>`: **Depolama (Upload)** $\rightarrow$ İstemciden sunucuya dosya kopyalar.
+  * `LIST`: Dizin içeriğini listeler (FTP dizin listesini bir dosya gibi transfer eder).
+  * `PORT <h1,h2,h3,h4,p1,p2>`: İstemcinin veri bağlantısı için IP ve portunu bildirir.
+
+---
+
+## 8.2. Basit Posta Aktarım Protokolü (SMTP) ve MIME (PDF Sayfa 12–17, Slayt 23–34)
+![SMTP Modeli](assets/slides/h6_s24_smtp_modeli.png)
+![SMTP Günümüz Mimarisi](assets/slides/h6_s26_smtp_senaryo2.png)
+
+* **Slayt 23 (SMTP Özellikleri):**
+  * RFC 821 standardıdır. Taşıma katmanında **TCP Port 25**'i kullanır.
+  * E-posta sunucuları arasında (Server-to-Server) posta aktarmak için kullanılır.
+  * **İtme Protokolüdür (Push Protocol):** Gönderici e-postayı sunucuya iter.
+* **Slayt 25–26 (Bileşenler ve 2. Senaryo - Günümüz Mimarisi):**
+  * **UA (User Agent - Kullanıcı Ajanı):** Kullanıcının e-posta yazıp okuduğu istemci yazılımı (Outlook, Thunderbird, `mail`, `pine`, `elm`).
+  * **MTA (Message Transfer Agent - Mesaj Transfer Ajanı):** Postayı internet üzerinden sunucudan sunucuya aktaran SMTP yazılımıdır (Sendmail, Postfix).
+  * **MAA (Message Access Agent - Mesaj Erişim Ajanı):** Kullanıcının gelen kutusundaki postaları kendi bilgisayarına çekmek için kullandığı protokoldür (**POP3** ve **IMAP4**).
+  * **Günümüz Yapısı:** **2 UA + 2 MTA (SMTP çifti) + 1 MAA (POP/IMAP) çifti**.
+* **Slayt 28–30 (MIME - Multipurpose Internet Mail Extensions):**
+  * Klasik SMTP yalnızca **7-bit ASCII** metinleri iletebilir.
+  * MIME, e-postalara resim, ses, video, ikili dosyalar ve Türkçe/farklı karakter kümelerinin eklenmesini sağlayan standarttır. Başlığa `MIME-Version`, `Content-Type`, `Content-Transfer-Encoding` (Base64) alanları ekler.
+* **Slayt 31–33 (SMTP Bağlantı Aşamaları ve Komutlar):**
+  1. `Bağlantı Kurulumu`: `HELO <istemci_adı>` (veya `EHLO`)
+  2. `Mesaj Transferi`: `MAIL FROM: <gönderen@sakarya.edu.tr>` $\rightarrow$ `RCPT TO: <alici@sakarya.edu.tr>` $\rightarrow$ `DATA` (Mesaj içeriği girilir; tek başına `.` ile bitirilir)
+  3. `Bağlantı Sonlandırma`: `QUIT`
+
+---
+
+## 8.3. Posta Erişim Protokolleri (MAA): POP3 ve IMAP4 (PDF Sayfa 18, Slayt 35–36)
+![POP3 ve IMAP Karşılaştırması](assets/slides/h6_s34_pop_imap_karsilastirma.png)
+![IMAP Çalışma Şeması](assets/slides/h6_s36_imap_calisma.png)
+
+> [!IMPORTANT]
+> **Sınavda Kesin Sorulacak Karşılaştırma: POP3 vs IMAP4**
+> 
+> * **1) POP3 (Post Office Protocol v3 - TCP Port 110):**
+>   * E-posta hizmetine bağlanır, tüm yeni iletileri **istemci bilgisayara indirir ve sunucudan siler**!
+>   * E-postalar artık sunucuda değil, kullanıcının PC'sinde yerel olarak depolanır. Başka bir cihazdan girildiğinde eski mailler görünmez.
+> * **2) IMAP4 (Internet Message Access Protocol v4 - TCP Port 143):**
+>   * E-postalar **sunucu üzerinde tutulur ve yönetilir**. Bilgisayara indirme yapılmaz.
+>   * Kullanıcı yalnızca tıkladığı iletiyi okur; büyük ekler kullanıcı istemeden indirilmez.
+>   * Birden fazla cihazdan (telefon, iş bilgisayarı, tablet) aynı gelen kutusuna senkronize şekilde erişilebilir.
+
+---
+
+## 8.4. Basit Ağ Yönetim Protokolü (SNMP - Simple Network Management Protocol) (PDF Sayfa 19–23, Slayt 37–46)
+![SNMP Mimarisi](assets/slides/h6_s39_snmp_mimari.png)
+![SNMPv3 Güvenlik Düzeyleri](assets/slides/h6_s42_snmpv3_guvenlik.png)
+![SNMP Paket Yapısı Tablosu](assets/slides/h6_s44_snmp_paket_tablo.png)
+![MIB Ağacı](assets/slides/h6_s46_mib_agaci.png)
+
+* **Slayt 37–39 (SNMP Temel Özellikleri):**
+  * Taşıma katmanında **UDP** protokolünü kullanır!
+  * 3 Bileşeni vardır: **Ağ Yönetim Sistemi (Yönetici - Manager)**, **Yönetilen Cihazlar (Ajan - Agent)** ve **Yönetim Bilgi Tabanı (MIB)**.
+  * **Port Numaraları (Sınav Sorusu!):**
+    * **Port 161:** Yönetici, sorgu isteklerini ajanın **161. portuna** gönderir.
+    * **Port 162:** Ajan, beklenmedik olayları ve alarmları (**Trap**) yöneticinin **162. portuna** gönderir.
+* **Slayt 40–42 (SNMP Sürümleri):**
+  * **SNMPv1:** İlk sürümdür. `Get`, `GetNext`, `Set`, `Trap` komutlarını kullanır. Güvenlik sadece şifresiz metin olan **Topluluk İsmi (Community String - örn: "public")** ile sağlanır. Ajan tüm istekleri karşılayamazsa hiçbir cevap dönmez.
+  * **SNMPv2c:** İki yeni işlem eklenmiştir:
+    * `GetBulk`: Büyük miktarda tablo verisini tek seferde bloklar halinde çeker.
+    * `Inform`: Yöneticiler arası trap mesajı iletimini sağlar.
+    * Ajan karşılayabildiği verileri geri döndürür.
+  * **SNMPv3 (Güvenlik Düzeyleri):**
+    1. `noAuthNoPriv`: Kimlik denetimi ve şifreleme yok (v1/v2c düzeyi).
+    2. `authNoPriv`: Kimlik denetimi var (**MD5 / SHA** ile kullanıcı adı-şifre doğrulaması ve veri bütünlüğü), şifreleme yok.
+    3. `authPriv`: Kimlik denetimi var ve veri şifreleme (**DES, 3DES, AES**) ile tam gizlilik sağlanır.
+* **Slayt 45–46 (MIB - Management Information Base ve OID Kavramı):**
+  * MIB, yönetilen tüm nesnelerin hiyerarşik bir **ağaç yapısında** tutulduğu veri tabanıdır.
+  * **OID (Object Identifier):** Ağaçtaki her değişken, kökten uca doğru noktalarla ayrılmış sayılarla tanımlanır.
+  * **`1.3.6.1` Standart Kök:** `iso (1) . org (3) . dod (6) . internet (1)`.
+  * *Örnek (Slayt 46):* `1.3.6.1.2.1.1.5.0` $\rightarrow$ Sistem Adı (**`sysName.0`**).
+
+---
+
+## 8.5. Köprü Metni Aktarım Protokolü (HTTP - Hypertext Transfer Protocol) (PDF Sayfa 24–27, Slayt 47–54)
+![HTTP Mimarisi](assets/slides/h6_s48_http_mimari.png)
+![HTTP İstek ve Cevap Mesajları](assets/slides/h6_s50_http_istek_cevap.png)
+![HTTP İstek Metotları](assets/slides/h6_s51_http_metotlar.png)
+
+* **Slayt 47–48 (HTTP Temel Özellikleri):**
+  * Web üzerinde hiper ortam verilerine erişim sağlar. Taşıma katmanında **TCP Port 80** kullanır.
+  * **Çekme Protokolüdür (Pull Protocol):** İstemci talep eder, sunucu iletir.
+  * **Durumsuz Bir Protokoldür (Stateless):** Sunucu önceki isteklerle ilgili hiçbir durum bilgisi tutmaz; her istek tamamen bağımsızdır.
+* **Slayt 49 (URL Yapısı):**
+  $$\text{URL} = \mathbf{Protokol} \text{ (http)} + \mathbf{Host} \text{ (www.sakarya.edu.tr)} + \mathbf{Port} \text{ (80)} + \mathbf{Path} \text{ (/index.html)}$$
+* **Slayt 51 (HTTP İstek Metotları):**
+  * `GET`: Sunucudan belirtilen URL'deki kaynağı ister. İstek gövdesi (body) boştur; parametreler URL içinde taşınır.
+  * `POST`: Sunucuya işlenmek üzere veri gönderir (Form verileri, dosya yükleme). Veriler istek gövdesinde taşınır.
+  * `HEAD`: GET ile aynıdır fakat sunucu mesaj gövdesini (body) döndürmez; yalnızca başlık (header) bilgilerini döner.
+  * `PUT`: Belirtilen URL'ye yeni bir kaynak yükler / yazar.
+  * `DELETE`: Belirtilen URL'deki kaynağı sunucudan siler.
+* **Slayt 51 (HTTP Durum Kodları - Status Codes):**
+  * `1xx (Bilgi)`: İstek alındı, işlem devam ediyor.
+  * `2xx (Başarılı)`: İstek başarıyla alındı ve tamamlandı (**`200 OK`**).
+  * `3xx (Yönlendirme)`: İstenen kaynak başka bir adrese taşındı (**`301 Moved Permanently`**).
+  * `4xx (İstemci Hatası)`: İstemci hatalı istekte bulundu (**`400 Bad Request`**, **`403 Forbidden`**, **`404 Not Found`**).
+  * `5xx (Sunucu Hatası)`: Sunucu isteği yerine getiremedi (**`500 Internal Server Error`**, **`503 Service Unavailable`**).
 
 
 ---
@@ -2501,4 +3565,345 @@ close(sock);
   * Ancak internet standartları (TCP/IP) gereği ağ üzerindeki tüm adres ve portlar **Big-Endian** (yüksek bayt önce) sırasında iletilmek zorundadır.
 * `htons(8080)` (*Host to Network Short*): 16-bitlik port numarasını ana makine formatından ağ formatına çevirir.
 * `htonl(INADDR_ANY)` (*Host to Network Long*): 32-bitlik IP adresini ana makine formatından ağ formatına çevirir.
+</details>
+
+---
+
+
+## 8.7. Hafta 6 Değerlendirme Soruları (20 Soru & Çözümleri)
+
+### Soru 1: FTP'nin İki Ayrı TCP Bağlantısı ve Portları
+**Soru:** Dosya Transfer Protokolü (FTP), neden iki ayrı TCP bağlantısı kullanır ve bu bağlantıların standart port numaraları hangileridir? (PDF Sayfa 2-3, Slayt 4-5)  
+- A) Port 80 (Kontrol) ve Port 443 (Veri)  
+- B) Port 21 (Kontrol Bağlantısı - Komutlar/Yanıtlar) ve Port 20 (Veri Bağlantısı - Dosya/Dizin Aktarımı)  
+- C) Port 25 (Kontrol) ve Port 110 (Veri)  
+- D) Port 23 (Telnet) ve Port 22 (SSH)  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 2-3, Slayt 4-5):** FTP oturum boyunca açık kalan **Kontrol Bağlantısı için Port 21**'i, her dosya veya dizin listesi aktarımı için açılıp kapanan **Veri Bağlantısı için Port 20**'yi kullanır.
+</details>
+
+---
+
+### Soru 2: FTP Kontrol ve Veri Bağlantılarının Yaşam Döngüsü
+**Soru:** FTP kontrol bağlantısı ile veri bağlantısının oturum süresince çalışma prensibi hakkında aşağıdakilerden hangisi doğrudur? (PDF Sayfa 3, Slayt 5)  
+- A) Kontrol bağlantısı her komut gönderildiğinde açılır ve hemen kapanır  
+- B) Kontrol bağlantısı oturum süresince sürekli açık kalır; veri bağlantısı ise transfer edilecek her bir dosya veya dizin listesi için ayrı ayrı açılır ve işlem bitince kapatılır  
+- C) Veri bağlantısı sürekli açık kalır, kontrol bağlantısı dinamik açılır  
+- D) İki bağlantı da oturum açılırken aynı anda açılır ve oturum kapatılana kadar açık kalır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 3, Slayt 5):** Slayt 5'te açıkça belirtildiği gibi: Kontrol bağlantısı kullanıcı oturum açtığı andan itibaren tüm oturum boyunca açık kalır. Veri bağlantısı ise her dosya transferinde veya `LIST` komutunda yeniden kurulur ve transfer tamamlanır tamamlanmaz sonlandırılır.
+</details>
+
+---
+
+### Soru 3: FTP Aktif Mod (Active Mode) Çalışma Şekli
+**Soru:** FTP Aktif Modda (Active Mode) veri bağlantısını kim, kime doğru ve hangi komut aracılığıyla başlatır? (PDF Sayfa 4, Slayt 6-7)  
+- A) Sunucu `PASV` der, istemci sunucuya bağlanır  
+- B) İstemci rastgele bir geçici port açar ve `PORT` komutu ile sunucuya bildirir; sunucu kendi 20. portundan istemcinin bu portuna doğru bağlantı açar  
+- C) İstemci doğrudan sunucunun 20. portuna bağlanır  
+- D) Veri bağlantısı kurulmaz, veriler 21. porttan akar  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 4, Slayt 6-7):** Aktif modda istemci `PORT h1,h2,h3,h4,p1,p2` komutu ile dinlediği IP ve portu sunucuya bildirir. Sunucu kaynak portu olarak TCP 20'yi kullanarak istemcinin bildirdiği porta aktif TCP SYN gönderir.
+</details>
+
+---
+
+### Soru 4: FTP Pasif Mod (Passive Mode) ve NAT / Güvenlik Duvarı
+**Soru:** İstemci tarafında NAT veya katı güvenlik duvarı (Firewall) bulunduğunda sunucunun istemciye dışarıdan bağlantı açamaması sorununu çözen FTP modu hangisidir? (PDF Sayfa 4, Slayt 8)  
+- A) Aktif Mod  
+- B) Pasif Mod (`PASV`)  
+- C) Akış Modu  
+- D) Telnet Modu  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 4, Slayt 8):** Pasif modda istemci `PASV` komutu gönderir. Sunucu rastgele yüksek bir port açar ve bu portu istemciye döner. İstemci dışarıya doğru sunucunun bu portuna bağlanır; böylece istemci güvenlik duvarı engeline takılmaz.
+</details>
+
+---
+
+### Soru 5: FTP Veri İletim Modları
+**Soru:** FTP'de verilerin 3 baytlık bir başlık (1 bayt açıklayıcı + 2 bayt sayım) ile bloklara ayrılarak gönderildiği veri aktarım modu hangisidir? (PDF Sayfa 9, Slayt 17)  
+- A) Akış (Stream) Modu  
+- B) Blok (Block) Modu  
+- C) Sıkıştırılmış (Compressed) Mod  
+- D) Sayfalama (Page) Modu  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 9, Slayt 17):** Slayt 17'ye göre:
+* **Akış Modu (Stream):** Varsayılan moddur, veri bayt akışı olarak iletilir.
+* **Blok Modu (Block):** Veri bloklara ayrılır, her bloğun başında 3 baytlık başlık (descriptor ve count) bulunur.
+* **Sıkıştırılmış Mod:** RLE (Run-Length Encoding) algoritmasıyla sıkıştırılarak iletilir.
+</details>
+
+---
+
+### Soru 6: FTP Dosya İndirme ve Yükleme Komutları
+**Soru:** FTP kontrol bağlantısı üzerinden bir dosya indirmek ve sunucuya dosya yüklemek için kullanılan standart FTP komutları hangileridir? (PDF Sayfa 10-11, Slayt 19-21)  
+- A) `GET` ve `POST`  
+- B) `DOWNLOAD` ve `UPLOAD`  
+- C) `RETR` (Retrieve - İndir) ve `STOR` (Store - Yükle)  
+- D) `FETCH` ve `PUT`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 6 PDF Sayfa 10 & 11, Slayt 19 & 21):** RFC 959 standardına göre sunucudan dosya çekmek için **`RETR`**, sunucuya dosya kaydetmek/yüklemek için **`STOR`** komutu kullanılır.
+</details>
+
+---
+
+### Soru 7: SMTP Temel Özellikleri ve Taşıma Katmanı Portu
+**Soru:** Basit Posta Aktarım Protokolü (SMTP) hangi taşıma katmanı protokolünü ve standart port numarasını kullanır? (PDF Sayfa 12, Slayt 23)  
+- A) UDP Port 25  
+- B) TCP Port 25  
+- C) TCP Port 110  
+- D) UDP Port 161  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 12, Slayt 23):** SMTP (RFC 821) güvenilir veri aktarımı için **TCP** protokolünü ve standart olarak **Port 25**'i kullanır.
+</details>
+
+---
+
+### Soru 8: SMTP'nin İletim Türü (Push vs Pull)
+**Soru:** SMTP protokolü mesaj iletim mekanizması açısından ne tür bir protokoldür? (PDF Sayfa 12, Slayt 24)  
+- A) Çekme (Pull) Protokolü  
+- B) İtme (Push) Protokolü  
+- C) Hibrit P2P Protokolü  
+- D) Sorgu-Cevap (Polling) Protokolü  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 12, Slayt 24):** SMTP bir **İtme (Push)** protokolüdür; gönderici taraf e-postayı karşı sunucuya "iter" (gönderir). Alıcının gelen kutusundaki postaları kendi cihazına indirmesi ise Çekme (Pull) protokolleri (POP3/IMAP) ile yapılır.
+</details>
+
+---
+
+### Soru 9: Modern E-Posta Mimarisi Bileşenleri
+**Soru:** Günümüz e-posta mimarisinde kullanıcının e-posta yazdığı arayüze (Outlook vb.), sunucular arası aktarımı yapan servise ve alıcının postalarını indirmesini sağlayan servise sırasıyla ne ad verilir? (PDF Sayfa 13, Slayt 25-26)  
+- A) UA (User Agent) - MTA (Message Transfer Agent) - MAA (Message Access Agent)  
+- B) MTA - UA - MAA  
+- C) MAA - MTA - UA  
+- D) DNS - DHCP - SNMP  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: A**  
+**Açıklama (Hafta 6 PDF Sayfa 13, Slayt 25-26):**
+* **UA (User Agent):** Kullanıcı istemcisi (Outlook, Thunderbird).
+* **MTA (Message Transfer Agent):** Sunucular arası aktarım yazılımı (SMTP).
+* **MAA (Message Access Agent):** Alıcının sunucudan postalarını çekme protokolü (POP3, IMAP4).
+</details>
+
+---
+
+### Soru 10: SMTP Oturumunda Veri Gövdesinin Bitiş Kriteri
+**Soru:** SMTP oturumunda `DATA` komutu verildikten sonra e-posta mesaj gövdesinin bittiğini sunucuya bildiren özel işaret nedir? (PDF Sayfa 15, Slayt 29-30)  
+- A) `QUIT` komutu  
+- B) Boş bir satırda tek başına bir nokta (`<CRLF>.<CRLF>`)  
+- C) `EOF` (End of File) karakteri  
+- D) `STOP` komutu  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 15, Slayt 29-30):** SMTP'de mesaj gövdesi satır satır gönderilir. Mesajın bittiğini bildirmek için tek başına bir satırda nokta karakteri (**`.`**) girilir.
+</details>
+
+---
+
+### Soru 11: MIME (Multipurpose Internet Mail Extensions) Amacı
+**Soru:** Orijinal SMTP yalnızca 7-bit ASCII metin iletimini desteklerken; Türkçe karakterlerin, resimlerin, ses ve video dosyalarının e-posta ile gönderilmesini sağlayan mekanizma hangisidir? (PDF Sayfa 16-17, Slayt 32-34)  
+- A) SNMP  
+- B) MIME  
+- C) TFTP  
+- D) Telnet  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 16 & 17, Slayt 32-34):** MIME (Çok Amaçlı İnternet Posta Uzantıları), ikili (binary) verileri ve ASCII dışı karakterleri Base64 gibi kodlamalarla 7-bit ASCII formatına dönüştürerek SMTP üzerinden taşınabilir kılan protokoldür.
+</details>
+
+---
+
+### Soru 12: POP3 vs IMAP4 Temel Çalışma Farkı
+**Soru:** Posta erişim protokollerinden POP3 ve IMAP4 arasındaki temel çalışma farkı aşağıdakilerden hangisidir? (PDF Sayfa 18, Slayt 34-36)  
+- A) POP3 şifreli çalışırken IMAP şifresiz çalışır  
+- B) POP3 (Port 110) postaları sunucudan istemciye indirip varsayılan olarak sunucudan siler; IMAP4 (Port 143) ise postaları sunucuda tutarak klasörleme ve çoklu cihaz senkronizasyonu sağlar  
+- C) POP3 TCP kullanırken IMAP UDP kullanır  
+- D) POP3 posta göndermek için, IMAP posta almak için kullanılır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 18, Slayt 34-36):** Slayt 34 karşılaştırma tablosuna göre:
+* **POP3 (Port 110):** Postayı yerel makineye indirir, sunucudaki kopyasını siler. Çoklu cihaz desteği ve sunucuda klasörleme yoktur.
+* **IMAP4 (Port 143):** Postalar sunucuda saklanır, sadece seçilen e-posta indirilir, farklı cihazlardan (telefon, PC) senkronize erişim sağlanır.
+</details>
+
+---
+
+### Soru 13: SNMP (Simple Network Management Protocol) Taşıma Protokolü ve Portları
+**Soru:** SNMP protokolü hangi taşıma protokolünü kullanır ve Ajan (Agent) ile Yönetici (Manager) dinleme portları hangileridir? (PDF Sayfa 19, 22, Slayt 39, 44)  
+- A) TCP kullanır; Port 161 ve Port 162  
+- B) UDP kullanır; Ajan Port 161'i (sorgular için), Yönetici Port 162'yi (Trap uyarıları için) dinler  
+- C) UDP kullanır; Port 80 ve Port 443  
+- D) ICMP kullanır; Port gerektirmez  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 19 & 22, Slayt 39, 44):** SNMP bağlantısız ve hafif bir protokol olan **UDP**'yi kullanır!
+* **Port 161 (UDP):** Ajan (Agent), yöneticiden gelen `Get/Set` isteklerini dinler.
+* **Port 162 (UDP):** Yönetici (Manager), ajanlardan gelen asenkron `Trap` mesajlarını dinler.
+</details>
+
+---
+
+### Soru 14: SNMPv3 Güvenlik Düzeyleri
+**Soru:** SNMPv3 mimarisinde yer alan en yüksek güvenlik seviyesi hangisidir ve hangi güvenlik özelliklerini içerir? (PDF Sayfa 21, Slayt 42)  
+- A) `noAuthNoPriv` - Şifresiz ve kimlik doğrulamasız  
+- B) `authNoPriv` - Sadece MD5/SHA ile kimlik doğrulama  
+- C) `authPriv` - MD5 veya SHA ile Kimlik Doğrulama (Authentication) + DES veya AES ile Şifreleme/Gizlilik (Privacy/Encryption)  
+- D) `Community String` güvenliği  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 6 PDF Sayfa 21, Slayt 42):** SNMPv3 üç güvenlik seviyesi sunar:
+1. `noAuthNoPriv`: Güvenlik yok.
+2. `authNoPriv`: Kimlik doğrulama var (MD5/SHA), şifreleme yok.
+3. **`authPriv`**: En yüksek düzeydir; hem kimlik doğrulama (MD5/SHA) hem de veri şifreleme (DES/AES) birlikte kullanılır.
+</details>
+
+---
+
+### Soru 15: SNMP Trap Mesajı Nedir?
+**Soru:** SNMP protokolünde yöneticinin herhangi bir sorgusu olmaksızın, ajanın cihazda olağandışı bir durum (bağlantı kopması, aşırı ısınma vb.) meydana geldiğinde yöneticiye kendiliğinden gönderdiği asenkron mesaja ne ad verilir? (PDF Sayfa 22, Slayt 43-44)  
+- A) `GetRequest`  
+- B) `SetRequest`  
+- C) `Trap` (Tuzak)  
+- D) `InformRequest`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 6 PDF Sayfa 22, Slayt 43-44):** `Trap` mesajı ajanın inisiyatifiyle gönderilen tek PDU türüdür. Yöneticiye anlık kritik olay bildirmek için Port 162'ye asenkron olarak iletilir.
+</details>
+
+---
+
+### Soru 16: MIB (Management Information Base) Ağacının Kökten İnternet Düğümüne Yolu
+**Soru:** SNMP'de yönetilen tüm nesnelerin tanımlandığı MIB hiyerarşik ağacında, kökten (Root) "internet" düğümüne kadar uzanan sayısal OID yolu aşağıdakilerden hangisidir? (PDF Sayfa 23, Slayt 46)  
+- A) `1.2.3.4`  
+- B) `1.3.6.1` (`iso.org.dod.internet`)  
+- C) `1.1.1.1`  
+- D) `2.5.4.3`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 23, Slayt 46):** Slayt 46 MIB ağacına göre:
+`iso (1) -> org (3) -> dod (6) -> internet (1)` yolunu izler ve **`1.3.6.1`** ile başlar. Yönetim dalı ise `1.3.6.1.2.1` (`mgmt.mib-2`) olarak devam eder.
+</details>
+
+---
+
+### Soru 17: HTTP Protokolü Temel Özellikleri
+**Soru:** HTTP (Hypertext Transfer Protocol) protokolünün çalışma mimarisi ve durumu (state) hakkında aşağıdakilerden hangisi doğrudur? (PDF Sayfa 24, Slayt 48)  
+- A) UDP Port 80 kullanır ve durum bilgisi tutar (Stateful)  
+- B) TCP Port 80 kullanır, Çekme (Pull) modelindedir ve durumsuz (Stateless) bir protokoldür  
+- C) Bir itme (Push) protokolüdür  
+- D) Yalnızca ikili (binary) formatta veri transfer eder  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 24, Slayt 48):** HTTP TCP Port 80'i kullanır. İstemci isteği başlatır (Pull modeli). Sunucu her isteği bağımsız değerlendirir ve önceki işlemlerin durum bilgisini tutmaz (**Stateless**).
+</details>
+
+---
+
+### Soru 18: Kalıcı (Persistent) vs Kalıcı Olmayan (Non-Persistent) HTTP
+**Soru:** HTTP/1.0 ile HTTP/1.1 arasındaki bağlantı yönetimi farkı nedir? (PDF Sayfa 24, Slayt 49)  
+- A) HTTP/1.0 UDP kullanır, HTTP/1.1 TCP kullanır  
+- B) HTTP/1.0 varsayılan olarak kalıcı değildir (Non-persistent - her nesne için ayrı bir TCP bağlantısı açılıp kapatılır); HTTP/1.1 ise varsayılan olarak kalıcıdır (Persistent - tek TCP bağlantısıyla birden çok nesne aktarılır)  
+- C) HTTP/1.1 bağlantı açamaz  
+- D) İkisi de tamamen aynı bağlantı modelini kullanır  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 24, Slayt 49):** HTTP/1.0'da her web nesnesi (resim, html, css) için 3 yollu el sıkışmasıyla yeni bir TCP bağlantısı açılır. HTTP/1.1'de ise `Connection: keep-alive` varsayılandır ve tek bağlantı üzerinden ardışık istekler (pipelining) gönderilebilir.
+</details>
+
+---
+
+### Soru 19: HTTP Metotları: GET vs HEAD vs POST
+**Soru:** Bir web sunucusundan yalnızca yanıt başlıklarını (Header) alıp mesaj gövdesini (Body) indirmek istemeyen (örneğin dosyanın son değiştirilme tarihini veya boyutunu kontrol eden) bir istemci hangi HTTP metodunu kullanmalıdır? (PDF Sayfa 26, Slayt 51)  
+- A) `GET`  
+- B) `POST`  
+- C) `HEAD`  
+- D) `TRACE`  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: C**  
+**Açıklama (Hafta 6 PDF Sayfa 26, Slayt 51):** `HEAD` metodu `GET` metodu ile aynı başlıkları döndürür fakat yanıt gövdesini (HTML/dosya içeriği) iletmez. Bant genişliğini koruyarak önbellek doğrulaması ve meta veri kontrolü için kullanılır.
+</details>
+
+---
+
+### Soru 20: HTTP Durum Kodları (Status Codes) ve Anlamları
+**Soru:** HTTP protokolünde sunucunun döndürdüğü `404` ve `500` durum kodlarının anlamları sırasıyla hangi seçenekte doğru verilmiştir? (PDF Sayfa 27, Slayt 53)  
+- A) 404: Kaynak Başarıyla Bulundu (OK) - 500: Kalıcı Yönlendirme  
+- B) 404: İstemci Hatası (Not Found - İstenen sayfa bulunamadı) - 500: Sunucu Hatası (Internal Server Error - Sunucuda beklenmeyen hata)  
+- C) 404: Sunucu Çöktü - 500: İstemci Yetkisiz  
+- D) 404: Yönlendirme - 500: Başarılı İstek  
+
+<details>
+<summary><b>💡 Çözümü ve Açıklamayı Gör</b></summary>
+
+**Doğru Cevap: B**  
+**Açıklama (Hafta 6 PDF Sayfa 27, Slayt 53):**
+* `4xx`: İstemci Hatalarıdır $ightarrow$ `404 Not Found` (Sayfa/kaynak mevcut değil).
+* `5xx`: Sunucu Hatalarıdır $ightarrow$ `500 Internal Server Error` (Sunucu tarafındaki betik/yazılım hatası).
+* `200`: `OK` (Başarılı).
+* `301`: `Moved Permanently` (Kalıcı taşındı).
 </details>
